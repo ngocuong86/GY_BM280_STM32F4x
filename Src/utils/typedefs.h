@@ -20,7 +20,7 @@
  *
  * Last Changed By:  $Author: phuongnp $
  * Revision:         $Revision: $
- * Last Changed:     $Date: $Jun 9, 2021
+ * Last Changed:     $Date: $Jul 15, 2022
  *
  * Code sample:
  ******************************************************************************/
@@ -36,9 +36,6 @@
 /******************************************************************************/
 #ifndef byte_t
 typedef unsigned char           byte_t;       // 1 byte
-#endif
-#ifndef float_t
-typedef float           		float_t;      // 4 bytes
 #endif
 #ifndef word_t
 typedef unsigned short          word_t;       // 2 bytes
@@ -123,6 +120,20 @@ typedef signed long*            i32_p;      // 4 bytes
 #ifndef i64_p
 typedef signed long long*       i64_p;
 #endif
+//
+#ifndef float_t
+typedef float        float_t;	//4 bytes
+#endif
+#ifndef double_t
+typedef double        double_t;	//8 bytes
+#endif
+
+#ifndef float_p
+typedef float*       float_p;
+#endif
+#ifndef double_p
+typedef double*       double_p;
+#endif
 
 /**
  * Define callback function types 
@@ -151,7 +162,7 @@ typedef void (*uint_pCallbackFunc) (uint_p);
 #define MAX_U16             65535
 
 #if !defined(WIN32) && !defined(size_t)
-//typedef uint32_t size_t;
+typedef uint32_t size_t;
 #endif	/*WIN32*/
 /******************************************************************************/
 /*                              PRIVATE DATA                                  */
