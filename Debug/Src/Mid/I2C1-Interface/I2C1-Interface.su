@@ -1,0 +1,7 @@
+I2C1-Interface.c:65:8:I2C1Init	32	static
+I2C1-Interface.c:103:8:I2C1Stop	8	static
+I2C1-Interface.c:115:8:I2C1Start	8	static
+I2C1-Interface.c:136:8:I2C1AddressDirection	16	static
+I2C1-Interface.c:159:8:I2C1Transmit	16	static
+I2C1-Interface.c:175:6:I2C1ReceiveAck	8	static
+I2C1-Interface.c:194:6:I2C1ReceiveNack	8	static

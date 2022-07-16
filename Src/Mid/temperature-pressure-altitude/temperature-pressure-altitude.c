@@ -32,32 +32,12 @@
 #include "stm32f401re_rcc.h"
 #include "stm32f401re_i2c.h"
 #include "stm32f401re_spi.h"
-#include "Src/Mid/temperature-pressure-altitude/temperature-pressure-altitude.h"
+#include "../I2C1-Interface/I2C1-Interface.h"
+#include "temperature-pressure-altitude.h"
+#include "../SPI1-Interface/SPI1-Interface.h"
 /******************************************************************************/
 /*                     EXPORTED TYPES and DEFINITIONS                         */
 /******************************************************************************/
-#define SPI1_CS_PORT			GPIOB
-#define SPI1_CS_PIN				GPIO_Pin_6
-#define SPI1_RST_PORT			GPIOC
-#define SPI1_RST_PIN			GPIO_Pin_7
-#define SPI1_MOSI_PORT			GPIOA
-#define SPI1_MOSI_PIN			GPIO_Pin_7
-#define SPI1_SCK_PORT			GPIOA
-#define SPI1_SCK_PIN			GPIO_Pin_5
-#define SPI1_RS_PORT			GPIOA
-#define SPI1_RS_PIN				GPIO_Pin_9
-#define SPI1_ENABLE_PORT		GPIOB
-#define SPI1_ENABLE_PIN			GPIO_Pin_10
-#define SPI1_MODE_PORT			GPIOA
-#define SPI1_MODE_PIN			GPIO_Pin_8
-
-#define I2Cx_RCC				RCC_APB1Periph_I2C1
-#define I2Cx_SENSOR				I2C1
-#define I2C_GPIO_RCC		    RCC_AHB1Periph_GPIOB
-#define I2C_GPIO				GPIOB
-#define I2C_PIN_SDA				GPIO_Pin_9
-#define I2C_PIN_SCL				GPIO_Pin_8
-
 #define I2C_MODE 0
 #define SPI_MODE 1
 
@@ -109,24 +89,6 @@
 #define BME280_TEMPERATURE_XLSB_REG		0xFC //Temperature XLSB
 #define BME280_HUMIDITY_MSB_REG			0xFD //Humidity MSB
 #define BME280_HUMIDITY_LSB_REG			0xFE //Humidity LSB
-
-typedef struct
-{
-
-
-	//Main ierface and mode g_SensorSettings
-    u8_t byComInterface;
-    u8_t byI2CAddress;
-    u8_t byChipSelectPin;
-	//Deprecated g_SensorSettings
-	u8_t byRunMode;
-	u8_t byTimeStandby;
-	u8_t byFilter;
-	u8_t byTempOverSample;
-	u8_t byPressOverSample;
-	u8_t byHumidOverSample;
-    float_t fTempCorrection; // correction of temperature - added to the result
-}BME280SensorSetting_t;
 typedef struct
 {
 	u16_t byDigT1;
@@ -153,10 +115,21 @@ typedef struct
 }SensorCalibration_t;
 typedef struct
 {
-	float_t fTemperature;
-	float_t fPressure;
-	float_t fHumidity;
-}BME280SensorMeasurements_t;
+
+
+	//Main ierface and mode g_SensorSettings
+    u8_t byComInterface;
+    u8_t byI2CAddress;
+    u8_t byChipSelectPin;
+	//Deprecated g_SensorSettings
+	u8_t byRunMode;
+	u8_t byTimeStandby;
+	u8_t byFilter;
+	u8_t byTempOverSample;
+	u8_t byPressOverSample;
+	u8_t byHumidOverSample;
+    float_t fTempCorrection; // correction of temperature - added to the result
+}BME280SensorSetting_t;
 
 enum sensor_sampling {
     SAMPLING_NONE = 0b000,
@@ -225,9 +198,7 @@ enum sensor_sampling {
 /******************************************************************************/
 /*                            PRIVATE FUNCTIONS                               */
 /******************************************************************************/
-static void_t I2C1Init(void_t);
-static void_t SPI1Init(void_t);
-static u8_t getMode(static void_t); //Get the current mode: sleep, forced, or normal
+static u8_t getMode(void_t); //Get the current mode: sleep, forced, or normal
 static void_t setMode(u8_t byMode); //Set the current mode
 
 
@@ -240,8 +211,6 @@ static float_t getReferencePressure();
 static bool_t isMeasuring(void_t); //Returns true while the device is taking measurement
 //Temperature related methods
 static void_t setTemperatureCorrection(float_t fCorr);
-static float_t readTempC(void_t );
-static float_t readTempF(void_t );
 static float_t readTempFromBurst(u8_t byBuffer[]);
 //ReadRegisterRegion takes a u8 array address as input and reads
 //a chunk of memory io that array.
@@ -250,7 +219,7 @@ static void_t readRegisterRegion(u8_t*, u8_t, u8_t );
 static u8_t readRegister(u8_t);
 //Reads two regs, LSByte then MSByte order, and concatenates them
 //Used for two-byte reads
-static u16_t readRegisteri16( u8_t byOffset );
+static u16_t readRegisterInt16( u8_t byOffset );
 //Writes a byte;
 static void_t writeRegister(u8_t, u8_t);
 
@@ -273,104 +242,7 @@ float_t g_fReferencePressure = 101325.0;
 BME280SensorSetting_t g_SensorSettings;
 SensorCalibration_t g_Calibration;
 i32_t g_ibTempfine;
-/******************************************************************************
-* @func					I2C1_Init
-* @brief				This func Init I2C1_Init mode master
-* @param				none
-* @return				none
-* @Note					none
-*/
-static void_t I2C_Init(static void_t){
-	I2C_InitTypeDef  I2C_InitStruct;
-	GPIO_InitTypeDef GPIO_InitStruct;
 
-	RCC_APB1PeriphClockCmd(I2Cx_RCC, ENABLE);
-	RCC_AHB1PeriphClockCmd(I2C_GPIO_RCC, ENABLE);
-
-	GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AF;
-	GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_InitStruct.GPIO_OType = GPIO_OType_OD;
-	GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_NOPULL;
-
-	GPIO_InitStruct.GPIO_Pin = I2C_PIN_SCL | I2C_PIN_SDA;
-	GPIO_Init(I2C_GPIO, &GPIO_InitStruct);
-
-	// Connect PA8 to I2C1 SCL
-	GPIO_PinAFConfig(I2C_GPIO, GPIO_PinSource8, GPIO_AF_I2C1);
-
-	// Connect PC9 to I2C1 SDA
-	GPIO_PinAFConfig(I2C_GPIO, GPIO_PinSource9, GPIO_AF_I2C1);
-
-	I2C_InitStruct.I2C_ClockSpeed = 400000;
-	I2C_InitStruct.I2C_Mode = I2C_Mode_I2C;
-	I2C_InitStruct.I2C_DutyCycle = I2C_DutyCycle_2;
-	I2C_InitStruct.I2C_OwnAddress1 = 0x00;
-	I2C_InitStruct.I2C_Ack = I2C_Ack_Enable;
-	I2C_InitStruct.I2C_AcknowledgedAddress = I2C_AcknowledgedAddress_7bit;
-
-	I2C_Init(I2Cx_SENSOR, &I2C_InitStruct);
-	I2C_Cmd(I2Cx_SENSOR, ENABLE);
-}
-/******************************************************************************
-* @func					SPI1_Init
-* @brief				This func Init SPI1 mode master
-* @param				none
-* @return				none
-* @Note					none
-*/
-static void_t SPI1_Init(static void_t){
-	GPIO_InitTypeDef GPIO_InitStructure;
-	SPI_InitTypeDef SPI_InitStructure;
-	// Enable clock for GPIOA - GPIOB - GPIOC
-	/* GPIOA, GPIOB and GPIOC Clocks enable */
-	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA | RCC_AHB1Periph_GPIOB | RCC_AHB1Periph_GPIOC, ENABLE);
-
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
-	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
-	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
-
-	GPIO_InitStructure.GPIO_Pin = SPI1_SCK_PIN | SPI1_MOSI_PIN | SPI1_RS_PIN | SPI1_MODE_PIN;
-	GPIO_Init(GPIOA, &GPIO_InitStructure);
-
-	GPIO_InitStructure.GPIO_Pin = SPI1_CS_PIN | SPI1_ENABLE_PIN;
-	GPIO_Init(GPIOB, &GPIO_InitStructure);
-
-	GPIO_InitStructure.GPIO_Pin = SPI1_RST_PIN;
-	GPIO_Init(GPIOC, &GPIO_InitStructure);
-
-	 //enable peripheral clock SPI1
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_SPI1, ENABLE);
-
-	// set to hafl deplex mode, seperate MOSI Lines
-	SPI_InitStructure.SPI_Direction = SPI_Direction_1Line_Tx;
-
-	// Use SPI1 as slave mode
-	SPI_InitStructure.SPI_Mode = SPI_Mode_Slave;
-
-	// One packet of data is 8 bits wide
-	SPI_InitStructure.SPI_DataSize = SPI_DataSize_8b;
-
-	// Clock is low when idle
-	SPI_InitStructure.SPI_CPOL = SPI_CPOL_Low;
-
-	// Data sampled at first edge
-	SPI_InitStructure.SPI_CPHA = SPI_CPHA_1Edge;
-
-	//SPI frequency is APB2 frequency
-	SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_4;
-
-	// Set NSS us software
-	SPI_InitStructure.SPI_NSS = SPI_NSS_Soft;
-
-	// data is trasmitted MSB first
-	SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_LSB;
-
-	SPI_Init(SPI1, &SPI_InitStructure);
-
-	// Enable SPI1
-	SPI_Cmd(SPI1, ENABLE);
-}
 /******************************************************************************
 * @func					BMP280_Init
 * @brief				This func Init BMP280_Init
@@ -378,7 +250,7 @@ static void_t SPI1_Init(static void_t){
 * @return				none
 * @Note					none
 */
-static u8_t BMP280_Init(void_t){
+u8_t BMP280_Init(void_t){
 	g_SensorSettings.byComInterface = I2C_MODE; //Default to I2C
 	g_SensorSettings.byI2CAddress = 0x77; //Default, jumper open is 0x77
 
@@ -398,26 +270,26 @@ static u8_t BMP280_Init(void_t){
 	return(chipID); //This is not BMP nor BME!
 
 	//Reading all compensation data, range 0x88:A1, 0xE1:E7
-	g_Calibration.byDigT1 = ((u16_t)((readRegister(BME280_DIG_T1_MSB_REG) << 8) + readRegister(BME280_DIG_T1_LSB_REG)));
-	g_Calibration.ibDigT2 = ((i16_t)((readRegister(BME280_DIG_T2_MSB_REG) << 8) + readRegister(BME280_DIG_T2_LSB_REG)));
-	g_Calibration.ibDigT3 = ((i16_t)((readRegister(BME280_DIG_T3_MSB_REG) << 8) + readRegister(BME280_DIG_T3_LSB_REG)));
+	g_Calibration.byDigT1 = ((u16_t)((readRegister(BME280_DIGT1_MSB_REG) << 8) + readRegister(BME280_DIGT1_LSB_REG)));
+	g_Calibration.ibDigT2 = ((i16_t)((readRegister(BME280_DIGT2_MSB_REG) << 8) + readRegister(BME280_DIGT2_LSB_REG)));
+	g_Calibration.ibDigT3 = ((i16_t)((readRegister(BME280_DIGT3_MSB_REG) << 8) + readRegister(BME280_DIGT3_LSB_REG)));
 
-	g_Calibration.byDigP1 = ((u16_t)((readRegister(BME280_DIG_P1_MSB_REG) << 8) + readRegister(BME280_DIG_P1_LSB_REG)));
-	g_Calibration.ibDigP2 = ((i16_t)((readRegister(BME280_DIG_P2_MSB_REG) << 8) + readRegister(BME280_DIG_P2_LSB_REG)));
-	g_Calibration.ibDigP3 = ((i16_t)((readRegister(BME280_DIG_P3_MSB_REG) << 8) + readRegister(BME280_DIG_P3_LSB_REG)));
-	g_Calibration.ibDigP4 = ((i16_t)((readRegister(BME280_DIG_P4_MSB_REG) << 8) + readRegister(BME280_DIG_P4_LSB_REG)));
-	g_Calibration.ibDigP5 = ((i16_t)((readRegister(BME280_DIG_P5_MSB_REG) << 8) + readRegister(BME280_DIG_P5_LSB_REG)));
-	g_Calibration.ibDigP6 = ((i16_t)((readRegister(BME280_DIG_P6_MSB_REG) << 8) + readRegister(BME280_DIG_P6_LSB_REG)));
-	g_Calibration.ibDigP7 = ((i16_t)((readRegister(BME280_DIG_P7_MSB_REG) << 8) + readRegister(BME280_DIG_P7_LSB_REG)));
-	g_Calibration.ibDigP8 = ((i16_t)((readRegister(BME280_DIG_P8_MSB_REG) << 8) + readRegister(BME280_DIG_P8_LSB_REG)));
-	g_Calibration.ibDigP9 = ((i16_t)((readRegister(BME280_DIG_P9_MSB_REG) << 8) + readRegister(BME280_DIG_P9_LSB_REG)));
+	g_Calibration.byDigP1 = ((u16_t)((readRegister(BME280_DIGP1_MSB_REG) << 8) + readRegister(BME280_DIGP1_LSB_REG)));
+	g_Calibration.ibDigP2 = ((i16_t)((readRegister(BME280_DIGP2_MSB_REG) << 8) + readRegister(BME280_DIGP2_LSB_REG)));
+	g_Calibration.ibDigP3 = ((i16_t)((readRegister(BME280_DIGP3_MSB_REG) << 8) + readRegister(BME280_DIGP3_LSB_REG)));
+	g_Calibration.ibDigP4 = ((i16_t)((readRegister(BME280_DIGP4_MSB_REG) << 8) + readRegister(BME280_DIGP4_LSB_REG)));
+	g_Calibration.ibDigP5 = ((i16_t)((readRegister(BME280_DIGP5_MSB_REG) << 8) + readRegister(BME280_DIGP5_LSB_REG)));
+	g_Calibration.ibDigP6 = ((i16_t)((readRegister(BME280_DIGP6_MSB_REG) << 8) + readRegister(BME280_DIGP6_LSB_REG)));
+	g_Calibration.ibDigP7 = ((i16_t)((readRegister(BME280_DIGP7_MSB_REG) << 8) + readRegister(BME280_DIGP7_LSB_REG)));
+	g_Calibration.ibDigP8 = ((i16_t)((readRegister(BME280_DIGP8_MSB_REG) << 8) + readRegister(BME280_DIGP8_LSB_REG)));
+	g_Calibration.ibDigP9 = ((i16_t)((readRegister(BME280_DIGP9_MSB_REG) << 8) + readRegister(BME280_DIGP9_LSB_REG)));
 
-	g_Calibration.byDigH1 = ((u8_t)(readRegister(BME280_DIG_H1_REG)));
-	g_Calibration.ibDigH2 = ((i16_t)((readRegister(BME280_DIG_H2_MSB_REG) << 8) + readRegister(BME280_DIG_H2_LSB_REG)));
-	g_Calibration.byDigH3 = ((u8_t)(readRegister(BME280_DIG_H3_REG)));
-	g_Calibration.ibDigH4 = ((i16_t)((readRegister(BME280_DIG_H4_MSB_REG) << 4) + (readRegister(BME280_DIG_H4_LSB_REG) & 0x0F)));
-	g_Calibration.ibDigH5 = ((i16_t)((readRegister(BME280_DIG_H5_MSB_REG) << 4) + ((readRegister(BME280_DIG_H4_LSB_REG) >> 4) & 0x0F)));
-	g_Calibration.ibDigH6 = ((i8_t)readRegister(BME280_DIG_H6_REG));
+	g_Calibration.byDigH1 = ((u8_t)(readRegister(BME280_DIGH1_REG)));
+	g_Calibration.ibDigH2 = ((i16_t)((readRegister(BME280_DIGH2_MSB_REG) << 8) + readRegister(BME280_DIGH2_LSB_REG)));
+	g_Calibration.byDigH3 = ((u8_t)(readRegister(BME280_DIGH3_REG)));
+	g_Calibration.ibDigH4 = ((i16_t)((readRegister(BME280_DIGH4_MSB_REG) << 4) + (readRegister(BME280_DIGH4_LSB_REG) & 0x0F)));
+	g_Calibration.ibDigH5 = ((i16_t)((readRegister(BME280_DIGH5_MSB_REG) << 4) + ((readRegister(BME280_DIGH4_LSB_REG) >> 4) & 0x0F)));
+	g_Calibration.ibDigH6 = ((i8_t)readRegister(BME280_DIGH6_REG));
 
 	//Most of the time the sensor will be init with default values
 	//But in case user has old/deprecated code, use the settings.x values
@@ -438,7 +310,7 @@ static u8_t BMP280_Init(void_t){
 * @return				none
 * @Note					none
 */
-static bool_t beginWithI2C(){
+bool_t beginWithI2C(){
 	I2C1Init();
 	u8_t byChipID = BMP280_Init();
 	if(byChipID == 0x58) return(TRUE); //Begin normal init with these settings. Should return chip ID of 0x58 for BMP
@@ -452,7 +324,7 @@ static bool_t beginWithI2C(){
 * @return				none
 * @Note					none
 */
-static bool_t beginWithSPI(){
+bool_t beginWithSPI(){
 	SPI1Init();
 	u8_t byChipID = BMP280_Init();
 	if(byChipID == 0x58) return(TRUE); //Begin normal init with these settings. Should return chip ID of 0x58 for BMP
@@ -500,7 +372,7 @@ static u8_t getMode(void_t){
 * @return				none
 * @Note					none
 */
-static void_t setStandbyTime(u8_t byTimeSetting){
+void_t setStandbyTime(u8_t byTimeSetting){
 	if(byTimeSetting > STANDBY_MS_20) byTimeSetting = 0; //Error check. Default to 0.5ms
 
 	u8_t byControlData = readRegister(BME280_CONFIG_REG);
@@ -520,7 +392,7 @@ static void_t setStandbyTime(u8_t byTimeSetting){
 * @return				none
 * @Note					none
 */
-static void_t setFilter(u8_t byFilterSetting){
+void_t setFilter(u8_t byFilterSetting){
 	if(byFilterSetting > FILTER_X16) byFilterSetting = 0; //Error check. Default to filter off
 
 	u8_t byControlData = readRegister(BME280_CONFIG_REG);
@@ -535,7 +407,7 @@ static void_t setFilter(u8_t byFilterSetting){
 * @return				none
 * @Note					none
 */
-static void_t setTempOverSample(u8_t byOverSampleAmount){
+void_t setTempOverSample(u8_t byOverSampleAmount){
 	byOverSampleAmount = checkSampleValue(byOverSampleAmount); //Error check
 
 	u8_t byOriginalMode = getMode(); //Get the current mode so we can go back to it at the end
@@ -546,7 +418,7 @@ static void_t setTempOverSample(u8_t byOverSampleAmount){
 	u8_t byControlData = readRegister(BME280_CTRL_MEAS_REG);
 	byControlData &= ~( (1<<7) | (1<<6) | (1<<5) ); //Clear bits 765
 	byControlData |= byOverSampleAmount << 5; //Align overSampleAmount to bits 7/6/5
-	writeRegister(BME280_CTRL_MEAS_REG, controlData);
+	writeRegister(BME280_CTRL_MEAS_REG, byControlData);
 
 	setMode(byOriginalMode); //Return to the original user's choice
 }
@@ -557,7 +429,7 @@ static void_t setTempOverSample(u8_t byOverSampleAmount){
 * @return				none
 * @Note					none
 */
-static void_t setPressureOverSample(u8_t byOverSampleAmount)
+void_t setPressureOverSample(u8_t byOverSampleAmount)
 {
 	byOverSampleAmount = checkSampleValue(byOverSampleAmount); //Error check
 
@@ -580,9 +452,9 @@ static void_t setPressureOverSample(u8_t byOverSampleAmount)
 * @return				none
 * @Note					none
 */
-static void_t setHumidityOverSample(u8_t overSampleAmount)
+void_t setHumidityOverSample(u8_t byOverSampleAmount)
 {
-	byOverSampleAmount = checkSampleValue(overSampleAmount); //Error check
+	byOverSampleAmount = checkSampleValue(byOverSampleAmount); //Error check
 
 	u8_t byOriginalMode = getMode(); //Get the current mode so we can go back to it at the end
 
@@ -644,7 +516,7 @@ static u8_t checkSampleValue(u8_t byUserValue)
 
 static void_t setI2CAddress(u8_t byI2CAddress)
 {
-	g_SensorSettings.byI2CAddress = byAddress; //Set the I2C address for this device
+	g_SensorSettings.byI2CAddress = byI2CAddress; //Set the I2C address for this device
 }
 /******************************************************************************
 * @func					isMeasuring
@@ -655,7 +527,7 @@ static void_t setI2CAddress(u8_t byI2CAddress)
 */
 static bool_t isMeasuring(void_t)
 {
-	ut8_t byStat = readRegister(BME280_STAT_REG);
+	u8_t byStat = readRegister(BME280_STAT_REG);
 	return(byStat & (1<<3)); //If the measuring bit (3) is set, return true
 }
 /******************************************************************************
@@ -665,7 +537,7 @@ static bool_t isMeasuring(void_t)
 * @return				none
 * @Note					none
 */
-static void_t reset( void_t )
+void_t reset( void_t )
 {
 	writeRegister(BME280_RST_REG, 0xB6);
 
@@ -678,7 +550,7 @@ static void_t reset( void_t )
 * @return				none
 * @Note					none
 */
-static void_t readAllMeasurements(BME280SensorMeasurements_t *pmeasurements, u8_t byTempScale){
+void_t readAllMeasurements(BME280SensorMeasurements_t *pmeasurements, u8_t byTempScale){
 
 	u8_t byDataBurst[8];
 	readRegisterRegion(byDataBurst, BME280_MEASUREMENTS_REG, 8);
@@ -698,7 +570,7 @@ static void_t readAllMeasurements(BME280SensorMeasurements_t *pmeasurements, u8_
 * @return				none
 * @Note					none
 */
-static float_t readFloatPressure(void_t )
+float_t readFloatPressure(void_t )
 {
 
 	// Returns pressure in Pa as unsigned 32 bit ieger in Q24.8 format (24 ieger bits and 8 fractional bits).
@@ -735,7 +607,7 @@ static float_t readFloatPressure(void_t )
 * @return				none
 * @Note					none
 */
-static void_t readFloatPressureFromBurst(u8_t byBuffer[], BME280SensorMeasurements_t *pmeasurements)
+void_t readFloatPressureFromBurst(u8_t byBuffer[], BME280SensorMeasurements_t *pmeasurements)
 {
 
 	// Set pressure in Pa as unsigned 32 bit integer in Q24.8 format (24 integer bits and 8 fractional bits).
@@ -794,7 +666,7 @@ static float_t getReferencePressure()
 * @return				none
 * @Note					none
 */
-static float_t readFloatAltitudeMeters( void_t )
+float_t readFloatAltitudeMeters( void_t )
 {
 	float_t fHeightOutput = 0;
 
@@ -816,7 +688,7 @@ static float_t readFloatAltitudeMeters( void_t )
 * @return				none
 * @Note					none
 */
-static float_t readFloatAltitudeFeet( void_t )
+float_t readFloatAltitudeFeet( void_t )
 {
 	float_t fHeightOutput = 0;
 
@@ -830,7 +702,7 @@ static float_t readFloatAltitudeFeet( void_t )
 * @return				none
 * @Note					none
 */
-static float_t readFloatHumidity( void_t )
+float_t readFloatHumidity( void_t )
 {
 
 	// Returns humidity in %RH as unsigned 32 bit integer in Q22. 10 format (22 integer and 10 fractional bits).
@@ -858,12 +730,12 @@ static float_t readFloatHumidity( void_t )
 * @return				none
 * @Note					none
 */
-static void_t readFloatHumidityFromBurst(u8_t byBuffer[], BME280SensorMeasurements_t *pmeasurements)
+void_t readFloatHumidityFromBurst(u8_t byBuffer[], BME280SensorMeasurements_t *pmeasurements)
 {
 
 	// Set humidity in %RH as unsigned 32 bit integer in Q22. 10 format (22 integer and 10 fractional bits).
 	// Output value of “47445” represents 47445/1024 = 46. 333 %RH
-	i32_t ibHumADC = ((ui32_t)byBuffer[6] << 8) | ((ui32_t)byBuffer[7]);
+	i32_t ibHumADC = ((i32_t)byBuffer[6] << 8) | ((i32_t)byBuffer[7]);
 
 	i32_t byVar1;
 	byVar1 = (g_ibTempfine - ((i32_t)76800));
@@ -894,7 +766,7 @@ static void_t setTemperatureCorrection(float_t fCorr)
 * @return				none
 * @Note					none
 */
-static float_t readTempC( void_t )
+float_t readTempC( void_t )
 {
 	// Returns temperature in DegC, resolution is 0.01 DegC. Output value of “5123” equals 51.23 DegC.
 	// t_fine carries fine temperature as global value
@@ -902,20 +774,20 @@ static float_t readTempC( void_t )
 	//get the reading (adc_T);
     u8_t byBuffer[3];
 	readRegisterRegion(byBuffer, BME280_TEMPERATURE_MSB_REG, 3);
-    i32_t adc_T = ((ui32_t)byBuffer[0] << 12) | ((ui32_t)byBuffer[1] << 4) | ((buffer[2] >> 4) & 0x0F);
+    i32_t adc_T = ((i32_t)byBuffer[0] << 12) | ((i32_t)byBuffer[1] << 4) | ((byBuffer[2] >> 4) & 0x0F);
 
 	//By datasheet, calibrate
 	i64_t ibVar1, ibVar2;
 
 	ibVar1 = ((((adc_T>>3) - ((i32_t)g_Calibration.byDigT1<<1))) * ((i32_t)g_Calibration.ibDigT2)) >> 11;
 	ibVar2 = (((((adc_T>>4) - ((i32_t)g_Calibration.byDigT1)) * ((adc_T>>4) - ((i32_t)g_Calibration.byDigT1))) >> 12) *
-	((i32_t)g_Calibration.dig_T3)) >> 14;
+	((i32_t)g_Calibration.ibDigT3)) >> 14;
 	g_ibTempfine = ibVar1 + ibVar2;
 	float_t fOutput = (g_ibTempfine * 5 + 128) >> 8;
 
 	fOutput = fOutput / 100 + g_SensorSettings.fTempCorrection;
 
-	return output;
+	return fOutput;
 }
 /******************************************************************************
 * @func					readTempFromBurst
@@ -933,7 +805,7 @@ static float_t readTempFromBurst(u8_t byBuffer[])
 
 	ibVar1 = ((((ibTempADC>>3) - ((i32_t)g_Calibration.byDigT1<<1))) * ((i32_t)g_Calibration.byDigT1)) >> 11;
 	ibVar2 = (((((ibTempADC>>4) - ((i32_t)g_Calibration.byDigT1)) * ((ibTempADC>>4) - ((i32_t)g_Calibration.byDigT1))) >> 12) *
-	((i32_t)calibration.dig_T3)) >> 14;
+	((i32_t)g_Calibration.ibDigT3)) >> 14;
 	g_ibTempfine = ibVar1 + ibVar2;
 	float_t fOutput = (g_ibTempfine * 5 + 128) >> 8;
 
@@ -959,7 +831,7 @@ static void_t readTempCFromBurst(u8_t byBuffer[], BME280SensorMeasurements_t *pm
 * @return				none
 * @Note					none
 */
-static float_t readTempF( void )
+float_t readTempF( void_t )
 {
 	float_t fOutput = readTempC();
 	fOutput = (fOutput * 9) / 5 + 32;
@@ -974,7 +846,7 @@ static float_t readTempF( void )
 * @return				none
 * @Note					none
 */
-static void_t readTempFFromBurst(u8_t byBuffer[], BME280SensorMeasurements_t *pmeasurements)
+void_t readTempFFromBurst(u8_t byBuffer[], BME280SensorMeasurements_t *pmeasurements)
 {
   float_t fOutput = readTempFromBurst(byBuffer);
   fOutput = (fOutput * 9) / 5 + 32;
@@ -989,6 +861,26 @@ static void_t readTempFFromBurst(u8_t byBuffer[], BME280SensorMeasurements_t *pm
 ////****************************************************************************//
 static void readRegisterRegion(u8_t *pOutputPointer , u8_t byOffset, u8_t byLength)
 {
+	switch(g_SensorSettings.byComInterface){
+	case I2C_MODE:
+		I2C1Start();
+		I2C1AddressDirection(byOffset << 1,I2C_Direction_Transmitter);
+		I2C1Stop();
+		I2C1Start();
+		I2C1AddressDirection(byOffset << 1, I2C_Direction_Receiver);
+		for(i8_t  i = 0; i < byLength;i++){
+			if(i == byLength -1){
+				pOutputPointer[i] = I2C1ReceiveNack();
+			}else{
+				pOutputPointer[i] = I2C1ReceiveAck();
+			}
+		}
+		I2C1Stop();
+		break;
+	case SPI_MODE:
+		break;
+	}
+
 }
 
 static u8_t readRegister(u8_t offset)
@@ -1000,7 +892,6 @@ static u16_t readRegisterInt16( u8_t byOffset )
 	u8_t byBuffer[2];
 	readRegisterRegion(byBuffer, byOffset, 2);  //Does memory transfer
 	u16_t byOutput = (i16_t)byBuffer[0] | (i16_t)(byBuffer[1] << 8);
-
 	return byOutput;
 }
 

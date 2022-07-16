@@ -21,6 +21,8 @@ OBJCOPY_BIN :=
 # Every subdirectory with source files must be described here
 SUBDIRS := \
 Src/App \
+Src/Mid/I2C1-Interface \
+Src/Mid/SPI1-Interface \
 Src/Mid/temperature-pressure-altitude \
 Src \
 Startup \

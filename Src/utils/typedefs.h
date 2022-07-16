@@ -161,9 +161,9 @@ typedef void (*uint_pCallbackFunc) (uint_p);
 #define MAX_U8              255
 #define MAX_U16             65535
 
-#if !defined(WIN32) && !defined(size_t)
-typedef uint32_t size_t;
-#endif	/*WIN32*/
+//#if !defined(WIN32) && !defined(size_t)
+//typedef uint32_t size_t;
+//#endif	/*WIN32*/
 /******************************************************************************/
 /*                              PRIVATE DATA                                  */
 /******************************************************************************/
