@@ -135,14 +135,14 @@ typedef struct
     u32_t fTempCorrection; // correction of temperature - added to the result
 }BME280SensorSetting_t;
 
-enum sensor_sampling {
+enum {
     SAMPLING_NONE = 0b000,
     SAMPLING_X1 = 0b001,
     SAMPLING_X2 = 0b010,
     SAMPLING_X4 = 0b011,
     SAMPLING_X8 = 0b100,
     SAMPLING_X16 = 0b101
-  };
+  }SensorSampling;
 
   /**************************************************************************/
   /*!
@@ -190,7 +190,7 @@ enum sensor_sampling {
 	  FOUR_SAMPLE_VALUE = 4,
 	  EIGHT_SAMPLE_VALUE = 8,
 	  SIXTEEN_SAMPLE_VALUE = 16
-  };
+  }SensorValueSample;
 /******************************************************************************/
 /*                              PRIVATE DATA                                  */
 /******************************************************************************/
@@ -204,11 +204,6 @@ enum sensor_sampling {
 /******************************************************************************/
 static u8_t getMode(void_t); //Get the current mode: sleep, forced, or normal
 static void_t setMode(u8_t byMode); //Set the current mode
-static void_t setI2CAddress(u8_t byI2CAddress); //Set the address the library should use to communicate. Use if address jumper is closed (0x76).
-static bool_t isMeasuring(void_t); //Returns true while the device is taking measurement
-//Temperature related methods
-static void_t setTemperatureCorrection(float_t fCorr);
-static float_t readTempFromBurst(u8_t byBuffer[]);
 //ReadRegisterRegion takes a u8 array address as input and reads
 //a chunk of memory io that array.
 static void_t readRegisterRegion(u8_t*, u8_t, u8_t );
@@ -221,9 +216,6 @@ static u16_t readRegisterInt16( u8_t byOffset );
 static void_t writeRegister(u8_t, u8_t);
 
 static u8_t checkSampleValue(u8_t byUserValue); //Checks for valid over sample values
-static void readTempCFromBurst(u8_t byBuffer[], BME280SensorMeasurements_t *pmeasurements);
-static void readTempFFromBurst(u8_t byBuffer[], BME280SensorMeasurements_t *pmeasurements);
-
 /******************************************************************************/
 /*                            EXPORTED FUNCTIONS                              */
 /******************************************************************************/
@@ -513,7 +505,7 @@ static u8_t checkSampleValue(u8_t byUserValue)
 * @Note					none
 */
 
-static void_t setI2CAddress(u8_t byI2CAddress)
+void_t setI2CAddress(u8_t byI2CAddress)
 {
 	g_SensorSettings.byI2CAddress = byI2CAddress; //Set the I2C address for this device
 }
@@ -524,7 +516,7 @@ static void_t setI2CAddress(u8_t byI2CAddress)
 * @return				none
 * @Note					none
 */
-static bool_t isMeasuring(void_t)
+bool_t isMeasuring(void_t)
 {
 	u8_t byStat = readRegister(BME280_STAT_REG);
 	return(byStat & (1<<3)); //If the measuring bit (3) is set, return true
@@ -754,7 +746,7 @@ void_t readFloatHumidityFromBurst(u8_t byBuffer[], BME280SensorMeasurements_t *p
 * @return				none
 * @Note					none
 */
-static void_t setTemperatureCorrection(float_t fCorr)
+void_t setTemperatureCorrection(float_t fCorr)
 {
 	g_SensorSettings.fTempCorrection = fCorr;
 }
@@ -793,7 +785,7 @@ u64_t readTempC( void_t)
 * @return				none
 * @Note					none
 */
-static float_t readTempFromBurst(u8_t byBuffer[])
+float_t readTempFromBurst(u8_t byBuffer[])
 {
   i32_t ibTempADC = ((u32_t)byBuffer[3] << 12) | ((u32_t)byBuffer[4] << 4) | ((byBuffer[5] >> 4) & 0x0F);
 
@@ -817,7 +809,7 @@ static float_t readTempFromBurst(u8_t byBuffer[])
 * @return				none
 * @Note					none
 */
-static void_t readTempCFromBurst(u8_t byBuffer[], BME280SensorMeasurements_t *pmeasurements)
+void_t readTempCFromBurst(u8_t byBuffer[], BME280SensorMeasurements_t *pmeasurements)
 {
 	pmeasurements->fTemperature = readTempFromBurst(byBuffer);
 }

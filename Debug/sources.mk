@@ -23,7 +23,7 @@ SUBDIRS := \
 Src/App \
 Src/Driver/I2C1-Interface \
 Src/Driver/SPI1-Interface \
-Src/Mid/temperature-pressure-altitude \
+Src/Mid/BME280-pressure-temperature-sensor \
 Src \
 Startup \
 

@@ -1,7 +1,7 @@
 "Src/App/main.o"
 "Src/Driver/I2C1-Interface/I2C1-Interface.o"
 "Src/Driver/SPI1-Interface/SPI1-Interface.o"
-"Src/Mid/temperature-pressure-altitude/BME280-Sensor.o"
+"Src/Mid/BME280-pressure-temperature-sensor/BME280-Sensor.o"
 "Src/syscalls.o"
 "Src/sysmem.o"
 "Startup/startup_stm32f401retx.o"

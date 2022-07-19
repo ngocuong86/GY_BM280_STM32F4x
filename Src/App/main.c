@@ -62,9 +62,6 @@ void Display_TemHum(void){
 	memset(strPres, 0, sizeof(strPres));
 	memset(strTemp, 0, sizeof(strTemp));
 	memset(strAlti, 0, sizeof(strAlti));
-//	u8_t fTeamp = (u8_t)readTempC();
-//	u32_t fPres = (u32_t)readFloatPressure();
-//	u32_t fAlti = (u32_t)readFloatAltitudeMeters();
 	float_t fTeamp = (u64_t)readTempC();
 	fTeamp = (float_t)fTeamp/100;
 	float_t fPres = (u64_t)readFloatPressure();
@@ -74,9 +71,9 @@ void Display_TemHum(void){
 	sprintf(strTemp, "Temp = %.2f oC", (float_t)fTeamp);
 	sprintf(strPres, "Pres = %.2f Pa ",(float_t)(fPres));
 	sprintf(strAlti, "Alti = %.2f m", (float_t)(fAlti));
-	ucg_DrawString(&ucg, 0, 52, 0, strTemp);
+	ucg_DrawString(&ucg, 0, 32, 0, strTemp);
 	ucg_DrawString(&ucg, 0, 72, 0, strPres);
-	ucg_DrawString(&ucg, 0, 92, 0, strAlti);
+	ucg_DrawString(&ucg, 0, 112, 0, strAlti);
 }
 void processGetValueSensor(void){
 	g_byTimerCurrent = GetMilSecTick();

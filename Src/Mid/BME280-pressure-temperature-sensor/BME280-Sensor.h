@@ -235,5 +235,55 @@ void_t setReferencePressure(u32_t fRefPressure);
 * @Note					none
 */
 float_t getReferencePressure();
-
+/******************************************************************************
+* @func					setI2CAddress
+* @brief				Set the global setting for the I2C address we want to communicate with
+						Default is 0x77
+* @param				u8_t byI2CAddress
+* @return				none
+* @Note					none
+*/
+void_t setI2CAddress(u8_t byI2CAddress); //Set the address the library should use to communicate. Use if address jumper is closed (0x76).
+/******************************************************************************
+* @func					isMeasuring
+* @brief				this func determine state meas
+* @param				none
+* @return				none
+* @Note					none
+*/
+bool_t isMeasuring(void_t); //Returns true while the device is taking measurement
+//Temperature related methods
+/******************************************************************************
+* @func					setTemperatureCorrection
+* @brief				this func set temp correct
+* @param				float_t fCorr
+* @return				none
+* @Note					none
+*/
+void_t setTemperatureCorrection(float_t fCorr);
+/******************************************************************************
+* @func					readTempFromBurst
+* @brief				this func read temp F from Burst
+* @param				u8_t byBuffer[]
+* @return				none
+* @Note					none
+*/
+float_t readTempFromBurst(u8_t byBuffer[]);
+/******************************************************************************
+* @func					readTempCFromBurst
+* @brief				this func read temp C from Burst
+* @param				u8_t byBuffer[]
+* @return				none
+* @Note					none
+*/
+void_t readTempCFromBurst(u8_t byBuffer[], BME280SensorMeasurements_t *pmeasurements);
+/******************************************************************************
+* @func					readTempFFromBurst
+* @brief				this func read temp F from burst
+* @param				u8_t byBuffer[],
+* 						BME280SensorMeasurements_t *pmeasurements
+* @return				none
+* @Note					none
+*/
+void_t readTempFFromBurst(u8_t byBuffer[], BME280SensorMeasurements_t *pmeasurements);
 #endif /* MID_TEMPERATURE_PRESSURE_ALTITUDE_H_ */
