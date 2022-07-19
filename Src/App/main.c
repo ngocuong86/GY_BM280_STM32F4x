@@ -39,7 +39,7 @@
 /******************************************************************************/
 /*                              PRIVATE DATA                                  */
 /******************************************************************************/
- static ucg_t ucg;
+ static ucg_t g_Ucg;
  u32_t g_byTimerInit = 0, g_byTimerCurrent = 0;
 /******************************************************************************/
 /*                              EXPORTED DATA                                 */
@@ -71,9 +71,9 @@ void Display_TemHum(void){
 	sprintf(strTemp, "Temp = %.2f oC", (float_t)fTeamp);
 	sprintf(strPres, "Pres = %.2f Pa ",(float_t)(fPres));
 	sprintf(strAlti, "Alti = %.2f m", (float_t)(fAlti));
-	ucg_DrawString(&ucg, 0, 32, 0, strTemp);
-	ucg_DrawString(&ucg, 0, 72, 0, strPres);
-	ucg_DrawString(&ucg, 0, 112, 0, strAlti);
+	ucg_DrawString(&g_Ucg, 0, 32, 0, strTemp);
+	ucg_DrawString(&g_Ucg, 0, 72, 0, strPres);
+	ucg_DrawString(&g_Ucg, 0, 112, 0, strAlti);
 }
 void processGetValueSensor(void){
 	g_byTimerCurrent = GetMilSecTick();
@@ -85,12 +85,12 @@ void processGetValueSensor(void){
 int main(){
 	SystemCoreClockUpdate();
 	TimerInit();
-	Ucglib4WireSWSPI_begin(&ucg, UCG_FONT_MODE_SOLID);
-	ucg_ClearScreen(&ucg);
-	ucg_SetFont(&ucg, ucg_font_ncenR12_hr);
-	ucg_SetColor(&ucg, 0, 255, 255, 255);
-	ucg_SetColor(&ucg, 1, 0, 0, 0);
-	ucg_SetRotate180(&ucg);
+	Ucglib4WireSWSPI_begin(&g_Ucg, UCG_FONT_MODE_SOLID);
+	ucg_ClearScreen(&g_Ucg);
+	ucg_SetFont(&g_Ucg, ucg_font_ncenR12_hr);
+	ucg_SetColor(&g_Ucg, 0, 255, 255, 255);
+	ucg_SetColor(&g_Ucg, 1, 0, 0, 0);
+	ucg_SetRotate180(&g_Ucg);
 	g_byTimerInit = GetMilSecTick();
 	if(beginWithI2C() == TRUE){ // use beginWithSPI to use SPI interface
 		while(1){

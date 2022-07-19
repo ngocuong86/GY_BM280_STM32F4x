@@ -61,7 +61,7 @@
 * @return				none
 * @Note					none
 */
-void_t I2C1Init(void_t);
+void_t I2C1_Init(void_t);
 /**
   ******************************************************************************
   *	@brief	Generate I2C start condition
@@ -69,7 +69,7 @@ void_t I2C1Init(void_t);
   * @retval	None
   ******************************************************************************
   */
-void_t I2C1Start(void_t);
+void_t I2C1_Start(void_t);
 /**
   ******************************************************************************
   *	@brief	Generate I2C stop condition
@@ -77,7 +77,7 @@ void_t I2C1Start(void_t);
   * @retval	None
   ******************************************************************************
   */
-void_t I2C1Stop(void_t);
+void_t I2C1_Stop(void_t);
 /**
   ******************************************************************************
   *	@brief		Write slave address to I2C bus
@@ -86,7 +86,7 @@ void_t I2C1Stop(void_t);
   * @retval	None
   ******************************************************************************
   */
-void_t I2C1AddressDirection(u8_t byAddress, u8_t byDirection);
+void_t I2C1_AddressDirection(u8_t byAddress, u8_t byDirection);
 /**
   ******************************************************************************
   *	@brief	Transmit one byte to I2C bus
@@ -94,7 +94,7 @@ void_t I2C1AddressDirection(u8_t byAddress, u8_t byDirection);
   * @retval	None
   ******************************************************************************
   */
-void_t I2C1Transmit(u8_t byData);
+void_t I2C1_Transmit(u8_t byData);
 /**
   ******************************************************************************
   *	@brief	Receive data byte from I2C bus, then return ACK
@@ -102,7 +102,7 @@ void_t I2C1Transmit(u8_t byData);
   * @retval	Received data byte
   ******************************************************************************
   */
-u8_t I2C1ReceiveAck(void_t);
+u8_t I2C1_ReceiveAck(void_t);
 /**
   ******************************************************************************
   *	@brief	Receive data byte from I2C bus, then return NACK
@@ -110,5 +110,5 @@ u8_t I2C1ReceiveAck(void_t);
   * @retval	Received data byte
   ******************************************************************************
   */
-u8_t I2C1ReceiveNack(void_t);
+u8_t I2C1_ReceiveNack(void_t);
 #endif /* I2C_INTERFACE_I2C_INTERFACE_H_ */

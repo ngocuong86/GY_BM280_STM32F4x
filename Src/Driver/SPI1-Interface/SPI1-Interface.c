@@ -57,7 +57,7 @@
 * @return				none
 * @Note					none
 */
-void_t SPI1Init(void_t){
+void_t SPI1_Init(void_t){
 	GPIO_InitTypeDef GPIO_InitStructure;
 	SPI_InitTypeDef SPI_InitStructure;
 	// Enable clock for GPIOA - GPIOB - GPIOC

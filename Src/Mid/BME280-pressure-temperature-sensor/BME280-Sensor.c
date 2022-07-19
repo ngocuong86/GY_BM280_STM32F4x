@@ -38,7 +38,7 @@
 #include "../../Driver/SPI1-Interface/SPI1-Interface.h"
 #include "../BME280-pressure-temperature-sensor/BME280-Sensor.h"
 /******************************************************************************/
-/*                     EXPORTED TYPES and DEFINITIONS                         */
+/*                     PRIVATE TYPES and DEFINITIONS                         */
 /******************************************************************************/
 #define I2C_MODE 0
 #define SPI_MODE 1
@@ -227,7 +227,7 @@ static u8_t checkSampleValue(u8_t byUserValue); //Checks for valid over sample v
 /******************************************************************************/
 /*                              PRIVATE DATA                                  */
 /******************************************************************************/
-u32_t g_fReferencePressure = 101325;
+float_t g_fReferencePressure = 101325;
 BME280SensorSetting_t g_SensorSettings;
 SensorCalibration_t g_Calibration;
 float_t g_fTempfine;
@@ -298,7 +298,7 @@ u8_t BMP280_Init(void_t){
 * @Note					none
 */
 bool_t beginWithI2C(){
-	I2C1Init();
+	I2C1_Init();
 	g_SensorSettings.byComInterface = I2C_MODE; //Default to I2C
 	g_SensorSettings.byI2CAddress = SENSOR_I2C_ADDRESS; //Default, jumper open is 0x77
 	u8_t byChipID = BMP280_Init();
@@ -314,7 +314,7 @@ bool_t beginWithI2C(){
 * @Note					none
 */
 bool_t beginWithSPI(){
-	SPI1Init();
+	SPI1_Init();
 	g_SensorSettings.byComInterface = SPI_MODE; //Default to I2C
 	g_SensorSettings.byI2CAddress = SENSOR_SPI_ADDRESS; //Default, jumper open is 0x77
 	u8_t byChipID = BMP280_Init();
@@ -861,20 +861,20 @@ static void readRegisterRegion(u8_t *pOutputPointer , u8_t byOffset, u8_t byLeng
 {
 	switch(g_SensorSettings.byComInterface){
 	case I2C_MODE:
-		I2C1Start();
-		I2C1AddressDirection(g_SensorSettings.byI2CAddress <<1,I2C_Direction_Transmitter);
-		I2C1Transmit(byOffset);
-		I2C1Stop();
-		I2C1Start();
-		I2C1AddressDirection(g_SensorSettings.byI2CAddress<<1, I2C_Direction_Receiver);
+		I2C1_Start();
+		I2C1_AddressDirection(g_SensorSettings.byI2CAddress <<1,I2C_Direction_Transmitter);
+		I2C1_Transmit(byOffset);
+		I2C1_Stop();
+		I2C1_Start();
+		I2C1_AddressDirection(g_SensorSettings.byI2CAddress<<1, I2C_Direction_Receiver);
 		for(i8_t  i = 0; i < byLength;i++){
 			if(i == byLength -1){
-				pOutputPointer[i] = I2C1ReceiveNack();
+				pOutputPointer[i] = I2C1_ReceiveNack();
 			}else{
-				pOutputPointer[i] = I2C1ReceiveAck();
+				pOutputPointer[i] = I2C1_ReceiveAck();
 			}
 		}
-		I2C1Stop();
+		I2C1_Stop();
 
 		break;
 	case SPI_MODE:
@@ -894,14 +894,14 @@ static u8_t readRegister(u8_t byOffset)
 	u8_t byResult = 0;
 	switch(g_SensorSettings.byComInterface){
 		case I2C_MODE:
-			I2C1Start();
-			I2C1AddressDirection(g_SensorSettings.byI2CAddress << 1,I2C_Direction_Transmitter);
-			I2C1Transmit(byOffset);
-			I2C1Stop();
-			I2C1Start();
-			I2C1AddressDirection(g_SensorSettings.byI2CAddress << 1, I2C_Direction_Receiver);
-			byResult = I2C1ReceiveNack();
-			I2C1Stop();
+			I2C1_Start();
+			I2C1_AddressDirection(g_SensorSettings.byI2CAddress << 1,I2C_Direction_Transmitter);
+			I2C1_Transmit(byOffset);
+			I2C1_Stop();
+			I2C1_Start();
+			I2C1_AddressDirection(g_SensorSettings.byI2CAddress << 1, I2C_Direction_Receiver);
+			byResult = I2C1_ReceiveNack();
+			I2C1_Stop();
 			break;
 		case SPI_MODE:
 			break;
@@ -934,11 +934,11 @@ static void_t writeRegister(u8_t byOffset, u8_t byDataToWrite)
 {
 	switch(g_SensorSettings.byComInterface){
 		case I2C_MODE:
-			I2C1Start();
-			I2C1AddressDirection(g_SensorSettings.byI2CAddress << 1,I2C_Direction_Transmitter);
-			I2C1Transmit(byOffset);
-			I2C1Transmit(byDataToWrite);
-			I2C1Stop();
+			I2C1_Start();
+			I2C1_AddressDirection(g_SensorSettings.byI2CAddress << 1,I2C_Direction_Transmitter);
+			I2C1_Transmit(byOffset);
+			I2C1_Transmit(byDataToWrite);
+			I2C1_Stop();
 			break;
 		case SPI_MODE:
 			break;

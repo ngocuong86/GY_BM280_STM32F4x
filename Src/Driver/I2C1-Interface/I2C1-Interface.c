@@ -57,7 +57,7 @@
 * @return				none
 * @Note					none
 */
-void_t I2C1Init(void_t){
+void_t I2C1_Init(void_t){
 	I2C_InitTypeDef  I2C_InitStruct;
 	GPIO_InitTypeDef GPIO_InitStruct;
 
@@ -95,7 +95,7 @@ void_t I2C1Init(void_t){
   * @retval	None
   ******************************************************************************
   */
-void_t I2C1Stop(void)
+void_t I2C1_Stop(void)
 {
 	// Generate I2C stop condition
 	I2C_GenerateSTOP(I2Cx_SENSOR, ENABLE);
@@ -108,7 +108,7 @@ void_t I2C1Stop(void)
   * @retval	None
   ******************************************************************************
   */
-void_t I2C1Start(void)
+void_t I2C1_Start(void)
 {
 //	I2C_ClearFlag(I2Cx_SENSOR, I2C_FLAG_BUSY);
 //	// Wait until I2Cx is not busy anymore
@@ -130,7 +130,7 @@ void_t I2C1Start(void)
   * @retval	None
   ******************************************************************************
   */
-void_t I2C1AddressDirection(u8_t byAddress, u8_t byDirection)
+void_t I2C1_AddressDirection(u8_t byAddress, u8_t byDirection)
 {
 	// Send slave address
 	I2C_Send7bitAddress(I2Cx_SENSOR, byAddress, byDirection);
@@ -153,7 +153,7 @@ void_t I2C1AddressDirection(u8_t byAddress, u8_t byDirection)
   * @retval	None
   ******************************************************************************
   */
-void_t I2C1Transmit(u8_t byData)
+void_t I2C1_Transmit(u8_t byData)
 {
 	// Send data byte
 	I2C_SendData(I2Cx_SENSOR, byData);
@@ -169,7 +169,7 @@ void_t I2C1Transmit(u8_t byData)
   * @retval	Received data byte
   ******************************************************************************
   */
-u8_t I2C1ReceiveAck(void_t)
+u8_t I2C1_ReceiveAck(void_t)
 {
 	// Enable ACK of received data
 	I2C_AcknowledgeConfig(I2Cx_SENSOR, ENABLE);
@@ -188,7 +188,7 @@ u8_t I2C1ReceiveAck(void_t)
   * @retval	Received data byte
   ******************************************************************************
   */
-u8_t I2C1ReceiveNack(void_t)
+u8_t I2C1_ReceiveNack(void_t)
 {
 	// Disable ACK of received data
 	I2C_AcknowledgeConfig(I2Cx_SENSOR, DISABLE);

@@ -342,7 +342,7 @@ Discarded input sections
  .text          0x0000000000000000        0x0 Src/Driver/SPI1-Interface/SPI1-Interface.o
  .data          0x0000000000000000        0x0 Src/Driver/SPI1-Interface/SPI1-Interface.o
  .bss           0x0000000000000000        0x0 Src/Driver/SPI1-Interface/SPI1-Interface.o
- .text.SPI1Init
+ .text.SPI1_Init
                 0x0000000000000000       0xac Src/Driver/SPI1-Interface/SPI1-Interface.o
  .debug_info    0x0000000000000000      0x4a9 Src/Driver/SPI1-Interface/SPI1-Interface.o
  .debug_abbrev  0x0000000000000000      0x135 Src/Driver/SPI1-Interface/SPI1-Interface.o
@@ -369,7 +369,7 @@ Discarded input sections
  .debug_macro   0x0000000000000000       0x2d Src/Driver/SPI1-Interface/SPI1-Interface.o
  .debug_macro   0x0000000000000000       0x58 Src/Driver/SPI1-Interface/SPI1-Interface.o
  .debug_line    0x0000000000000000      0x577 Src/Driver/SPI1-Interface/SPI1-Interface.o
- .debug_str     0x0000000000000000    0x3c47f Src/Driver/SPI1-Interface/SPI1-Interface.o
+ .debug_str     0x0000000000000000    0x3c480 Src/Driver/SPI1-Interface/SPI1-Interface.o
  .comment       0x0000000000000000       0x54 Src/Driver/SPI1-Interface/SPI1-Interface.o
  .debug_frame   0x0000000000000000       0x34 Src/Driver/SPI1-Interface/SPI1-Interface.o
  .ARM.attributes
@@ -438,7 +438,7 @@ Discarded input sections
  .text.readFloatPressureFromBurst
                 0x0000000000000000      0x3e0 Src/Mid/BME280-pressure-temperature-sensor/BME280-Sensor.o
  .text.getReferencePressure
-                0x0000000000000000       0x20 Src/Mid/BME280-pressure-temperature-sensor/BME280-Sensor.o
+                0x0000000000000000       0x1c Src/Mid/BME280-pressure-temperature-sensor/BME280-Sensor.o
  .text.readFloatAltitudeFeet
                 0x0000000000000000       0x58 Src/Mid/BME280-pressure-temperature-sensor/BME280-Sensor.o
  .text.readFloatHumidity
@@ -3109,27 +3109,27 @@ LOAD c:/st/stm32cubeide_1.6.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
                 0x0000000008001440                processGetValueSensor
  .text.main     0x0000000008001478       0x88 Src/App/main.o
                 0x0000000008001478                main
- .text.I2C1Init
+ .text.I2C1_Init
                 0x0000000008001500       0x94 Src/Driver/I2C1-Interface/I2C1-Interface.o
-                0x0000000008001500                I2C1Init
- .text.I2C1Stop
+                0x0000000008001500                I2C1_Init
+ .text.I2C1_Stop
                 0x0000000008001594       0x20 Src/Driver/I2C1-Interface/I2C1-Interface.o
-                0x0000000008001594                I2C1Stop
- .text.I2C1Start
+                0x0000000008001594                I2C1_Stop
+ .text.I2C1_Start
                 0x00000000080015b4       0x3c Src/Driver/I2C1-Interface/I2C1-Interface.o
-                0x00000000080015b4                I2C1Start
- .text.I2C1AddressDirection
+                0x00000000080015b4                I2C1_Start
+ .text.I2C1_AddressDirection
                 0x00000000080015f0       0x60 Src/Driver/I2C1-Interface/I2C1-Interface.o
-                0x00000000080015f0                I2C1AddressDirection
- .text.I2C1Transmit
+                0x00000000080015f0                I2C1_AddressDirection
+ .text.I2C1_Transmit
                 0x0000000008001650       0x38 Src/Driver/I2C1-Interface/I2C1-Interface.o
-                0x0000000008001650                I2C1Transmit
- .text.I2C1ReceiveAck
+                0x0000000008001650                I2C1_Transmit
+ .text.I2C1_ReceiveAck
                 0x0000000008001688       0x30 Src/Driver/I2C1-Interface/I2C1-Interface.o
-                0x0000000008001688                I2C1ReceiveAck
- .text.I2C1ReceiveNack
+                0x0000000008001688                I2C1_ReceiveAck
+ .text.I2C1_ReceiveNack
                 0x00000000080016b8       0x30 Src/Driver/I2C1-Interface/I2C1-Interface.o
-                0x00000000080016b8                I2C1ReceiveNack
+                0x00000000080016b8                I2C1_ReceiveNack
  .text.BMP280_Init
                 0x00000000080016e8      0x2b0 Src/Mid/BME280-pressure-temperature-sensor/BME280-Sensor.o
                 0x00000000080016e8                BMP280_Init
@@ -3160,11 +3160,11 @@ LOAD c:/st/stm32cubeide_1.6.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
                 0x0000000008001c68      0x420 Src/Mid/BME280-pressure-temperature-sensor/BME280-Sensor.o
                 0x0000000008001c68                readFloatPressure
  .text.setReferencePressure
-                0x0000000008002088       0x20 Src/Mid/BME280-pressure-temperature-sensor/BME280-Sensor.o
+                0x0000000008002088       0x28 Src/Mid/BME280-pressure-temperature-sensor/BME280-Sensor.o
                 0x0000000008002088                setReferencePressure
  .text.readFloatAltitudeMeters
-                0x00000000080020a8       0x90 Src/Mid/BME280-pressure-temperature-sensor/BME280-Sensor.o
-                0x00000000080020a8                readFloatAltitudeMeters
+                0x00000000080020b0       0x88 Src/Mid/BME280-pressure-temperature-sensor/BME280-Sensor.o
+                0x00000000080020b0                readFloatAltitudeMeters
  .text.readTempC
                 0x0000000008002138      0x100 Src/Mid/BME280-pressure-temperature-sensor/BME280-Sensor.o
                 0x0000000008002138                readTempC
@@ -4036,7 +4036,7 @@ LOAD c:/st/stm32cubeide_1.6.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
  *(.bss)
  .bss           0x0000000020000200       0x1c c:/st/stm32cubeide_1.6.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.9-2020-q2-update.win32_1.5.0.202011040924/tools/bin/../lib/gcc/arm-none-eabi/9.3.1/thumb/v7e-m+fp/hard/crtbegin.o
  *(.bss*)
- .bss.ucg       0x000000002000021c       0xb4 Src/App/main.o
+ .bss.g_Ucg     0x000000002000021c       0xb4 Src/App/main.o
  .bss.g_byTimerInit
                 0x00000000200002d0        0x4 Src/App/main.o
                 0x00000000200002d0                g_byTimerInit
@@ -4361,35 +4361,35 @@ LOAD c:/st/stm32cubeide_1.6.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
  .debug_info    0x0000000000035339     0x315a D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_clip.o)
  .debug_info    0x0000000000038493     0x348a D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_com_msg_api.o)
 
-.debug_abbrev   0x0000000000000000     0x2e3c
- .debug_abbrev  0x0000000000000000      0x255 Src/App/main.o
- .debug_abbrev  0x0000000000000255      0x198 Src/Driver/I2C1-Interface/I2C1-Interface.o
- .debug_abbrev  0x00000000000003ed      0x320 Src/Mid/BME280-pressure-temperature-sensor/BME280-Sensor.o
- .debug_abbrev  0x000000000000070d      0x286 Src/syscalls.o
- .debug_abbrev  0x0000000000000993      0x1bf Src/sysmem.o
- .debug_abbrev  0x0000000000000b52       0x12 Startup/startup_stm32f401retx.o
- .debug_abbrev  0x0000000000000b64      0x138 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(system_stm32f4xx.o)
- .debug_abbrev  0x0000000000000c9c      0x1bf D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(stm32f401re_gpio.o)
- .debug_abbrev  0x0000000000000e5b      0x196 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(stm32f401re_i2c.o)
- .debug_abbrev  0x0000000000000ff1      0x1d4 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(stm32f401re_rcc.o)
- .debug_abbrev  0x00000000000011c5      0x29a D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(timer.o)
- .debug_abbrev  0x000000000000145f      0x202 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(Ucglib.o)
- .debug_abbrev  0x0000000000001661      0x18b D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_box.o)
- .debug_abbrev  0x00000000000017ec       0xf5 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_ccs.o)
- .debug_abbrev  0x00000000000018e1      0x19e D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_dev_default_cb.o)
- .debug_abbrev  0x0000000000001a7f      0x1dc D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_dev_ic_st7735.o)
- .debug_abbrev  0x0000000000001c5b      0x191 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_dev_msg_api.o)
- .debug_abbrev  0x0000000000001dec      0x14e D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_dev_tft_128x128_st7735.o)
- .debug_abbrev  0x0000000000001f3a      0x2fc D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_font.o)
- .debug_abbrev  0x0000000000002236      0x1c6 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_init.o)
- .debug_abbrev  0x00000000000023fc      0x175 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_line.o)
- .debug_abbrev  0x0000000000002571      0x148 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_pixel.o)
- .debug_abbrev  0x00000000000026b9       0x83 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_pixel_font_data.o)
- .debug_abbrev  0x000000000000273c      0x1a3 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_rotate.o)
- .debug_abbrev  0x00000000000028df      0x12a D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(buff.o)
- .debug_abbrev  0x0000000000002a09       0xce D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(utilities.o)
- .debug_abbrev  0x0000000000002ad7      0x173 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_clip.o)
- .debug_abbrev  0x0000000000002c4a      0x1f2 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_com_msg_api.o)
+.debug_abbrev   0x0000000000000000     0x2e2b
+ .debug_abbrev  0x0000000000000000      0x244 Src/App/main.o
+ .debug_abbrev  0x0000000000000244      0x198 Src/Driver/I2C1-Interface/I2C1-Interface.o
+ .debug_abbrev  0x00000000000003dc      0x320 Src/Mid/BME280-pressure-temperature-sensor/BME280-Sensor.o
+ .debug_abbrev  0x00000000000006fc      0x286 Src/syscalls.o
+ .debug_abbrev  0x0000000000000982      0x1bf Src/sysmem.o
+ .debug_abbrev  0x0000000000000b41       0x12 Startup/startup_stm32f401retx.o
+ .debug_abbrev  0x0000000000000b53      0x138 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(system_stm32f4xx.o)
+ .debug_abbrev  0x0000000000000c8b      0x1bf D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(stm32f401re_gpio.o)
+ .debug_abbrev  0x0000000000000e4a      0x196 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(stm32f401re_i2c.o)
+ .debug_abbrev  0x0000000000000fe0      0x1d4 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(stm32f401re_rcc.o)
+ .debug_abbrev  0x00000000000011b4      0x29a D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(timer.o)
+ .debug_abbrev  0x000000000000144e      0x202 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(Ucglib.o)
+ .debug_abbrev  0x0000000000001650      0x18b D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_box.o)
+ .debug_abbrev  0x00000000000017db       0xf5 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_ccs.o)
+ .debug_abbrev  0x00000000000018d0      0x19e D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_dev_default_cb.o)
+ .debug_abbrev  0x0000000000001a6e      0x1dc D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_dev_ic_st7735.o)
+ .debug_abbrev  0x0000000000001c4a      0x191 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_dev_msg_api.o)
+ .debug_abbrev  0x0000000000001ddb      0x14e D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_dev_tft_128x128_st7735.o)
+ .debug_abbrev  0x0000000000001f29      0x2fc D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_font.o)
+ .debug_abbrev  0x0000000000002225      0x1c6 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_init.o)
+ .debug_abbrev  0x00000000000023eb      0x175 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_line.o)
+ .debug_abbrev  0x0000000000002560      0x148 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_pixel.o)
+ .debug_abbrev  0x00000000000026a8       0x83 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_pixel_font_data.o)
+ .debug_abbrev  0x000000000000272b      0x1a3 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_rotate.o)
+ .debug_abbrev  0x00000000000028ce      0x12a D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(buff.o)
+ .debug_abbrev  0x00000000000029f8       0xce D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(utilities.o)
+ .debug_abbrev  0x0000000000002ac6      0x173 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_clip.o)
+ .debug_abbrev  0x0000000000002c39      0x1f2 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_com_msg_api.o)
 
 .debug_aranges  0x0000000000000000      0xc50
  .debug_aranges
@@ -4633,62 +4633,62 @@ LOAD c:/st/stm32cubeide_1.6.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
  .debug_line    0x0000000000009ba7      0x4c1 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_clip.o)
  .debug_line    0x000000000000a068      0x586 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_com_msg_api.o)
 
-.debug_str      0x0000000000000000    0x4d90c
- .debug_str     0x0000000000000000     0xddee Src/App/main.o
-                                       0xe180 (size before relaxing)
- .debug_str     0x000000000000ddee    0x38676 Src/Driver/I2C1-Interface/I2C1-Interface.o
-                                      0x3c4b9 (size before relaxing)
- .debug_str     0x0000000000046464     0x3083 Src/Mid/BME280-pressure-temperature-sensor/BME280-Sensor.o
+.debug_str      0x0000000000000000    0x4d919
+ .debug_str     0x0000000000000000     0xddf4 Src/App/main.o
+                                       0xe186 (size before relaxing)
+ .debug_str     0x000000000000ddf4    0x3867d Src/Driver/I2C1-Interface/I2C1-Interface.o
+                                      0x3c4c0 (size before relaxing)
+ .debug_str     0x0000000000046471     0x3083 Src/Mid/BME280-pressure-temperature-sensor/BME280-Sensor.o
                                       0x437d5 (size before relaxing)
- .debug_str     0x00000000000494e7     0x1652 Src/syscalls.o
+ .debug_str     0x00000000000494f4     0x1652 Src/syscalls.o
                                        0x8ea7 (size before relaxing)
- .debug_str     0x000000000004ab39       0x66 Src/sysmem.o
+ .debug_str     0x000000000004ab46       0x66 Src/sysmem.o
                                        0x627a (size before relaxing)
- .debug_str     0x000000000004ab9f       0x31 Startup/startup_stm32f401retx.o
+ .debug_str     0x000000000004abac       0x31 Startup/startup_stm32f401retx.o
                                          0x48 (size before relaxing)
- .debug_str     0x000000000004abd0      0x3ae D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(system_stm32f4xx.o)
+ .debug_str     0x000000000004abdd      0x3ae D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(system_stm32f4xx.o)
                                       0x3583e (size before relaxing)
- .debug_str     0x000000000004af7e      0x192 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(stm32f401re_gpio.o)
+ .debug_str     0x000000000004af8b      0x192 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(stm32f401re_gpio.o)
                                       0x3a690 (size before relaxing)
- .debug_str     0x000000000004b110      0x461 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(stm32f401re_i2c.o)
+ .debug_str     0x000000000004b11d      0x461 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(stm32f401re_i2c.o)
                                       0x3af28 (size before relaxing)
- .debug_str     0x000000000004b571      0xb54 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(stm32f401re_rcc.o)
+ .debug_str     0x000000000004b57e      0xb54 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(stm32f401re_rcc.o)
                                       0x39aa1 (size before relaxing)
- .debug_str     0x000000000004c0c5      0x620 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(timer.o)
+ .debug_str     0x000000000004c0d2      0x620 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(timer.o)
                                       0x39451 (size before relaxing)
- .debug_str     0x000000000004c6e5       0xc5 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(Ucglib.o)
+ .debug_str     0x000000000004c6f2       0xc5 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(Ucglib.o)
                                       0x4067c (size before relaxing)
- .debug_str     0x000000000004c7aa       0x86 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_box.o)
+ .debug_str     0x000000000004c7b7       0x86 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_box.o)
                                        0x9c13 (size before relaxing)
- .debug_str     0x000000000004c830       0x48 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_ccs.o)
+ .debug_str     0x000000000004c83d       0x48 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_ccs.o)
                                        0x97ef (size before relaxing)
- .debug_str     0x000000000004c878       0xaf D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_dev_default_cb.o)
+ .debug_str     0x000000000004c885       0xaf D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_dev_default_cb.o)
                                        0x9c41 (size before relaxing)
- .debug_str     0x000000000004c927      0x135 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_dev_ic_st7735.o)
+ .debug_str     0x000000000004c934      0x135 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_dev_ic_st7735.o)
                                        0x9ce5 (size before relaxing)
- .debug_str     0x000000000004ca5c       0xce D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_dev_msg_api.o)
+ .debug_str     0x000000000004ca69       0xce D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_dev_msg_api.o)
                                        0x9c5b (size before relaxing)
- .debug_str     0x000000000004cb2a       0x68 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_dev_tft_128x128_st7735.o)
+ .debug_str     0x000000000004cb37       0x68 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_dev_tft_128x128_st7735.o)
                                        0x9c0a (size before relaxing)
- .debug_str     0x000000000004cb92      0x776 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_font.o)
+ .debug_str     0x000000000004cb9f      0x776 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_font.o)
                                        0xd07e (size before relaxing)
- .debug_str     0x000000000004d308       0x35 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_init.o)
+ .debug_str     0x000000000004d315       0x35 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_init.o)
                                        0xcb75 (size before relaxing)
- .debug_str     0x000000000004d33d       0x8d D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_line.o)
+ .debug_str     0x000000000004d34a       0x8d D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_line.o)
                                        0x9c1a (size before relaxing)
- .debug_str     0x000000000004d3ca       0x38 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_pixel.o)
+ .debug_str     0x000000000004d3d7       0x38 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_pixel.o)
                                        0x9bc5 (size before relaxing)
- .debug_str     0x000000000004d402       0x27 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_pixel_font_data.o)
+ .debug_str     0x000000000004d40f       0x27 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_pixel_font_data.o)
                                        0x9785 (size before relaxing)
- .debug_str     0x000000000004d429       0xd7 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_rotate.o)
+ .debug_str     0x000000000004d436       0xd7 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_rotate.o)
                                        0x9fb3 (size before relaxing)
- .debug_str     0x000000000004d500       0x9f D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(buff.o)
+ .debug_str     0x000000000004d50d       0x9f D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(buff.o)
                                       0x35751 (size before relaxing)
- .debug_str     0x000000000004d59f       0xb3 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(utilities.o)
+ .debug_str     0x000000000004d5ac       0xb3 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(utilities.o)
                                        0x3d14 (size before relaxing)
- .debug_str     0x000000000004d652       0xa5 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_clip.o)
+ .debug_str     0x000000000004d65f       0xa5 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_clip.o)
                                        0x9c32 (size before relaxing)
- .debug_str     0x000000000004d6f7      0x215 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_com_msg_api.o)
+ .debug_str     0x000000000004d704      0x215 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_com_msg_api.o)
                                        0x9ddf (size before relaxing)
 
 .comment        0x0000000000000000       0xce

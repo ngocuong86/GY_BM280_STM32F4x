@@ -29,21 +29,21 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
  12 .debug_info   0003b91d  00000000  00000000  00020230  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 13 .debug_abbrev 00002e3c  00000000  00000000  0005bb4d  2**0
+ 13 .debug_abbrev 00002e2b  00000000  00000000  0005bb4d  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_aranges 00000c50  00000000  00000000  0005e990  2**3
+ 14 .debug_aranges 00000c50  00000000  00000000  0005e978  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_ranges 00000a90  00000000  00000000  0005f5e0  2**3
+ 15 .debug_ranges 00000a90  00000000  00000000  0005f5c8  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_macro  0000f936  00000000  00000000  00060070  2**0
+ 16 .debug_macro  0000f936  00000000  00000000  00060058  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   0000a5ee  00000000  00000000  0006f9a6  2**0
+ 17 .debug_line   0000a5ee  00000000  00000000  0006f98e  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    0004d90c  00000000  00000000  00079f94  2**0
+ 18 .debug_str    0004d919  00000000  00000000  00079f7c  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      000000ce  00000000  00000000  000c78a0  2**0
+ 19 .comment      000000ce  00000000  00000000  000c7895  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  000046a0  00000000  00000000  000c7970  2**2
+ 20 .debug_frame  000046a0  00000000  00000000  000c7964  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -1672,7 +1672,7 @@ void Display_TemHum(void){
  8001384:	eec7 7a26 	vdiv.f32	s15, s14, s13
  8001388:	edc7 7a02 	vstr	s15, [r7, #8]
 	float_t fAlti = (u64_t)readFloatAltitudeMeters();
- 800138c:	f000 fe8c 	bl	80020a8 <readFloatAltitudeMeters>
+ 800138c:	f000 fe90 	bl	80020b0 <readFloatAltitudeMeters>
  8001390:	4602      	mov	r2, r0
  8001392:	460b      	mov	r3, r1
  8001394:	4610      	mov	r0, r2
@@ -1709,7 +1709,7 @@ void Display_TemHum(void){
  80013de:	4916      	ldr	r1, [pc, #88]	; (8001438 <Display_TemHum+0x118>)
  80013e0:	4811      	ldr	r0, [pc, #68]	; (8001428 <Display_TemHum+0x108>)
  80013e2:	f005 f93f 	bl	8006664 <siprintf>
-	ucg_DrawString(&ucg, 0, 32, 0, strTemp);
+	ucg_DrawString(&g_Ucg, 0, 32, 0, strTemp);
  80013e6:	4b0f      	ldr	r3, [pc, #60]	; (8001424 <Display_TemHum+0x104>)
  80013e8:	9300      	str	r3, [sp, #0]
  80013ea:	2300      	movs	r3, #0
@@ -1717,7 +1717,7 @@ void Display_TemHum(void){
  80013ee:	2100      	movs	r1, #0
  80013f0:	4812      	ldr	r0, [pc, #72]	; (800143c <Display_TemHum+0x11c>)
  80013f2:	f003 f9b7 	bl	8004764 <ucg_DrawString>
-	ucg_DrawString(&ucg, 0, 72, 0, strPres);
+	ucg_DrawString(&g_Ucg, 0, 72, 0, strPres);
  80013f6:	4b0a      	ldr	r3, [pc, #40]	; (8001420 <Display_TemHum+0x100>)
  80013f8:	9300      	str	r3, [sp, #0]
  80013fa:	2300      	movs	r3, #0
@@ -1725,7 +1725,7 @@ void Display_TemHum(void){
  80013fe:	2100      	movs	r1, #0
  8001400:	480e      	ldr	r0, [pc, #56]	; (800143c <Display_TemHum+0x11c>)
  8001402:	f003 f9af 	bl	8004764 <ucg_DrawString>
-	ucg_DrawString(&ucg, 0, 112, 0, strAlti);
+	ucg_DrawString(&g_Ucg, 0, 112, 0, strAlti);
  8001406:	4b08      	ldr	r3, [pc, #32]	; (8001428 <Display_TemHum+0x108>)
  8001408:	9300      	str	r3, [sp, #0]
  800140a:	2300      	movs	r3, #0
@@ -1789,18 +1789,18 @@ int main(){
  800147e:	f001 f8b7 	bl	80025f0 <SystemCoreClockUpdate>
 	TimerInit();
  8001482:	f001 fd9d 	bl	8002fc0 <TimerInit>
-	Ucglib4WireSWSPI_begin(&ucg, UCG_FONT_MODE_SOLID);
+	Ucglib4WireSWSPI_begin(&g_Ucg, UCG_FONT_MODE_SOLID);
  8001486:	2100      	movs	r1, #0
  8001488:	4819      	ldr	r0, [pc, #100]	; (80014f0 <main+0x78>)
  800148a:	f002 f8cf 	bl	800362c <Ucglib4WireSWSPI_begin>
-	ucg_ClearScreen(&ucg);
+	ucg_ClearScreen(&g_Ucg);
  800148e:	4818      	ldr	r0, [pc, #96]	; (80014f0 <main+0x78>)
  8001490:	f002 f913 	bl	80036ba <ucg_ClearScreen>
-	ucg_SetFont(&ucg, ucg_font_ncenR12_hr);
+	ucg_SetFont(&g_Ucg, ucg_font_ncenR12_hr);
  8001494:	4917      	ldr	r1, [pc, #92]	; (80014f4 <main+0x7c>)
  8001496:	4816      	ldr	r0, [pc, #88]	; (80014f0 <main+0x78>)
  8001498:	f003 fa28 	bl	80048ec <ucg_SetFont>
-	ucg_SetColor(&ucg, 0, 255, 255, 255);
+	ucg_SetColor(&g_Ucg, 0, 255, 255, 255);
  800149c:	23ff      	movs	r3, #255	; 0xff
  800149e:	9300      	str	r3, [sp, #0]
  80014a0:	23ff      	movs	r3, #255	; 0xff
@@ -1808,7 +1808,7 @@ int main(){
  80014a4:	2100      	movs	r1, #0
  80014a6:	4812      	ldr	r0, [pc, #72]	; (80014f0 <main+0x78>)
  80014a8:	f003 faff 	bl	8004aaa <ucg_SetColor>
-	ucg_SetColor(&ucg, 1, 0, 0, 0);
+	ucg_SetColor(&g_Ucg, 1, 0, 0, 0);
  80014ac:	2300      	movs	r3, #0
  80014ae:	9300      	str	r3, [sp, #0]
  80014b0:	2300      	movs	r3, #0
@@ -1816,7 +1816,7 @@ int main(){
  80014b4:	2101      	movs	r1, #1
  80014b6:	480e      	ldr	r0, [pc, #56]	; (80014f0 <main+0x78>)
  80014b8:	f003 faf7 	bl	8004aaa <ucg_SetColor>
-	ucg_SetRotate180(&ucg);
+	ucg_SetRotate180(&g_Ucg);
  80014bc:	480c      	ldr	r0, [pc, #48]	; (80014f0 <main+0x78>)
  80014be:	f003 fbef 	bl	8004ca0 <ucg_SetRotate180>
 	g_byTimerInit = GetMilSecTick();
@@ -1853,13 +1853,13 @@ int main(){
  80014f8:	200002d0 	.word	0x200002d0
  80014fc:	000186e6 	.word	0x000186e6
 
-08001500 <I2C1Init>:
+08001500 <I2C1_Init>:
 * @brief				This func Init I2C1_Init mode master
 * @param				none
 * @return				none
 * @Note					none
 */
-void_t I2C1Init(void_t){
+void_t I2C1_Init(void_t){
  8001500:	b580      	push	{r7, lr}
  8001502:	b086      	sub	sp, #24
  8001504:	af00      	add	r7, sp, #0
@@ -1894,25 +1894,25 @@ void_t I2C1Init(void_t){
 	GPIO_Init(I2C_GPIO, &GPIO_InitStruct);
  800152e:	463b      	mov	r3, r7
  8001530:	4619      	mov	r1, r3
- 8001532:	4815      	ldr	r0, [pc, #84]	; (8001588 <I2C1Init+0x88>)
+ 8001532:	4815      	ldr	r0, [pc, #84]	; (8001588 <I2C1_Init+0x88>)
  8001534:	f001 f928 	bl	8002788 <GPIO_Init>
 
 	// Connect PA8 to I2C1 SCL
 	GPIO_PinAFConfig(I2C_GPIO, GPIO_PinSource8, GPIO_AF_I2C1);
  8001538:	2204      	movs	r2, #4
  800153a:	2108      	movs	r1, #8
- 800153c:	4812      	ldr	r0, [pc, #72]	; (8001588 <I2C1Init+0x88>)
+ 800153c:	4812      	ldr	r0, [pc, #72]	; (8001588 <I2C1_Init+0x88>)
  800153e:	f001 f9c9 	bl	80028d4 <GPIO_PinAFConfig>
 
 	// Connect PC9 to I2C1 SDA
 	GPIO_PinAFConfig(I2C_GPIO, GPIO_PinSource9, GPIO_AF_I2C1);
  8001542:	2204      	movs	r2, #4
  8001544:	2109      	movs	r1, #9
- 8001546:	4810      	ldr	r0, [pc, #64]	; (8001588 <I2C1Init+0x88>)
+ 8001546:	4810      	ldr	r0, [pc, #64]	; (8001588 <I2C1_Init+0x88>)
  8001548:	f001 f9c4 	bl	80028d4 <GPIO_PinAFConfig>
 
 	I2C_InitStruct.I2C_ClockSpeed = 400000;
- 800154c:	4b0f      	ldr	r3, [pc, #60]	; (800158c <I2C1Init+0x8c>)
+ 800154c:	4b0f      	ldr	r3, [pc, #60]	; (800158c <I2C1_Init+0x8c>)
  800154e:	60bb      	str	r3, [r7, #8]
 	I2C_InitStruct.I2C_Mode = I2C_Mode_I2C;
  8001550:	2300      	movs	r3, #0
@@ -1933,11 +1933,11 @@ void_t I2C1Init(void_t){
 	I2C_Init(I2Cx_SENSOR, &I2C_InitStruct);
  800156a:	f107 0308 	add.w	r3, r7, #8
  800156e:	4619      	mov	r1, r3
- 8001570:	4807      	ldr	r0, [pc, #28]	; (8001590 <I2C1Init+0x90>)
+ 8001570:	4807      	ldr	r0, [pc, #28]	; (8001590 <I2C1_Init+0x90>)
  8001572:	f001 f9f9 	bl	8002968 <I2C_Init>
 	I2C_Cmd(I2Cx_SENSOR, ENABLE);
  8001576:	2101      	movs	r1, #1
- 8001578:	4805      	ldr	r0, [pc, #20]	; (8001590 <I2C1Init+0x90>)
+ 8001578:	4805      	ldr	r0, [pc, #20]	; (8001590 <I2C1_Init+0x90>)
  800157a:	f001 fab7 	bl	8002aec <I2C_Cmd>
 }
  800157e:	bf00      	nop
@@ -1949,23 +1949,23 @@ void_t I2C1Init(void_t){
  800158c:	00061a80 	.word	0x00061a80
  8001590:	40005400 	.word	0x40005400
 
-08001594 <I2C1Stop>:
+08001594 <I2C1_Stop>:
   * @param	None
   * @retval	None
   ******************************************************************************
   */
-void_t I2C1Stop(void)
+void_t I2C1_Stop(void)
 {
  8001594:	b580      	push	{r7, lr}
  8001596:	af00      	add	r7, sp, #0
 	// Generate I2C stop condition
 	I2C_GenerateSTOP(I2Cx_SENSOR, ENABLE);
  8001598:	2101      	movs	r1, #1
- 800159a:	4805      	ldr	r0, [pc, #20]	; (80015b0 <I2C1Stop+0x1c>)
+ 800159a:	4805      	ldr	r0, [pc, #20]	; (80015b0 <I2C1_Stop+0x1c>)
  800159c:	f001 fae6 	bl	8002b6c <I2C_GenerateSTOP>
 	I2C_ClearFlag(I2Cx_SENSOR, I2C_FLAG_BUSY);
  80015a0:	f44f 3100 	mov.w	r1, #131072	; 0x20000
- 80015a4:	4802      	ldr	r0, [pc, #8]	; (80015b0 <I2C1Stop+0x1c>)
+ 80015a4:	4802      	ldr	r0, [pc, #8]	; (80015b0 <I2C1_Stop+0x1c>)
  80015a6:	f001 fbc0 	bl	8002d2a <I2C_ClearFlag>
 }
  80015aa:	bf00      	nop
@@ -1973,12 +1973,12 @@ void_t I2C1Stop(void)
  80015ae:	bf00      	nop
  80015b0:	40005400 	.word	0x40005400
 
-080015b4 <I2C1Start>:
+080015b4 <I2C1_Start>:
   * @param	None
   * @retval	None
   ******************************************************************************
   */
-void_t I2C1Start(void)
+void_t I2C1_Start(void)
 {
  80015b4:	b580      	push	{r7, lr}
  80015b6:	af00      	add	r7, sp, #0
@@ -1987,16 +1987,16 @@ void_t I2C1Start(void)
  	while (I2C_GetFlagStatus(I2Cx_SENSOR, I2C_FLAG_BUSY));
  80015b8:	bf00      	nop
  80015ba:	f44f 3100 	mov.w	r1, #131072	; 0x20000
- 80015be:	480a      	ldr	r0, [pc, #40]	; (80015e8 <I2C1Start+0x34>)
+ 80015be:	480a      	ldr	r0, [pc, #40]	; (80015e8 <I2C1_Start+0x34>)
  80015c0:	f001 fb80 	bl	8002cc4 <I2C_GetFlagStatus>
  80015c4:	4603      	mov	r3, r0
  80015c6:	2b00      	cmp	r3, #0
- 80015c8:	d1f7      	bne.n	80015ba <I2C1Start+0x6>
+ 80015c8:	d1f7      	bne.n	80015ba <I2C1_Start+0x6>
 
 	// Generate start condition
 	I2C_GenerateSTART(I2Cx_SENSOR, ENABLE);
  80015ca:	2101      	movs	r1, #1
- 80015cc:	4806      	ldr	r0, [pc, #24]	; (80015e8 <I2C1Start+0x34>)
+ 80015cc:	4806      	ldr	r0, [pc, #24]	; (80015e8 <I2C1_Start+0x34>)
  80015ce:	f001 faad 	bl	8002b2c <I2C_GenerateSTART>
 
 	// Wait for I2C EV5.
@@ -2004,12 +2004,12 @@ void_t I2C1Start(void)
 	// on the I2C bus (the bus is free, no other devices is communicating))
 	while (!I2C_CheckEvent(I2Cx_SENSOR, I2C_EVENT_MASTER_MODE_SELECT));
  80015d2:	bf00      	nop
- 80015d4:	4905      	ldr	r1, [pc, #20]	; (80015ec <I2C1Start+0x38>)
- 80015d6:	4804      	ldr	r0, [pc, #16]	; (80015e8 <I2C1Start+0x34>)
+ 80015d4:	4905      	ldr	r1, [pc, #20]	; (80015ec <I2C1_Start+0x38>)
+ 80015d6:	4804      	ldr	r0, [pc, #16]	; (80015e8 <I2C1_Start+0x34>)
  80015d8:	f001 fb44 	bl	8002c64 <I2C_CheckEvent>
  80015dc:	4603      	mov	r3, r0
  80015de:	2b00      	cmp	r3, #0
- 80015e0:	d0f8      	beq.n	80015d4 <I2C1Start+0x20>
+ 80015e0:	d0f8      	beq.n	80015d4 <I2C1_Start+0x20>
 }
  80015e2:	bf00      	nop
  80015e4:	bf00      	nop
@@ -2017,12 +2017,12 @@ void_t I2C1Start(void)
  80015e8:	40005400 	.word	0x40005400
  80015ec:	00030001 	.word	0x00030001
 
-080015f0 <I2C1AddressDirection>:
+080015f0 <I2C1_AddressDirection>:
   * @param	I2C direction (transmitter or receiver)
   * @retval	None
   ******************************************************************************
   */
-void_t I2C1AddressDirection(u8_t byAddress, u8_t byDirection)
+void_t I2C1_AddressDirection(u8_t byAddress, u8_t byDirection)
 {
  80015f0:	b580      	push	{r7, lr}
  80015f2:	b082      	sub	sp, #8
@@ -2037,7 +2037,7 @@ void_t I2C1AddressDirection(u8_t byAddress, u8_t byDirection)
  8001600:	79ba      	ldrb	r2, [r7, #6]
  8001602:	79fb      	ldrb	r3, [r7, #7]
  8001604:	4619      	mov	r1, r3
- 8001606:	480f      	ldr	r0, [pc, #60]	; (8001644 <I2C1AddressDirection+0x54>)
+ 8001606:	480f      	ldr	r0, [pc, #60]	; (8001644 <I2C1_AddressDirection+0x54>)
  8001608:	f001 fad0 	bl	8002bac <I2C_Send7bitAddress>
 
 	// Wait for I2C EV6
@@ -2045,35 +2045,35 @@ void_t I2C1AddressDirection(u8_t byAddress, u8_t byDirection)
 	if (byDirection == I2C_Direction_Transmitter)
  800160c:	79bb      	ldrb	r3, [r7, #6]
  800160e:	2b00      	cmp	r3, #0
- 8001610:	d108      	bne.n	8001624 <I2C1AddressDirection+0x34>
+ 8001610:	d108      	bne.n	8001624 <I2C1_AddressDirection+0x34>
 	{
 		while (!I2C_CheckEvent(I2Cx_SENSOR, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
  8001612:	bf00      	nop
- 8001614:	490c      	ldr	r1, [pc, #48]	; (8001648 <I2C1AddressDirection+0x58>)
- 8001616:	480b      	ldr	r0, [pc, #44]	; (8001644 <I2C1AddressDirection+0x54>)
+ 8001614:	490c      	ldr	r1, [pc, #48]	; (8001648 <I2C1_AddressDirection+0x58>)
+ 8001616:	480b      	ldr	r0, [pc, #44]	; (8001644 <I2C1_AddressDirection+0x54>)
  8001618:	f001 fb24 	bl	8002c64 <I2C_CheckEvent>
  800161c:	4603      	mov	r3, r0
  800161e:	2b00      	cmp	r3, #0
- 8001620:	d0f8      	beq.n	8001614 <I2C1AddressDirection+0x24>
+ 8001620:	d0f8      	beq.n	8001614 <I2C1_AddressDirection+0x24>
 	}
 	else if (byDirection == I2C_Direction_Receiver)
 	{
 		while (!I2C_CheckEvent(I2Cx_SENSOR, I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED));
 	}
 }
- 8001622:	e00a      	b.n	800163a <I2C1AddressDirection+0x4a>
+ 8001622:	e00a      	b.n	800163a <I2C1_AddressDirection+0x4a>
 	else if (byDirection == I2C_Direction_Receiver)
  8001624:	79bb      	ldrb	r3, [r7, #6]
  8001626:	2b01      	cmp	r3, #1
- 8001628:	d107      	bne.n	800163a <I2C1AddressDirection+0x4a>
+ 8001628:	d107      	bne.n	800163a <I2C1_AddressDirection+0x4a>
 		while (!I2C_CheckEvent(I2Cx_SENSOR, I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED));
  800162a:	bf00      	nop
- 800162c:	4907      	ldr	r1, [pc, #28]	; (800164c <I2C1AddressDirection+0x5c>)
- 800162e:	4805      	ldr	r0, [pc, #20]	; (8001644 <I2C1AddressDirection+0x54>)
+ 800162c:	4907      	ldr	r1, [pc, #28]	; (800164c <I2C1_AddressDirection+0x5c>)
+ 800162e:	4805      	ldr	r0, [pc, #20]	; (8001644 <I2C1_AddressDirection+0x54>)
  8001630:	f001 fb18 	bl	8002c64 <I2C_CheckEvent>
  8001634:	4603      	mov	r3, r0
  8001636:	2b00      	cmp	r3, #0
- 8001638:	d0f8      	beq.n	800162c <I2C1AddressDirection+0x3c>
+ 8001638:	d0f8      	beq.n	800162c <I2C1_AddressDirection+0x3c>
 }
  800163a:	bf00      	nop
  800163c:	3708      	adds	r7, #8
@@ -2084,12 +2084,12 @@ void_t I2C1AddressDirection(u8_t byAddress, u8_t byDirection)
  8001648:	00070082 	.word	0x00070082
  800164c:	00030002 	.word	0x00030002
 
-08001650 <I2C1Transmit>:
+08001650 <I2C1_Transmit>:
   * @param	Data byte to transmit
   * @retval	None
   ******************************************************************************
   */
-void_t I2C1Transmit(u8_t byData)
+void_t I2C1_Transmit(u8_t byData)
 {
  8001650:	b580      	push	{r7, lr}
  8001652:	b082      	sub	sp, #8
@@ -2100,19 +2100,19 @@ void_t I2C1Transmit(u8_t byData)
 	I2C_SendData(I2Cx_SENSOR, byData);
  800165a:	79fb      	ldrb	r3, [r7, #7]
  800165c:	4619      	mov	r1, r3
- 800165e:	4808      	ldr	r0, [pc, #32]	; (8001680 <I2C1Transmit+0x30>)
+ 800165e:	4808      	ldr	r0, [pc, #32]	; (8001680 <I2C1_Transmit+0x30>)
  8001660:	f001 fae2 	bl	8002c28 <I2C_SendData>
 	// Wait for I2C EV8_2.
 	// It means that the data has been physically shifted out and
 	// output on the bus)
 	while (!I2C_CheckEvent(I2Cx_SENSOR, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
  8001664:	bf00      	nop
- 8001666:	4907      	ldr	r1, [pc, #28]	; (8001684 <I2C1Transmit+0x34>)
- 8001668:	4805      	ldr	r0, [pc, #20]	; (8001680 <I2C1Transmit+0x30>)
+ 8001666:	4907      	ldr	r1, [pc, #28]	; (8001684 <I2C1_Transmit+0x34>)
+ 8001668:	4805      	ldr	r0, [pc, #20]	; (8001680 <I2C1_Transmit+0x30>)
  800166a:	f001 fafb 	bl	8002c64 <I2C_CheckEvent>
  800166e:	4603      	mov	r3, r0
  8001670:	2b00      	cmp	r3, #0
- 8001672:	d0f8      	beq.n	8001666 <I2C1Transmit+0x16>
+ 8001672:	d0f8      	beq.n	8001666 <I2C1_Transmit+0x16>
 }
  8001674:	bf00      	nop
  8001676:	bf00      	nop
@@ -2123,34 +2123,34 @@ void_t I2C1Transmit(u8_t byData)
  8001680:	40005400 	.word	0x40005400
  8001684:	00070084 	.word	0x00070084
 
-08001688 <I2C1ReceiveAck>:
+08001688 <I2C1_ReceiveAck>:
   * @param	None
   * @retval	Received data byte
   ******************************************************************************
   */
-u8_t I2C1ReceiveAck(void_t)
+u8_t I2C1_ReceiveAck(void_t)
 {
  8001688:	b580      	push	{r7, lr}
  800168a:	af00      	add	r7, sp, #0
 	// Enable ACK of received data
 	I2C_AcknowledgeConfig(I2Cx_SENSOR, ENABLE);
  800168c:	2101      	movs	r1, #1
- 800168e:	4808      	ldr	r0, [pc, #32]	; (80016b0 <I2C1ReceiveAck+0x28>)
+ 800168e:	4808      	ldr	r0, [pc, #32]	; (80016b0 <I2C1_ReceiveAck+0x28>)
  8001690:	f001 faaa 	bl	8002be8 <I2C_AcknowledgeConfig>
 	// Wait for I2C EV7
 	// It means that the data has been received in I2C data register
 	while (!I2C_CheckEvent(I2Cx_SENSOR, I2C_EVENT_MASTER_BYTE_RECEIVED));
  8001694:	bf00      	nop
- 8001696:	4907      	ldr	r1, [pc, #28]	; (80016b4 <I2C1ReceiveAck+0x2c>)
- 8001698:	4805      	ldr	r0, [pc, #20]	; (80016b0 <I2C1ReceiveAck+0x28>)
+ 8001696:	4907      	ldr	r1, [pc, #28]	; (80016b4 <I2C1_ReceiveAck+0x2c>)
+ 8001698:	4805      	ldr	r0, [pc, #20]	; (80016b0 <I2C1_ReceiveAck+0x28>)
  800169a:	f001 fae3 	bl	8002c64 <I2C_CheckEvent>
  800169e:	4603      	mov	r3, r0
  80016a0:	2b00      	cmp	r3, #0
- 80016a2:	d0f8      	beq.n	8001696 <I2C1ReceiveAck+0xe>
+ 80016a2:	d0f8      	beq.n	8001696 <I2C1_ReceiveAck+0xe>
 
 	// Read and return data byte from I2C data register
 	return I2C_ReceiveData(I2Cx_SENSOR);
- 80016a4:	4802      	ldr	r0, [pc, #8]	; (80016b0 <I2C1ReceiveAck+0x28>)
+ 80016a4:	4802      	ldr	r0, [pc, #8]	; (80016b0 <I2C1_ReceiveAck+0x28>)
  80016a6:	f001 facf 	bl	8002c48 <I2C_ReceiveData>
  80016aa:	4603      	mov	r3, r0
 }
@@ -2159,34 +2159,34 @@ u8_t I2C1ReceiveAck(void_t)
  80016b0:	40005400 	.word	0x40005400
  80016b4:	00030040 	.word	0x00030040
 
-080016b8 <I2C1ReceiveNack>:
+080016b8 <I2C1_ReceiveNack>:
   * @param	None
   * @retval	Received data byte
   ******************************************************************************
   */
-u8_t I2C1ReceiveNack(void_t)
+u8_t I2C1_ReceiveNack(void_t)
 {
  80016b8:	b580      	push	{r7, lr}
  80016ba:	af00      	add	r7, sp, #0
 	// Disable ACK of received data
 	I2C_AcknowledgeConfig(I2Cx_SENSOR, DISABLE);
  80016bc:	2100      	movs	r1, #0
- 80016be:	4808      	ldr	r0, [pc, #32]	; (80016e0 <I2C1ReceiveNack+0x28>)
+ 80016be:	4808      	ldr	r0, [pc, #32]	; (80016e0 <I2C1_ReceiveNack+0x28>)
  80016c0:	f001 fa92 	bl	8002be8 <I2C_AcknowledgeConfig>
 	// Wait for I2C EV7
 	// It means that the data has been received in I2C data register
 	while (!I2C_CheckEvent(I2Cx_SENSOR, I2C_EVENT_MASTER_BYTE_RECEIVED));
  80016c4:	bf00      	nop
- 80016c6:	4907      	ldr	r1, [pc, #28]	; (80016e4 <I2C1ReceiveNack+0x2c>)
- 80016c8:	4805      	ldr	r0, [pc, #20]	; (80016e0 <I2C1ReceiveNack+0x28>)
+ 80016c6:	4907      	ldr	r1, [pc, #28]	; (80016e4 <I2C1_ReceiveNack+0x2c>)
+ 80016c8:	4805      	ldr	r0, [pc, #20]	; (80016e0 <I2C1_ReceiveNack+0x28>)
  80016ca:	f001 facb 	bl	8002c64 <I2C_CheckEvent>
  80016ce:	4603      	mov	r3, r0
  80016d0:	2b00      	cmp	r3, #0
- 80016d2:	d0f8      	beq.n	80016c6 <I2C1ReceiveNack+0xe>
+ 80016d2:	d0f8      	beq.n	80016c6 <I2C1_ReceiveNack+0xe>
 
 	// Read and return data byte from I2C data register
 	return I2C_ReceiveData(I2Cx_SENSOR);
- 80016d4:	4802      	ldr	r0, [pc, #8]	; (80016e0 <I2C1ReceiveNack+0x28>)
+ 80016d4:	4802      	ldr	r0, [pc, #8]	; (80016e0 <I2C1_ReceiveNack+0x28>)
  80016d6:	f001 fab7 	bl	8002c48 <I2C_ReceiveData>
  80016da:	4603      	mov	r3, r0
 }
@@ -2560,8 +2560,8 @@ bool_t beginWithI2C(){
  8001998:	b580      	push	{r7, lr}
  800199a:	b082      	sub	sp, #8
  800199c:	af00      	add	r7, sp, #0
-	I2C1Init();
- 800199e:	f7ff fdaf 	bl	8001500 <I2C1Init>
+	I2C1_Init();
+ 800199e:	f7ff fdaf 	bl	8001500 <I2C1_Init>
 	g_SensorSettings.byComInterface = I2C_MODE; //Default to I2C
  80019a2:	4b0c      	ldr	r3, [pc, #48]	; (80019d4 <beginWithI2C+0x3c>)
  80019a4:	2200      	movs	r2, #0
@@ -3428,79 +3428,78 @@ void_t setReferencePressure(u32_t fRefPressure)
  800208c:	af00      	add	r7, sp, #0
  800208e:	6078      	str	r0, [r7, #4]
 	g_fReferencePressure = fRefPressure;
- 8002090:	4a04      	ldr	r2, [pc, #16]	; (80020a4 <setReferencePressure+0x1c>)
- 8002092:	687b      	ldr	r3, [r7, #4]
- 8002094:	6013      	str	r3, [r2, #0]
+ 8002090:	687b      	ldr	r3, [r7, #4]
+ 8002092:	ee07 3a90 	vmov	s15, r3
+ 8002096:	eef8 7a67 	vcvt.f32.u32	s15, s15
+ 800209a:	4b04      	ldr	r3, [pc, #16]	; (80020ac <setReferencePressure+0x24>)
+ 800209c:	edc3 7a00 	vstr	s15, [r3]
 }
- 8002096:	bf00      	nop
- 8002098:	370c      	adds	r7, #12
- 800209a:	46bd      	mov	sp, r7
- 800209c:	f85d 7b04 	ldr.w	r7, [sp], #4
- 80020a0:	4770      	bx	lr
- 80020a2:	bf00      	nop
- 80020a4:	20000000 	.word	0x20000000
+ 80020a0:	bf00      	nop
+ 80020a2:	370c      	adds	r7, #12
+ 80020a4:	46bd      	mov	sp, r7
+ 80020a6:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80020aa:	4770      	bx	lr
+ 80020ac:	20000000 	.word	0x20000000
 
-080020a8 <readFloatAltitudeMeters>:
+080020b0 <readFloatAltitudeMeters>:
 * @param				none
 * @return				none
 * @Note					none
 */
 u64_t readFloatAltitudeMeters(void_t)
 {
- 80020a8:	b580      	push	{r7, lr}
- 80020aa:	b082      	sub	sp, #8
- 80020ac:	af00      	add	r7, sp, #0
+ 80020b0:	b580      	push	{r7, lr}
+ 80020b2:	b082      	sub	sp, #8
+ 80020b4:	af00      	add	r7, sp, #0
   // This calculation is NOT designed to work on non-Earthlike planets such as Mars or Venus;
   // see NRLMSISE-00. That's why it is the "international" formula, not "interplanetary".
   // Sparkfun is not liable for incorrect altitude calculations from this
   // code on those planets. Interplanetary selfies are welcome, however.
 	float_t fValueAlti;
 	float_t fValuePress =(float_t)((u64_t)readFloatPressure()/100);
- 80020ae:	f7ff fddb 	bl	8001c68 <readFloatPressure>
- 80020b2:	f04f 0264 	mov.w	r2, #100	; 0x64
- 80020b6:	f04f 0300 	mov.w	r3, #0
- 80020ba:	f7fe ff4b 	bl	8000f54 <__aeabi_uldivmod>
- 80020be:	4602      	mov	r2, r0
- 80020c0:	460b      	mov	r3, r1
- 80020c2:	4610      	mov	r0, r2
- 80020c4:	4619      	mov	r1, r3
- 80020c6:	f7fe feaf 	bl	8000e28 <__aeabi_ul2f>
- 80020ca:	4603      	mov	r3, r0
- 80020cc:	607b      	str	r3, [r7, #4]
+ 80020b6:	f7ff fdd7 	bl	8001c68 <readFloatPressure>
+ 80020ba:	f04f 0264 	mov.w	r2, #100	; 0x64
+ 80020be:	f04f 0300 	mov.w	r3, #0
+ 80020c2:	f7fe ff47 	bl	8000f54 <__aeabi_uldivmod>
+ 80020c6:	4602      	mov	r2, r0
+ 80020c8:	460b      	mov	r3, r1
+ 80020ca:	4610      	mov	r0, r2
+ 80020cc:	4619      	mov	r1, r3
+ 80020ce:	f7fe feab 	bl	8000e28 <__aeabi_ul2f>
+ 80020d2:	4603      	mov	r3, r0
+ 80020d4:	607b      	str	r3, [r7, #4]
 	fValueAlti = (float_t)((g_fReferencePressure - fValuePress)/11.11)*100;// For every 1m height, Pressure lose 11.11 Pa
- 80020ce:	4b18      	ldr	r3, [pc, #96]	; (8002130 <readFloatAltitudeMeters+0x88>)
- 80020d0:	681b      	ldr	r3, [r3, #0]
- 80020d2:	ee07 3a90 	vmov	s15, r3
- 80020d6:	eeb8 7a67 	vcvt.f32.u32	s14, s15
- 80020da:	edd7 7a01 	vldr	s15, [r7, #4]
- 80020de:	ee77 7a67 	vsub.f32	s15, s14, s15
- 80020e2:	ee17 0a90 	vmov	r0, s15
- 80020e6:	f7fe fa37 	bl	8000558 <__aeabi_f2d>
- 80020ea:	a30f      	add	r3, pc, #60	; (adr r3, 8002128 <readFloatAltitudeMeters+0x80>)
- 80020ec:	e9d3 2300 	ldrd	r2, r3, [r3]
- 80020f0:	f7fe fbb4 	bl	800085c <__aeabi_ddiv>
- 80020f4:	4602      	mov	r2, r0
- 80020f6:	460b      	mov	r3, r1
- 80020f8:	4610      	mov	r0, r2
- 80020fa:	4619      	mov	r1, r3
- 80020fc:	f7fe fd7c 	bl	8000bf8 <__aeabi_d2f>
- 8002100:	ee07 0a10 	vmov	s14, r0
- 8002104:	eddf 7a0b 	vldr	s15, [pc, #44]	; 8002134 <readFloatAltitudeMeters+0x8c>
- 8002108:	ee67 7a27 	vmul.f32	s15, s14, s15
- 800210c:	edc7 7a00 	vstr	s15, [r7]
+ 80020d6:	4b16      	ldr	r3, [pc, #88]	; (8002130 <readFloatAltitudeMeters+0x80>)
+ 80020d8:	ed93 7a00 	vldr	s14, [r3]
+ 80020dc:	edd7 7a01 	vldr	s15, [r7, #4]
+ 80020e0:	ee77 7a67 	vsub.f32	s15, s14, s15
+ 80020e4:	ee17 0a90 	vmov	r0, s15
+ 80020e8:	f7fe fa36 	bl	8000558 <__aeabi_f2d>
+ 80020ec:	a30e      	add	r3, pc, #56	; (adr r3, 8002128 <readFloatAltitudeMeters+0x78>)
+ 80020ee:	e9d3 2300 	ldrd	r2, r3, [r3]
+ 80020f2:	f7fe fbb3 	bl	800085c <__aeabi_ddiv>
+ 80020f6:	4602      	mov	r2, r0
+ 80020f8:	460b      	mov	r3, r1
+ 80020fa:	4610      	mov	r0, r2
+ 80020fc:	4619      	mov	r1, r3
+ 80020fe:	f7fe fd7b 	bl	8000bf8 <__aeabi_d2f>
+ 8002102:	ee07 0a10 	vmov	s14, r0
+ 8002106:	eddf 7a0b 	vldr	s15, [pc, #44]	; 8002134 <readFloatAltitudeMeters+0x84>
+ 800210a:	ee67 7a27 	vmul.f32	s15, s14, s15
+ 800210e:	edc7 7a00 	vstr	s15, [r7]
 //	fValueAlti =( ((float_t)-44330.77)*(pow((((float_t)fValuePress/100)/(float_t)g_fReferencePressure), 0.190263) - (float_t)1));
 	return (u64_t)fValueAlti;
- 8002110:	6838      	ldr	r0, [r7, #0]
- 8002112:	f7fe ff63 	bl	8000fdc <__aeabi_f2ulz>
- 8002116:	4602      	mov	r2, r0
- 8002118:	460b      	mov	r3, r1
+ 8002112:	6838      	ldr	r0, [r7, #0]
+ 8002114:	f7fe ff62 	bl	8000fdc <__aeabi_f2ulz>
+ 8002118:	4602      	mov	r2, r0
+ 800211a:	460b      	mov	r3, r1
 }
- 800211a:	4610      	mov	r0, r2
- 800211c:	4619      	mov	r1, r3
- 800211e:	3708      	adds	r7, #8
- 8002120:	46bd      	mov	sp, r7
- 8002122:	bd80      	pop	{r7, pc}
- 8002124:	f3af 8000 	nop.w
+ 800211c:	4610      	mov	r0, r2
+ 800211e:	4619      	mov	r1, r3
+ 8002120:	3708      	adds	r7, #8
+ 8002122:	46bd      	mov	sp, r7
+ 8002124:	bd80      	pop	{r7, pc}
+ 8002126:	bf00      	nop
  8002128:	eb851eb8 	.word	0xeb851eb8
  800212c:	40263851 	.word	0x40263851
  8002130:	20000000 	.word	0x20000000
@@ -3645,38 +3644,38 @@ static void readRegisterRegion(u8_t *pOutputPointer , u8_t byOffset, u8_t byLeng
  800224e:	d001      	beq.n	8002254 <readRegisterRegion+0x1c>
  8002250:	2b01      	cmp	r3, #1
 		}
-		I2C1Stop();
+		I2C1_Stop();
 
 		break;
 	case SPI_MODE:
 		break;
  8002252:	e041      	b.n	80022d8 <readRegisterRegion+0xa0>
-		I2C1Start();
- 8002254:	f7ff f9ae 	bl	80015b4 <I2C1Start>
-		I2C1AddressDirection(g_SensorSettings.byI2CAddress <<1,I2C_Direction_Transmitter);
+		I2C1_Start();
+ 8002254:	f7ff f9ae 	bl	80015b4 <I2C1_Start>
+		I2C1_AddressDirection(g_SensorSettings.byI2CAddress <<1,I2C_Direction_Transmitter);
  8002258:	4b21      	ldr	r3, [pc, #132]	; (80022e0 <readRegisterRegion+0xa8>)
  800225a:	785b      	ldrb	r3, [r3, #1]
  800225c:	005b      	lsls	r3, r3, #1
  800225e:	b2db      	uxtb	r3, r3
  8002260:	2100      	movs	r1, #0
  8002262:	4618      	mov	r0, r3
- 8002264:	f7ff f9c4 	bl	80015f0 <I2C1AddressDirection>
-		I2C1Transmit(byOffset);
+ 8002264:	f7ff f9c4 	bl	80015f0 <I2C1_AddressDirection>
+		I2C1_Transmit(byOffset);
  8002268:	78fb      	ldrb	r3, [r7, #3]
  800226a:	4618      	mov	r0, r3
- 800226c:	f7ff f9f0 	bl	8001650 <I2C1Transmit>
-		I2C1Stop();
- 8002270:	f7ff f990 	bl	8001594 <I2C1Stop>
-		I2C1Start();
- 8002274:	f7ff f99e 	bl	80015b4 <I2C1Start>
-		I2C1AddressDirection(g_SensorSettings.byI2CAddress<<1, I2C_Direction_Receiver);
+ 800226c:	f7ff f9f0 	bl	8001650 <I2C1_Transmit>
+		I2C1_Stop();
+ 8002270:	f7ff f990 	bl	8001594 <I2C1_Stop>
+		I2C1_Start();
+ 8002274:	f7ff f99e 	bl	80015b4 <I2C1_Start>
+		I2C1_AddressDirection(g_SensorSettings.byI2CAddress<<1, I2C_Direction_Receiver);
  8002278:	4b19      	ldr	r3, [pc, #100]	; (80022e0 <readRegisterRegion+0xa8>)
  800227a:	785b      	ldrb	r3, [r3, #1]
  800227c:	005b      	lsls	r3, r3, #1
  800227e:	b2db      	uxtb	r3, r3
  8002280:	2101      	movs	r1, #1
  8002282:	4618      	mov	r0, r3
- 8002284:	f7ff f9b4 	bl	80015f0 <I2C1AddressDirection>
+ 8002284:	f7ff f9b4 	bl	80015f0 <I2C1_AddressDirection>
 		for(i8_t  i = 0; i < byLength;i++){
  8002288:	2300      	movs	r3, #0
  800228a:	73fb      	strb	r3, [r7, #15]
@@ -3687,19 +3686,19 @@ static void readRegisterRegion(u8_t *pOutputPointer , u8_t byOffset, u8_t byLeng
  8002294:	3b01      	subs	r3, #1
  8002296:	429a      	cmp	r2, r3
  8002298:	d108      	bne.n	80022ac <readRegisterRegion+0x74>
-				pOutputPointer[i] = I2C1ReceiveNack();
+				pOutputPointer[i] = I2C1_ReceiveNack();
  800229a:	f997 300f 	ldrsb.w	r3, [r7, #15]
  800229e:	687a      	ldr	r2, [r7, #4]
  80022a0:	18d4      	adds	r4, r2, r3
- 80022a2:	f7ff fa09 	bl	80016b8 <I2C1ReceiveNack>
+ 80022a2:	f7ff fa09 	bl	80016b8 <I2C1_ReceiveNack>
  80022a6:	4603      	mov	r3, r0
  80022a8:	7023      	strb	r3, [r4, #0]
  80022aa:	e007      	b.n	80022bc <readRegisterRegion+0x84>
-				pOutputPointer[i] = I2C1ReceiveAck();
+				pOutputPointer[i] = I2C1_ReceiveAck();
  80022ac:	f997 300f 	ldrsb.w	r3, [r7, #15]
  80022b0:	687a      	ldr	r2, [r7, #4]
  80022b2:	18d4      	adds	r4, r2, r3
- 80022b4:	f7ff f9e8 	bl	8001688 <I2C1ReceiveAck>
+ 80022b4:	f7ff f9e8 	bl	8001688 <I2C1_ReceiveAck>
  80022b8:	4603      	mov	r3, r0
  80022ba:	7023      	strb	r3, [r4, #0]
 		for(i8_t  i = 0; i < byLength;i++){
@@ -3712,8 +3711,8 @@ static void readRegisterRegion(u8_t *pOutputPointer , u8_t byOffset, u8_t byLeng
  80022cc:	78bb      	ldrb	r3, [r7, #2]
  80022ce:	429a      	cmp	r2, r3
  80022d0:	dbdd      	blt.n	800228e <readRegisterRegion+0x56>
-		I2C1Stop();
- 80022d2:	f7ff f95f 	bl	8001594 <I2C1Stop>
+		I2C1_Stop();
+ 80022d2:	f7ff f95f 	bl	8001594 <I2C1_Stop>
 		break;
  80022d6:	bf00      	nop
 	}
@@ -3746,45 +3745,45 @@ static u8_t readRegister(u8_t byOffset)
  80022f6:	2b00      	cmp	r3, #0
  80022f8:	d001      	beq.n	80022fe <readRegister+0x1a>
  80022fa:	2b01      	cmp	r3, #1
-			I2C1AddressDirection(g_SensorSettings.byI2CAddress << 1, I2C_Direction_Receiver);
-			byResult = I2C1ReceiveNack();
-			I2C1Stop();
+			I2C1_AddressDirection(g_SensorSettings.byI2CAddress << 1, I2C_Direction_Receiver);
+			byResult = I2C1_ReceiveNack();
+			I2C1_Stop();
 			break;
 		case SPI_MODE:
 			break;
  80022fc:	e020      	b.n	8002340 <readRegister+0x5c>
-			I2C1Start();
- 80022fe:	f7ff f959 	bl	80015b4 <I2C1Start>
-			I2C1AddressDirection(g_SensorSettings.byI2CAddress << 1,I2C_Direction_Transmitter);
+			I2C1_Start();
+ 80022fe:	f7ff f959 	bl	80015b4 <I2C1_Start>
+			I2C1_AddressDirection(g_SensorSettings.byI2CAddress << 1,I2C_Direction_Transmitter);
  8002302:	4b12      	ldr	r3, [pc, #72]	; (800234c <readRegister+0x68>)
  8002304:	785b      	ldrb	r3, [r3, #1]
  8002306:	005b      	lsls	r3, r3, #1
  8002308:	b2db      	uxtb	r3, r3
  800230a:	2100      	movs	r1, #0
  800230c:	4618      	mov	r0, r3
- 800230e:	f7ff f96f 	bl	80015f0 <I2C1AddressDirection>
-			I2C1Transmit(byOffset);
+ 800230e:	f7ff f96f 	bl	80015f0 <I2C1_AddressDirection>
+			I2C1_Transmit(byOffset);
  8002312:	79fb      	ldrb	r3, [r7, #7]
  8002314:	4618      	mov	r0, r3
- 8002316:	f7ff f99b 	bl	8001650 <I2C1Transmit>
-			I2C1Stop();
- 800231a:	f7ff f93b 	bl	8001594 <I2C1Stop>
-			I2C1Start();
- 800231e:	f7ff f949 	bl	80015b4 <I2C1Start>
-			I2C1AddressDirection(g_SensorSettings.byI2CAddress << 1, I2C_Direction_Receiver);
+ 8002316:	f7ff f99b 	bl	8001650 <I2C1_Transmit>
+			I2C1_Stop();
+ 800231a:	f7ff f93b 	bl	8001594 <I2C1_Stop>
+			I2C1_Start();
+ 800231e:	f7ff f949 	bl	80015b4 <I2C1_Start>
+			I2C1_AddressDirection(g_SensorSettings.byI2CAddress << 1, I2C_Direction_Receiver);
  8002322:	4b0a      	ldr	r3, [pc, #40]	; (800234c <readRegister+0x68>)
  8002324:	785b      	ldrb	r3, [r3, #1]
  8002326:	005b      	lsls	r3, r3, #1
  8002328:	b2db      	uxtb	r3, r3
  800232a:	2101      	movs	r1, #1
  800232c:	4618      	mov	r0, r3
- 800232e:	f7ff f95f 	bl	80015f0 <I2C1AddressDirection>
-			byResult = I2C1ReceiveNack();
- 8002332:	f7ff f9c1 	bl	80016b8 <I2C1ReceiveNack>
+ 800232e:	f7ff f95f 	bl	80015f0 <I2C1_AddressDirection>
+			byResult = I2C1_ReceiveNack();
+ 8002332:	f7ff f9c1 	bl	80016b8 <I2C1_ReceiveNack>
  8002336:	4603      	mov	r3, r0
  8002338:	73fb      	strb	r3, [r7, #15]
-			I2C1Stop();
- 800233a:	f7ff f92b 	bl	8001594 <I2C1Stop>
+			I2C1_Stop();
+ 800233a:	f7ff f92b 	bl	8001594 <I2C1_Stop>
 			break;
  800233e:	bf00      	nop
 		}
@@ -3819,33 +3818,33 @@ static void_t writeRegister(u8_t byOffset, u8_t byDataToWrite)
  8002364:	2b00      	cmp	r3, #0
  8002366:	d001      	beq.n	800236c <writeRegister+0x1c>
  8002368:	2b01      	cmp	r3, #1
-			I2C1Transmit(byOffset);
-			I2C1Transmit(byDataToWrite);
-			I2C1Stop();
+			I2C1_Transmit(byOffset);
+			I2C1_Transmit(byDataToWrite);
+			I2C1_Stop();
 			break;
 		case SPI_MODE:
 			break;
  800236a:	e014      	b.n	8002396 <writeRegister+0x46>
-			I2C1Start();
- 800236c:	f7ff f922 	bl	80015b4 <I2C1Start>
-			I2C1AddressDirection(g_SensorSettings.byI2CAddress << 1,I2C_Direction_Transmitter);
+			I2C1_Start();
+ 800236c:	f7ff f922 	bl	80015b4 <I2C1_Start>
+			I2C1_AddressDirection(g_SensorSettings.byI2CAddress << 1,I2C_Direction_Transmitter);
  8002370:	4b0b      	ldr	r3, [pc, #44]	; (80023a0 <writeRegister+0x50>)
  8002372:	785b      	ldrb	r3, [r3, #1]
  8002374:	005b      	lsls	r3, r3, #1
  8002376:	b2db      	uxtb	r3, r3
  8002378:	2100      	movs	r1, #0
  800237a:	4618      	mov	r0, r3
- 800237c:	f7ff f938 	bl	80015f0 <I2C1AddressDirection>
-			I2C1Transmit(byOffset);
+ 800237c:	f7ff f938 	bl	80015f0 <I2C1_AddressDirection>
+			I2C1_Transmit(byOffset);
  8002380:	79fb      	ldrb	r3, [r7, #7]
  8002382:	4618      	mov	r0, r3
- 8002384:	f7ff f964 	bl	8001650 <I2C1Transmit>
-			I2C1Transmit(byDataToWrite);
+ 8002384:	f7ff f964 	bl	8001650 <I2C1_Transmit>
+			I2C1_Transmit(byDataToWrite);
  8002388:	79bb      	ldrb	r3, [r7, #6]
  800238a:	4618      	mov	r0, r3
- 800238c:	f7ff f960 	bl	8001650 <I2C1Transmit>
-			I2C1Stop();
- 8002390:	f7ff f900 	bl	8001594 <I2C1Stop>
+ 800238c:	f7ff f960 	bl	8001650 <I2C1_Transmit>
+			I2C1_Stop();
+ 8002390:	f7ff f900 	bl	8001594 <I2C1_Stop>
 			break;
  8002394:	bf00      	nop
 		}
