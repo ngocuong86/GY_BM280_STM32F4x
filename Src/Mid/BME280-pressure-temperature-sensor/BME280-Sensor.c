@@ -26,6 +26,8 @@
 /******************************************************************************/
 /*                              INCLUDE FILES                                 */
 /******************************************************************************/
+
+
 #include <math.h>
 #include <stdio.h>
 #include "stm32f401re_gpio.h"
@@ -34,7 +36,7 @@
 #include "stm32f401re_spi.h"
 #include "../../Driver/I2C1-Interface/I2C1-Interface.h"
 #include "../../Driver/SPI1-Interface/SPI1-Interface.h"
-#include "../BME280-Press-Sensor/BME280-Sensor.h"
+#include "../BME280-pressure-temperature-sensor/BME280-Sensor.h"
 /******************************************************************************/
 /*                     EXPORTED TYPES and DEFINITIONS                         */
 /******************************************************************************/

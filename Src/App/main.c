@@ -32,7 +32,7 @@
 #include "system_stm32f4xx.h"
 #include "../Driver/I2C1-Interface/I2C1-Interface.h"
 #include "../Driver/SPI1-Interface/SPI1-Interface.h"
-#include "../Mid/BME280-Press-Sensor/BME280-Sensor.h"
+#include "../Mid/BME280-pressure-temperature-sensor/BME280-Sensor.h"
 /******************************************************************************/
 /*                     EXPORTED TYPES and DEFINITIONS                         */
 /******************************************************************************/
