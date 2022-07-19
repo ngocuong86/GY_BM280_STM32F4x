@@ -11,8 +11,8 @@ RM := rm -rf
 -include sources.mk
 -include Startup/subdir.mk
 -include Src/Mid/temperature-pressure-altitude/subdir.mk
--include Src/Mid/SPI1-Interface/subdir.mk
--include Src/Mid/I2C1-Interface/subdir.mk
+-include Src/Driver/SPI1-Interface/subdir.mk
+-include Src/Driver/I2C1-Interface/subdir.mk
 -include Src/App/subdir.mk
 -include Src/subdir.mk
 -include subdir.mk

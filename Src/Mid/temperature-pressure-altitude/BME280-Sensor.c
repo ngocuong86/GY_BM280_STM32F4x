@@ -32,9 +32,9 @@
 #include "stm32f401re_rcc.h"
 #include "stm32f401re_i2c.h"
 #include "stm32f401re_spi.h"
-#include "../I2C1-Interface/I2C1-Interface.h"
-#include "temperature-pressure-altitude.h"
-#include "../SPI1-Interface/SPI1-Interface.h"
+#include "../../Driver/I2C1-Interface/I2C1-Interface.h"
+#include "../../Driver/SPI1-Interface/SPI1-Interface.h"
+#include "BME280-Sensor.h"
 /******************************************************************************/
 /*                     EXPORTED TYPES and DEFINITIONS                         */
 /******************************************************************************/
@@ -854,6 +854,15 @@ void_t readTempFFromBurst(u8_t byBuffer[], BME280SensorMeasurements_t *pmeasurem
 ////  Utility
 ////
 ////****************************************************************************//
+/******************************************************************************
+* @func					readRegisterRegion
+* @brief				this func read Data from register store data( temp, pres, humi)
+* @param				u8_t *pOutputPointer ,
+* 						u8_t byOffset,
+* 						u8_t byLength
+* @return				none
+* @Note					none
+*/
 static void readRegisterRegion(u8_t *pOutputPointer , u8_t byOffset, u8_t byLength)
 {
 	switch(g_SensorSettings.byComInterface){
@@ -879,7 +888,13 @@ static void readRegisterRegion(u8_t *pOutputPointer , u8_t byOffset, u8_t byLeng
 	}
 
 }
-
+/******************************************************************************
+* @func					readRegister
+* @brief				this func read Data from register
+* @param				u8_t byOffset // value offset address register
+* @return				none
+* @Note					none
+*/
 static u8_t readRegister(u8_t byOffset)
 {
 	u8_t byResult = 0;
@@ -899,6 +914,13 @@ static u8_t readRegister(u8_t byOffset)
 		}
 	return byResult;
 }
+/******************************************************************************
+* @func					readRegisterInt16
+* @brief				this func read Data from register 16bit
+* @param				u8_t byOffset // value offset address register
+* @return				none
+* @Note					none
+*/
 static u16_t readRegisterInt16( u8_t byOffset )
 {
 	u8_t byBuffer[2];
@@ -906,7 +928,14 @@ static u16_t readRegisterInt16( u8_t byOffset )
 	u16_t byOutput = (i16_t)byBuffer[0] | (i16_t)(byBuffer[1] << 8);
 	return byOutput;
 }
-
+/******************************************************************************
+* @func					writeRegister
+* @brief				this func write Data to register
+* @param				u8_t byOffset // value offset address register
+* 						u8_t byDataToWrite
+* @return				none
+* @Note					none
+*/
 static void_t writeRegister(u8_t byOffset, u8_t byDataToWrite)
 {
 	switch(g_SensorSettings.byComInterface){

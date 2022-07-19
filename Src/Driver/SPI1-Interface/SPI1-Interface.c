@@ -29,7 +29,7 @@
 #include "stm32f401re_gpio.h"
 #include "stm32f401re_spi.h"
 #include "stm32f401re_rcc.h"
-#include "SPI1-Interface.h"
+#include "../../Driver/SPI1-Interface/SPI1-Interface.h"
 /******************************************************************************/
 /*                     EXPORTED TYPES and DEFINITIONS                         */
 /******************************************************************************/
