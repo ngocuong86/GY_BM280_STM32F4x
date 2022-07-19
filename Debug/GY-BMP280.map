@@ -291,6 +291,7 @@ Discarded input sections
  .group         0x0000000000000000        0xc Src/App/main.o
  .group         0x0000000000000000        0xc Src/App/main.o
  .group         0x0000000000000000        0xc Src/App/main.o
+ .group         0x0000000000000000        0xc Src/App/main.o
  .text          0x0000000000000000        0x0 Src/App/main.o
  .data          0x0000000000000000        0x0 Src/App/main.o
  .bss           0x0000000000000000        0x0 Src/App/main.o
@@ -337,6 +338,7 @@ Discarded input sections
  .group         0x0000000000000000        0xc Src/Driver/SPI1-Interface/SPI1-Interface.o
  .group         0x0000000000000000        0xc Src/Driver/SPI1-Interface/SPI1-Interface.o
  .group         0x0000000000000000        0xc Src/Driver/SPI1-Interface/SPI1-Interface.o
+ .group         0x0000000000000000        0xc Src/Driver/SPI1-Interface/SPI1-Interface.o
  .text          0x0000000000000000        0x0 Src/Driver/SPI1-Interface/SPI1-Interface.o
  .data          0x0000000000000000        0x0 Src/Driver/SPI1-Interface/SPI1-Interface.o
  .bss           0x0000000000000000        0x0 Src/Driver/SPI1-Interface/SPI1-Interface.o
@@ -347,7 +349,7 @@ Discarded input sections
  .debug_aranges
                 0x0000000000000000       0x20 Src/Driver/SPI1-Interface/SPI1-Interface.o
  .debug_ranges  0x0000000000000000       0x10 Src/Driver/SPI1-Interface/SPI1-Interface.o
- .debug_macro   0x0000000000000000      0x133 Src/Driver/SPI1-Interface/SPI1-Interface.o
+ .debug_macro   0x0000000000000000       0xe4 Src/Driver/SPI1-Interface/SPI1-Interface.o
  .debug_macro   0x0000000000000000      0xaae Src/Driver/SPI1-Interface/SPI1-Interface.o
  .debug_macro   0x0000000000000000       0x6b Src/Driver/SPI1-Interface/SPI1-Interface.o
  .debug_macro   0x0000000000000000       0x3b Src/Driver/SPI1-Interface/SPI1-Interface.o
@@ -365,12 +367,14 @@ Discarded input sections
  .debug_macro   0x0000000000000000      0x36c Src/Driver/SPI1-Interface/SPI1-Interface.o
  .debug_macro   0x0000000000000000      0x64a Src/Driver/SPI1-Interface/SPI1-Interface.o
  .debug_macro   0x0000000000000000       0x2d Src/Driver/SPI1-Interface/SPI1-Interface.o
- .debug_line    0x0000000000000000      0x578 Src/Driver/SPI1-Interface/SPI1-Interface.o
+ .debug_macro   0x0000000000000000       0x58 Src/Driver/SPI1-Interface/SPI1-Interface.o
+ .debug_line    0x0000000000000000      0x577 Src/Driver/SPI1-Interface/SPI1-Interface.o
  .debug_str     0x0000000000000000    0x3c47f Src/Driver/SPI1-Interface/SPI1-Interface.o
  .comment       0x0000000000000000       0x54 Src/Driver/SPI1-Interface/SPI1-Interface.o
  .debug_frame   0x0000000000000000       0x34 Src/Driver/SPI1-Interface/SPI1-Interface.o
  .ARM.attributes
                 0x0000000000000000       0x34 Src/Driver/SPI1-Interface/SPI1-Interface.o
+ .group         0x0000000000000000        0xc Src/Mid/BME280-pressure-temperature-sensor/BME280-Sensor.o
  .group         0x0000000000000000        0xc Src/Mid/BME280-pressure-temperature-sensor/BME280-Sensor.o
  .group         0x0000000000000000        0xc Src/Mid/BME280-pressure-temperature-sensor/BME280-Sensor.o
  .group         0x0000000000000000        0xc Src/Mid/BME280-pressure-temperature-sensor/BME280-Sensor.o
@@ -4474,128 +4478,130 @@ LOAD c:/st/stm32cubeide_1.6.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
  .debug_ranges  0x00000000000009c0       0x40 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_clip.o)
  .debug_ranges  0x0000000000000a00       0x90 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_com_msg_api.o)
 
-.debug_macro    0x0000000000000000     0xf87c
- .debug_macro   0x0000000000000000      0x241 Src/App/main.o
- .debug_macro   0x0000000000000241      0xaae Src/App/main.o
- .debug_macro   0x0000000000000cef       0x22 Src/App/main.o
- .debug_macro   0x0000000000000d11       0x4c Src/App/main.o
- .debug_macro   0x0000000000000d5d       0x18 Src/App/main.o
- .debug_macro   0x0000000000000d75       0x94 Src/App/main.o
- .debug_macro   0x0000000000000e09       0x3c Src/App/main.o
- .debug_macro   0x0000000000000e45       0x34 Src/App/main.o
- .debug_macro   0x0000000000000e79       0x16 Src/App/main.o
- .debug_macro   0x0000000000000e8f       0x57 Src/App/main.o
- .debug_macro   0x0000000000000ee6       0x97 Src/App/main.o
- .debug_macro   0x0000000000000f7d      0x339 Src/App/main.o
- .debug_macro   0x00000000000012b6       0xfd Src/App/main.o
- .debug_macro   0x00000000000013b3       0x10 Src/App/main.o
- .debug_macro   0x00000000000013c3       0x16 Src/App/main.o
- .debug_macro   0x00000000000013d9       0x43 Src/App/main.o
- .debug_macro   0x000000000000141c       0x34 Src/App/main.o
- .debug_macro   0x0000000000001450       0x10 Src/App/main.o
- .debug_macro   0x0000000000001460       0x58 Src/App/main.o
- .debug_macro   0x00000000000014b8       0x71 Src/App/main.o
- .debug_macro   0x0000000000001529       0x1c Src/App/main.o
- .debug_macro   0x0000000000001545      0x12a Src/App/main.o
- .debug_macro   0x000000000000166f       0x10 Src/App/main.o
- .debug_macro   0x000000000000167f       0x6a Src/App/main.o
- .debug_macro   0x00000000000016e9       0x1c Src/App/main.o
- .debug_macro   0x0000000000001705       0x52 Src/App/main.o
- .debug_macro   0x0000000000001757       0x22 Src/App/main.o
- .debug_macro   0x0000000000001779       0x10 Src/App/main.o
- .debug_macro   0x0000000000001789       0x40 Src/App/main.o
- .debug_macro   0x00000000000017c9       0xd5 Src/App/main.o
- .debug_macro   0x000000000000189e       0x1c Src/App/main.o
- .debug_macro   0x00000000000018ba       0x3d Src/App/main.o
- .debug_macro   0x00000000000018f7       0x16 Src/App/main.o
- .debug_macro   0x000000000000190d      0x145 Src/App/main.o
- .debug_macro   0x0000000000001a52      0x103 Src/App/main.o
- .debug_macro   0x0000000000001b55      0x1df Src/App/main.o
- .debug_macro   0x0000000000001d34       0x16 Src/App/main.o
- .debug_macro   0x0000000000001d4a       0x35 Src/App/main.o
- .debug_macro   0x0000000000001d7f       0x10 Src/App/main.o
- .debug_macro   0x0000000000001d8f       0x10 Src/App/main.o
- .debug_macro   0x0000000000001d9f       0x35 Src/App/main.o
- .debug_macro   0x0000000000001dd4      0x301 Src/App/main.o
- .debug_macro   0x00000000000020d5       0x26 Src/App/main.o
- .debug_macro   0x00000000000020fb       0x2e Src/App/main.o
- .debug_macro   0x0000000000002129       0xe4 Src/Driver/I2C1-Interface/I2C1-Interface.o
- .debug_macro   0x000000000000220d       0x6b Src/Driver/I2C1-Interface/I2C1-Interface.o
- .debug_macro   0x0000000000002278       0x3b Src/Driver/I2C1-Interface/I2C1-Interface.o
- .debug_macro   0x00000000000022b3       0x8e Src/Driver/I2C1-Interface/I2C1-Interface.o
- .debug_macro   0x0000000000002341       0x51 Src/Driver/I2C1-Interface/I2C1-Interface.o
- .debug_macro   0x0000000000002392       0x34 Src/Driver/I2C1-Interface/I2C1-Interface.o
- .debug_macro   0x00000000000023c6       0x26 Src/Driver/I2C1-Interface/I2C1-Interface.o
- .debug_macro   0x00000000000023ec      0xe43 Src/Driver/I2C1-Interface/I2C1-Interface.o
- .debug_macro   0x000000000000322f     0x8018 Src/Driver/I2C1-Interface/I2C1-Interface.o
- .debug_macro   0x000000000000b247      0x644 Src/Driver/I2C1-Interface/I2C1-Interface.o
- .debug_macro   0x000000000000b88b      0x2f4 Src/Driver/I2C1-Interface/I2C1-Interface.o
- .debug_macro   0x000000000000bb7f      0x2ba Src/Driver/I2C1-Interface/I2C1-Interface.o
- .debug_macro   0x000000000000be39       0x2d Src/Driver/I2C1-Interface/I2C1-Interface.o
- .debug_macro   0x000000000000be66       0x28 Src/Driver/I2C1-Interface/I2C1-Interface.o
- .debug_macro   0x000000000000be8e      0x39e Src/Mid/BME280-pressure-temperature-sensor/BME280-Sensor.o
- .debug_macro   0x000000000000c22c      0x174 Src/Mid/BME280-pressure-temperature-sensor/BME280-Sensor.o
- .debug_macro   0x000000000000c3a0      0x1a9 Src/Mid/BME280-pressure-temperature-sensor/BME280-Sensor.o
- .debug_macro   0x000000000000c549       0x1c Src/Mid/BME280-pressure-temperature-sensor/BME280-Sensor.o
- .debug_macro   0x000000000000c565      0x24c Src/syscalls.o
- .debug_macro   0x000000000000c7b1       0x10 Src/syscalls.o
- .debug_macro   0x000000000000c7c1      0x12c Src/syscalls.o
- .debug_macro   0x000000000000c8ed       0x16 Src/syscalls.o
- .debug_macro   0x000000000000c903       0x16 Src/syscalls.o
- .debug_macro   0x000000000000c919       0x29 Src/syscalls.o
- .debug_macro   0x000000000000c942       0x10 Src/syscalls.o
- .debug_macro   0x000000000000c952      0x241 Src/syscalls.o
- .debug_macro   0x000000000000cb93       0x10 Src/syscalls.o
- .debug_macro   0x000000000000cba3      0x189 Src/syscalls.o
- .debug_macro   0x000000000000cd2c       0x16 Src/syscalls.o
- .debug_macro   0x000000000000cd42       0xce Src/syscalls.o
- .debug_macro   0x000000000000ce10       0xff Src/sysmem.o
- .debug_macro   0x000000000000cf0f      0x23b Src/sysmem.o
- .debug_macro   0x000000000000d14a       0xce D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(system_stm32f4xx.o)
- .debug_macro   0x000000000000d218      0xa66 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(system_stm32f4xx.o)
- .debug_macro   0x000000000000dc7e       0x22 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(system_stm32f4xx.o)
- .debug_macro   0x000000000000dca0       0xef D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(system_stm32f4xx.o)
- .debug_macro   0x000000000000dd8f       0xc3 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(stm32f401re_gpio.o)
- .debug_macro   0x000000000000de52       0xd5 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(stm32f401re_i2c.o)
- .debug_macro   0x000000000000df27      0x2b4 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(stm32f401re_i2c.o)
- .debug_macro   0x000000000000e1db      0x18d D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(stm32f401re_rcc.o)
- .debug_macro   0x000000000000e368       0xe3 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(timer.o)
- .debug_macro   0x000000000000e44b       0x1c D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(timer.o)
- .debug_macro   0x000000000000e467       0x16 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(timer.o)
- .debug_macro   0x000000000000e47d      0x141 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(Ucglib.o)
- .debug_macro   0x000000000000e5be      0x174 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(Ucglib.o)
- .debug_macro   0x000000000000e732       0x22 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(Ucglib.o)
- .debug_macro   0x000000000000e754       0x84 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_box.o)
- .debug_macro   0x000000000000e7d8       0x84 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_ccs.o)
- .debug_macro   0x000000000000e85c       0x84 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_dev_default_cb.o)
- .debug_macro   0x000000000000e8e0       0x84 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_dev_ic_st7735.o)
- .debug_macro   0x000000000000e964       0x88 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_dev_msg_api.o)
- .debug_macro   0x000000000000e9ec       0x84 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_dev_tft_128x128_st7735.o)
- .debug_macro   0x000000000000ea70      0x15a D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_font.o)
- .debug_macro   0x000000000000ebca       0x1c D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_font.o)
- .debug_macro   0x000000000000ebe6       0x46 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_font.o)
- .debug_macro   0x000000000000ec2c       0x18 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_font.o)
- .debug_macro   0x000000000000ec44       0x3c D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_font.o)
- .debug_macro   0x000000000000ec80       0x52 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_font.o)
- .debug_macro   0x000000000000ecd2       0x1f D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_font.o)
- .debug_macro   0x000000000000ecf1       0x43 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_font.o)
- .debug_macro   0x000000000000ed34       0x20 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_font.o)
- .debug_macro   0x000000000000ed54      0x1a3 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_font.o)
- .debug_macro   0x000000000000eef7      0x330 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_font.o)
- .debug_macro   0x000000000000f227       0x10 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_font.o)
- .debug_macro   0x000000000000f237       0x35 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_font.o)
- .debug_macro   0x000000000000f26c       0x20 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_font.o)
- .debug_macro   0x000000000000f28c      0x145 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_init.o)
- .debug_macro   0x000000000000f3d1       0x84 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_line.o)
- .debug_macro   0x000000000000f455       0x84 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_pixel.o)
- .debug_macro   0x000000000000f4d9       0x84 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_pixel_font_data.o)
- .debug_macro   0x000000000000f55d       0xbd D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_rotate.o)
- .debug_macro   0x000000000000f61a       0xc2 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(buff.o)
- .debug_macro   0x000000000000f6dc       0x16 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(buff.o)
- .debug_macro   0x000000000000f6f2       0x72 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(utilities.o)
- .debug_macro   0x000000000000f764       0x10 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(utilities.o)
- .debug_macro   0x000000000000f774       0x84 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_clip.o)
- .debug_macro   0x000000000000f7f8       0x84 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_com_msg_api.o)
+.debug_macro    0x0000000000000000     0xf936
+ .debug_macro   0x0000000000000000      0x240 Src/App/main.o
+ .debug_macro   0x0000000000000240      0xaae Src/App/main.o
+ .debug_macro   0x0000000000000cee       0x22 Src/App/main.o
+ .debug_macro   0x0000000000000d10       0x4c Src/App/main.o
+ .debug_macro   0x0000000000000d5c       0x18 Src/App/main.o
+ .debug_macro   0x0000000000000d74       0x94 Src/App/main.o
+ .debug_macro   0x0000000000000e08       0x3c Src/App/main.o
+ .debug_macro   0x0000000000000e44       0x34 Src/App/main.o
+ .debug_macro   0x0000000000000e78       0x16 Src/App/main.o
+ .debug_macro   0x0000000000000e8e       0x57 Src/App/main.o
+ .debug_macro   0x0000000000000ee5       0x97 Src/App/main.o
+ .debug_macro   0x0000000000000f7c      0x339 Src/App/main.o
+ .debug_macro   0x00000000000012b5       0xfd Src/App/main.o
+ .debug_macro   0x00000000000013b2       0x10 Src/App/main.o
+ .debug_macro   0x00000000000013c2       0x16 Src/App/main.o
+ .debug_macro   0x00000000000013d8       0x43 Src/App/main.o
+ .debug_macro   0x000000000000141b       0x34 Src/App/main.o
+ .debug_macro   0x000000000000144f       0x10 Src/App/main.o
+ .debug_macro   0x000000000000145f       0x58 Src/App/main.o
+ .debug_macro   0x00000000000014b7       0x71 Src/App/main.o
+ .debug_macro   0x0000000000001528       0x1c Src/App/main.o
+ .debug_macro   0x0000000000001544      0x12a Src/App/main.o
+ .debug_macro   0x000000000000166e       0x10 Src/App/main.o
+ .debug_macro   0x000000000000167e       0x6a Src/App/main.o
+ .debug_macro   0x00000000000016e8       0x1c Src/App/main.o
+ .debug_macro   0x0000000000001704       0x52 Src/App/main.o
+ .debug_macro   0x0000000000001756       0x22 Src/App/main.o
+ .debug_macro   0x0000000000001778       0x10 Src/App/main.o
+ .debug_macro   0x0000000000001788       0x40 Src/App/main.o
+ .debug_macro   0x00000000000017c8       0xd5 Src/App/main.o
+ .debug_macro   0x000000000000189d       0x1c Src/App/main.o
+ .debug_macro   0x00000000000018b9       0x3d Src/App/main.o
+ .debug_macro   0x00000000000018f6       0x16 Src/App/main.o
+ .debug_macro   0x000000000000190c      0x145 Src/App/main.o
+ .debug_macro   0x0000000000001a51      0x103 Src/App/main.o
+ .debug_macro   0x0000000000001b54      0x1df Src/App/main.o
+ .debug_macro   0x0000000000001d33       0x16 Src/App/main.o
+ .debug_macro   0x0000000000001d49       0x35 Src/App/main.o
+ .debug_macro   0x0000000000001d7e       0x10 Src/App/main.o
+ .debug_macro   0x0000000000001d8e       0x10 Src/App/main.o
+ .debug_macro   0x0000000000001d9e       0x35 Src/App/main.o
+ .debug_macro   0x0000000000001dd3      0x301 Src/App/main.o
+ .debug_macro   0x00000000000020d4       0x26 Src/App/main.o
+ .debug_macro   0x00000000000020fa       0x2e Src/App/main.o
+ .debug_macro   0x0000000000002128       0x5e Src/App/main.o
+ .debug_macro   0x0000000000002186       0xe4 Src/Driver/I2C1-Interface/I2C1-Interface.o
+ .debug_macro   0x000000000000226a       0x6b Src/Driver/I2C1-Interface/I2C1-Interface.o
+ .debug_macro   0x00000000000022d5       0x3b Src/Driver/I2C1-Interface/I2C1-Interface.o
+ .debug_macro   0x0000000000002310       0x8e Src/Driver/I2C1-Interface/I2C1-Interface.o
+ .debug_macro   0x000000000000239e       0x51 Src/Driver/I2C1-Interface/I2C1-Interface.o
+ .debug_macro   0x00000000000023ef       0x34 Src/Driver/I2C1-Interface/I2C1-Interface.o
+ .debug_macro   0x0000000000002423       0x26 Src/Driver/I2C1-Interface/I2C1-Interface.o
+ .debug_macro   0x0000000000002449      0xe43 Src/Driver/I2C1-Interface/I2C1-Interface.o
+ .debug_macro   0x000000000000328c     0x8018 Src/Driver/I2C1-Interface/I2C1-Interface.o
+ .debug_macro   0x000000000000b2a4      0x644 Src/Driver/I2C1-Interface/I2C1-Interface.o
+ .debug_macro   0x000000000000b8e8      0x2f4 Src/Driver/I2C1-Interface/I2C1-Interface.o
+ .debug_macro   0x000000000000bbdc      0x2ba Src/Driver/I2C1-Interface/I2C1-Interface.o
+ .debug_macro   0x000000000000be96       0x2d Src/Driver/I2C1-Interface/I2C1-Interface.o
+ .debug_macro   0x000000000000bec3       0x28 Src/Driver/I2C1-Interface/I2C1-Interface.o
+ .debug_macro   0x000000000000beeb      0x39d Src/Mid/BME280-pressure-temperature-sensor/BME280-Sensor.o
+ .debug_macro   0x000000000000c288      0x174 Src/Mid/BME280-pressure-temperature-sensor/BME280-Sensor.o
+ .debug_macro   0x000000000000c3fc      0x1a9 Src/Mid/BME280-pressure-temperature-sensor/BME280-Sensor.o
+ .debug_macro   0x000000000000c5a5       0x1c Src/Mid/BME280-pressure-temperature-sensor/BME280-Sensor.o
+ .debug_macro   0x000000000000c5c1       0x5e Src/Mid/BME280-pressure-temperature-sensor/BME280-Sensor.o
+ .debug_macro   0x000000000000c61f      0x24c Src/syscalls.o
+ .debug_macro   0x000000000000c86b       0x10 Src/syscalls.o
+ .debug_macro   0x000000000000c87b      0x12c Src/syscalls.o
+ .debug_macro   0x000000000000c9a7       0x16 Src/syscalls.o
+ .debug_macro   0x000000000000c9bd       0x16 Src/syscalls.o
+ .debug_macro   0x000000000000c9d3       0x29 Src/syscalls.o
+ .debug_macro   0x000000000000c9fc       0x10 Src/syscalls.o
+ .debug_macro   0x000000000000ca0c      0x241 Src/syscalls.o
+ .debug_macro   0x000000000000cc4d       0x10 Src/syscalls.o
+ .debug_macro   0x000000000000cc5d      0x189 Src/syscalls.o
+ .debug_macro   0x000000000000cde6       0x16 Src/syscalls.o
+ .debug_macro   0x000000000000cdfc       0xce Src/syscalls.o
+ .debug_macro   0x000000000000ceca       0xff Src/sysmem.o
+ .debug_macro   0x000000000000cfc9      0x23b Src/sysmem.o
+ .debug_macro   0x000000000000d204       0xce D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(system_stm32f4xx.o)
+ .debug_macro   0x000000000000d2d2      0xa66 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(system_stm32f4xx.o)
+ .debug_macro   0x000000000000dd38       0x22 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(system_stm32f4xx.o)
+ .debug_macro   0x000000000000dd5a       0xef D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(system_stm32f4xx.o)
+ .debug_macro   0x000000000000de49       0xc3 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(stm32f401re_gpio.o)
+ .debug_macro   0x000000000000df0c       0xd5 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(stm32f401re_i2c.o)
+ .debug_macro   0x000000000000dfe1      0x2b4 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(stm32f401re_i2c.o)
+ .debug_macro   0x000000000000e295      0x18d D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(stm32f401re_rcc.o)
+ .debug_macro   0x000000000000e422       0xe3 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(timer.o)
+ .debug_macro   0x000000000000e505       0x1c D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(timer.o)
+ .debug_macro   0x000000000000e521       0x16 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(timer.o)
+ .debug_macro   0x000000000000e537      0x141 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(Ucglib.o)
+ .debug_macro   0x000000000000e678      0x174 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(Ucglib.o)
+ .debug_macro   0x000000000000e7ec       0x22 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(Ucglib.o)
+ .debug_macro   0x000000000000e80e       0x84 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_box.o)
+ .debug_macro   0x000000000000e892       0x84 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_ccs.o)
+ .debug_macro   0x000000000000e916       0x84 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_dev_default_cb.o)
+ .debug_macro   0x000000000000e99a       0x84 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_dev_ic_st7735.o)
+ .debug_macro   0x000000000000ea1e       0x88 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_dev_msg_api.o)
+ .debug_macro   0x000000000000eaa6       0x84 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_dev_tft_128x128_st7735.o)
+ .debug_macro   0x000000000000eb2a      0x15a D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_font.o)
+ .debug_macro   0x000000000000ec84       0x1c D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_font.o)
+ .debug_macro   0x000000000000eca0       0x46 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_font.o)
+ .debug_macro   0x000000000000ece6       0x18 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_font.o)
+ .debug_macro   0x000000000000ecfe       0x3c D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_font.o)
+ .debug_macro   0x000000000000ed3a       0x52 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_font.o)
+ .debug_macro   0x000000000000ed8c       0x1f D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_font.o)
+ .debug_macro   0x000000000000edab       0x43 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_font.o)
+ .debug_macro   0x000000000000edee       0x20 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_font.o)
+ .debug_macro   0x000000000000ee0e      0x1a3 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_font.o)
+ .debug_macro   0x000000000000efb1      0x330 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_font.o)
+ .debug_macro   0x000000000000f2e1       0x10 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_font.o)
+ .debug_macro   0x000000000000f2f1       0x35 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_font.o)
+ .debug_macro   0x000000000000f326       0x20 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_font.o)
+ .debug_macro   0x000000000000f346      0x145 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_init.o)
+ .debug_macro   0x000000000000f48b       0x84 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_line.o)
+ .debug_macro   0x000000000000f50f       0x84 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_pixel.o)
+ .debug_macro   0x000000000000f593       0x84 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_pixel_font_data.o)
+ .debug_macro   0x000000000000f617       0xbd D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_rotate.o)
+ .debug_macro   0x000000000000f6d4       0xc2 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(buff.o)
+ .debug_macro   0x000000000000f796       0x16 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(buff.o)
+ .debug_macro   0x000000000000f7ac       0x72 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(utilities.o)
+ .debug_macro   0x000000000000f81e       0x10 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(utilities.o)
+ .debug_macro   0x000000000000f82e       0x84 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_clip.o)
+ .debug_macro   0x000000000000f8b2       0x84 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_com_msg_api.o)
 
 .debug_line     0x0000000000000000     0xa5ee
  .debug_line    0x0000000000000000      0x7b0 Src/App/main.o
@@ -4628,29 +4634,29 @@ LOAD c:/st/stm32cubeide_1.6.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
  .debug_line    0x000000000000a068      0x586 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_com_msg_api.o)
 
 .debug_str      0x0000000000000000    0x4d90c
- .debug_str     0x0000000000000000     0xdcb3 Src/App/main.o
-                                       0xe045 (size before relaxing)
- .debug_str     0x000000000000dcb3    0x38676 Src/Driver/I2C1-Interface/I2C1-Interface.o
+ .debug_str     0x0000000000000000     0xddee Src/App/main.o
+                                       0xe180 (size before relaxing)
+ .debug_str     0x000000000000ddee    0x38676 Src/Driver/I2C1-Interface/I2C1-Interface.o
                                       0x3c4b9 (size before relaxing)
- .debug_str     0x0000000000046329     0x3083 Src/Mid/BME280-pressure-temperature-sensor/BME280-Sensor.o
-                                      0x4369a (size before relaxing)
- .debug_str     0x00000000000493ac     0x1652 Src/syscalls.o
+ .debug_str     0x0000000000046464     0x3083 Src/Mid/BME280-pressure-temperature-sensor/BME280-Sensor.o
+                                      0x437d5 (size before relaxing)
+ .debug_str     0x00000000000494e7     0x1652 Src/syscalls.o
                                        0x8ea7 (size before relaxing)
- .debug_str     0x000000000004a9fe       0x66 Src/sysmem.o
+ .debug_str     0x000000000004ab39       0x66 Src/sysmem.o
                                        0x627a (size before relaxing)
- .debug_str     0x000000000004aa64       0x31 Startup/startup_stm32f401retx.o
+ .debug_str     0x000000000004ab9f       0x31 Startup/startup_stm32f401retx.o
                                          0x48 (size before relaxing)
- .debug_str     0x000000000004aa95      0x3ae D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(system_stm32f4xx.o)
+ .debug_str     0x000000000004abd0      0x3ae D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(system_stm32f4xx.o)
                                       0x3583e (size before relaxing)
- .debug_str     0x000000000004ae43      0x192 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(stm32f401re_gpio.o)
+ .debug_str     0x000000000004af7e      0x192 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(stm32f401re_gpio.o)
                                       0x3a690 (size before relaxing)
- .debug_str     0x000000000004afd5      0x461 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(stm32f401re_i2c.o)
+ .debug_str     0x000000000004b110      0x461 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(stm32f401re_i2c.o)
                                       0x3af28 (size before relaxing)
- .debug_str     0x000000000004b436      0xb54 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(stm32f401re_rcc.o)
+ .debug_str     0x000000000004b571      0xb54 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(stm32f401re_rcc.o)
                                       0x39aa1 (size before relaxing)
- .debug_str     0x000000000004bf8a      0x620 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(timer.o)
+ .debug_str     0x000000000004c0c5      0x620 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(timer.o)
                                       0x39451 (size before relaxing)
- .debug_str     0x000000000004c5aa      0x200 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(Ucglib.o)
+ .debug_str     0x000000000004c6e5       0xc5 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(Ucglib.o)
                                       0x4067c (size before relaxing)
  .debug_str     0x000000000004c7aa       0x86 D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm\libLibraries.a(ucg_box.o)
                                        0x9c13 (size before relaxing)
