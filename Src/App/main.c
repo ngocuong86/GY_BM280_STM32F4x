@@ -66,7 +66,7 @@ void Display_TemHum(void){
 	u32_t fAlti = (u32_t)readFloatAltitudeMeters();
 	sprintf(strTemp, "Temp = %d oC", (u8_t)fTeamp);
 	sprintf(strPres, "Pres = %d Pa ",(u32_t)(fPres*100));
-	sprintf(strAlti, "Alti = %d cm", (u32_t)(fAlti));
+	sprintf(strAlti, "Alti = %d m", (u32_t)(fAlti));
 	ucg_DrawString(&ucg, 0, 32, 0, strTemp);
 	ucg_DrawString(&ucg, 0, 72, 0, strPres);
 	ucg_DrawString(&ucg, 0, 102, 0, strAlti);

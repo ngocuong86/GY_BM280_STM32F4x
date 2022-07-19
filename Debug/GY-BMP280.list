@@ -7,23 +7,23 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
   1 .text         00005c0c  080001a0  080001a0  000101a0  2**4
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .rodata       000008fc  08005dac  08005dac  00015dac  2**2
+  2 .rodata       000008f8  08005dac  08005dac  00015dac  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  3 .ARM.extab    00000000  080066a8  080066a8  00020090  2**0
+  3 .ARM.extab    00000000  080066a4  080066a4  00020090  2**0
                   CONTENTS
-  4 .ARM          00000008  080066a8  080066a8  000166a8  2**2
+  4 .ARM          00000008  080066a4  080066a4  000166a4  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  5 .preinit_array 00000000  080066b0  080066b0  00020090  2**0
+  5 .preinit_array 00000000  080066ac  080066ac  00020090  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  6 .init_array   00000004  080066b0  080066b0  000166b0  2**2
+  6 .init_array   00000004  080066ac  080066ac  000166ac  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  7 .fini_array   00000004  080066b4  080066b4  000166b4  2**2
+  7 .fini_array   00000004  080066b0  080066b0  000166b0  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  8 .data         00000090  20000000  080066b8  00020000  2**2
+  8 .data         00000090  20000000  080066b4  00020000  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  9 .bss          00001314  20000090  08006748  00020090  2**2
+  9 .bss          00001314  20000090  08006744  00020090  2**2
                   ALLOC
- 10 ._user_heap_stack 00000604  200013a4  08006748  000213a4  2**0
+ 10 ._user_heap_stack 00000604  200013a4  08006744  000213a4  2**0
                   ALLOC
  11 .ARM.attributes 00000030  00000000  00000000  00020090  2**0
                   CONTENTS, READONLY
@@ -1438,7 +1438,7 @@ void Display_TemHum(void){
  800113a:	4916      	ldr	r1, [pc, #88]	; (8001194 <Display_TemHum+0xac>)
  800113c:	4811      	ldr	r0, [pc, #68]	; (8001184 <Display_TemHum+0x9c>)
  800113e:	f004 f9fb 	bl	8005538 <siprintf>
-	sprintf(strAlti, "Alti = %d cm", (u32_t)(fAlti));
+	sprintf(strAlti, "Alti = %d m", (u32_t)(fAlti));
  8001142:	687a      	ldr	r2, [r7, #4]
  8001144:	4914      	ldr	r1, [pc, #80]	; (8001198 <Display_TemHum+0xb0>)
  8001146:	4811      	ldr	r0, [pc, #68]	; (800118c <Display_TemHum+0xa4>)
@@ -1581,7 +1581,7 @@ int main(){
  800124c:	46bd      	mov	sp, r7
  800124e:	bd80      	pop	{r7, pc}
  8001250:	200000ac 	.word	0x200000ac
- 8001254:	08005ecc 	.word	0x08005ecc
+ 8001254:	08005ec8 	.word	0x08005ec8
  8001258:	20000160 	.word	0x20000160
  800125c:	0001886c 	.word	0x0001886c
 
@@ -3718,7 +3718,7 @@ LoopForever:
   ldr r1, =_edata
  8002144:	20000090 	.word	0x20000090
   ldr r2, =_sidata
- 8002148:	080066b8 	.word	0x080066b8
+ 8002148:	080066b4 	.word	0x080066b4
   ldr r2, =_sbss
  800214c:	20000090 	.word	0x20000090
   ldr r4, =_ebss
@@ -6161,10 +6161,10 @@ Infinite_Loop:
  800360a:	46bd      	mov	sp, r7
  800360c:	bd90      	pop	{r4, r7, pc}
  800360e:	bf00      	nop
- 8003610:	08005e0c 	.word	0x08005e0c
- 8003614:	08005e2c 	.word	0x08005e2c
- 8003618:	08005e50 	.word	0x08005e50
- 800361c:	08005e74 	.word	0x08005e74
+ 8003610:	08005e08 	.word	0x08005e08
+ 8003614:	08005e28 	.word	0x08005e28
+ 8003618:	08005e4c 	.word	0x08005e4c
+ 800361c:	08005e70 	.word	0x08005e70
 
 08003620 <ucg_handle_st7735_l90se>:
  8003620:	b590      	push	{r4, r7, lr}
@@ -6305,10 +6305,10 @@ Infinite_Loop:
  800375e:	371c      	adds	r7, #28
  8003760:	46bd      	mov	sp, r7
  8003762:	bd90      	pop	{r4, r7, pc}
- 8003764:	08005e0c 	.word	0x08005e0c
- 8003768:	08005e2c 	.word	0x08005e2c
- 800376c:	08005e50 	.word	0x08005e50
- 8003770:	08005e74 	.word	0x08005e74
+ 8003764:	08005e08 	.word	0x08005e08
+ 8003768:	08005e28 	.word	0x08005e28
+ 800376c:	08005e4c 	.word	0x08005e4c
+ 8003770:	08005e70 	.word	0x08005e70
 
 08003774 <ucg_dev_ic_st7735_18>:
  8003774:	b590      	push	{r4, r7, lr}
@@ -6405,8 +6405,8 @@ Infinite_Loop:
  800385e:	371c      	adds	r7, #28
  8003860:	46bd      	mov	sp, r7
  8003862:	bd90      	pop	{r4, r7, pc}
- 8003864:	08005e98 	.word	0x08005e98
- 8003868:	08005dec 	.word	0x08005dec
+ 8003864:	08005e94 	.word	0x08005e94
+ 8003868:	08005de8 	.word	0x08005de8
 
 0800386c <ucg_ext_st7735_18>:
  800386c:	b580      	push	{r7, lr}
@@ -6613,7 +6613,7 @@ Infinite_Loop:
  8003a0a:	3710      	adds	r7, #16
  8003a0c:	46bd      	mov	sp, r7
  8003a0e:	bd80      	pop	{r7, pc}
- 8003a10:	08005ea0 	.word	0x08005ea0
+ 8003a10:	08005e9c 	.word	0x08005e9c
 
 08003a14 <ucg_font_get_byte>:
  8003a14:	b480      	push	{r7}
@@ -7728,7 +7728,7 @@ Infinite_Loop:
  80043a0:	2000032c 	.word	0x2000032c
  80043a4:	20000028 	.word	0x20000028
  80043a8:	08004201 	.word	0x08004201
- 80043ac:	08005ddc 	.word	0x08005ddc
+ 80043ac:	08005dd8 	.word	0x08005dd8
 
 080043b0 <ucg_UpdateRefHeight>:
  80043b0:	b480      	push	{r7}
@@ -9742,10 +9742,10 @@ Infinite_Loop:
  8005512:	4798      	blx	r3
  8005514:	3601      	adds	r6, #1
  8005516:	e7f2      	b.n	80054fe <__libc_init_array+0x1e>
- 8005518:	080066b0 	.word	0x080066b0
- 800551c:	080066b0 	.word	0x080066b0
- 8005520:	080066b0 	.word	0x080066b0
- 8005524:	080066b4 	.word	0x080066b4
+ 8005518:	080066ac 	.word	0x080066ac
+ 800551c:	080066ac 	.word	0x080066ac
+ 8005520:	080066ac 	.word	0x080066ac
+ 8005524:	080066b0 	.word	0x080066b0
 
 08005528 <memset>:
  8005528:	4402      	add	r2, r0
@@ -10063,11 +10063,11 @@ Infinite_Loop:
  8005814:	f000 f87a 	bl	800590c <_printf_i>
  8005818:	e7eb      	b.n	80057f2 <_svfiprintf_r+0x1c2>
  800581a:	bf00      	nop
- 800581c:	08006674 	.word	0x08006674
- 8005820:	0800667e 	.word	0x0800667e
+ 800581c:	08006670 	.word	0x08006670
+ 8005820:	0800667a 	.word	0x0800667a
  8005824:	00000000 	.word	0x00000000
  8005828:	08005579 	.word	0x08005579
- 800582c:	0800667a 	.word	0x0800667a
+ 800582c:	08006676 	.word	0x08006676
 
 08005830 <_printf_common>:
  8005830:	e92d 47f0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, lr}
@@ -10403,8 +10403,8 @@ Infinite_Loop:
  8005b48:	f104 0619 	add.w	r6, r4, #25
  8005b4c:	e7f5      	b.n	8005b3a <_printf_i+0x22e>
  8005b4e:	bf00      	nop
- 8005b50:	08006685 	.word	0x08006685
- 8005b54:	08006696 	.word	0x08006696
+ 8005b50:	08006681 	.word	0x08006681
+ 8005b54:	08006692 	.word	0x08006692
 
 08005b58 <memcpy>:
  8005b58:	440a      	add	r2, r1
