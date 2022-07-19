@@ -55,22 +55,22 @@
 /******************************************************************************/
 
 /******************************************************************************/
-void Display_TemHum(void){
-	static char strPres[20] = "";
-	static char strTemp[20] = "";
-	static char strAlti[20] = "";
-	memset(strPres, 0, sizeof(strPres));
-	memset(strTemp, 0, sizeof(strTemp));
-	memset(strAlti, 0, sizeof(strAlti));
+void displayTempPresAlti(void){
+	static char strPressure[20] = "";
+	static char strTemperature[20] = "";
+	static char strAltitude[20] = "";
+	memset(strPressure, 0, sizeof(strPres));
+	memset(strTemperature, 0, sizeof(strTemp));
+	memset(strAltitude, 0, sizeof(strAlti));
 	float_t fTeamp = (u64_t)readTempC();
 	fTeamp = (float_t)fTeamp/100;
 	float_t fPres = (u64_t)readFloatPressure();
 	fPres = (float_t)fPres/100;
 	float_t fAlti = (u64_t)readFloatAltitudeMeters();
 	fAlti = (float_t)fAlti/100;
-	sprintf(strTemp, "Temp = %.2f oC", (float_t)fTeamp);
-	sprintf(strPres, "Pres = %.2f Pa ",(float_t)(fPres));
-	sprintf(strAlti, "Alti = %.2f m", (float_t)(fAlti));
+	sprintf(strTemp, "Temp = %.2f oC", (float_t)strTemperature);
+	sprintf(strPres, "Pres = %.2f Pa ",(float_t)(strPressure));
+	sprintf(strAlti, "Alti = %.2f m", (float_t)(strAltitude));
 	ucg_DrawString(&g_Ucg, 0, 32, 0, strTemp);
 	ucg_DrawString(&g_Ucg, 0, 72, 0, strPres);
 	ucg_DrawString(&g_Ucg, 0, 112, 0, strAlti);
@@ -78,7 +78,7 @@ void Display_TemHum(void){
 void processGetValueSensor(void){
 	g_byTimerCurrent = GetMilSecTick();
 	if(g_byTimerCurrent - g_byTimerInit >= 1000){
-		Display_TemHum();
+		displayTempPresAlti();
 		g_byTimerInit = g_byTimerCurrent;
 	}
 }
