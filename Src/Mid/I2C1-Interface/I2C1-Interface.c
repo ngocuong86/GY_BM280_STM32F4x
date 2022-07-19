@@ -14,7 +14,7 @@
  *
  * File name: temperature-pressure-altitude.h
  *
- * Description:
+ * Description:I2C1-Interface.c
  *
  * Author: CuongNV
  *
@@ -28,16 +28,18 @@
 #include "stm32f401re_rcc.h"
 #include "stm32f401re_gpio.h"
 #include "stm32f401re_i2c.h"
+#include "stm32f401re.h"
 #include "../I2C1-Interface/I2C1-Interface.h"
 /******************************************************************************/
 /*                     EXPORTED TYPES and DEFINITIONS                         */
 /******************************************************************************/
 #define I2Cx_RCC				RCC_APB1Periph_I2C1
-#define I2Cx_SENSOR				I2C1
 #define I2C_GPIO_RCC		    RCC_AHB1Periph_GPIOB
+#define I2Cx_SENSOR				I2C1
 #define I2C_GPIO				GPIOB
-#define I2C_PIN_SDA				GPIO_Pin_8
-#define I2C_PIN_SCL				GPIO_Pin_9
+#define I2C_PIN_SCL				GPIO_Pin_8
+#define I2C_PIN_SDA				GPIO_Pin_9
+
 /******************************************************************************/
 /*                              PRIVATE DATA                                  */
 /******************************************************************************/
@@ -104,6 +106,7 @@ void_t I2C1Stop(void)
 {
 	// Generate I2C stop condition
 	I2C_GenerateSTOP(I2Cx_SENSOR, ENABLE);
+	I2C_ClearFlag(I2Cx_SENSOR, I2C_FLAG_BUSY);
 }
 /**
   ******************************************************************************
@@ -114,8 +117,9 @@ void_t I2C1Stop(void)
   */
 void_t I2C1Start(void)
 {
-	// Wait until I2Cx is not busy anymore
-	while (I2C_GetFlagStatus(I2Cx_SENSOR, I2C_FLAG_BUSY));
+//	I2C_ClearFlag(I2Cx_SENSOR, I2C_FLAG_BUSY);
+//	// Wait until I2Cx is not busy anymore
+ 	while (I2C_GetFlagStatus(I2Cx_SENSOR, I2C_FLAG_BUSY));
 
 	// Generate start condition
 	I2C_GenerateSTART(I2Cx_SENSOR, ENABLE);

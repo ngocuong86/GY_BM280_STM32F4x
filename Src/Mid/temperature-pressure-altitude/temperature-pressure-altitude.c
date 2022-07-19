@@ -89,6 +89,8 @@
 #define BME280_TEMPERATURE_XLSB_REG		0xFC //Temperature XLSB
 #define BME280_HUMIDITY_MSB_REG			0xFD //Humidity MSB
 #define BME280_HUMIDITY_LSB_REG			0xFE //Humidity LSB
+#define SENSOR_I2C_ADDRESS 				0x77
+#define SENSOR_SPI_ADDRESS				0x7F
 typedef struct
 {
 	u16_t byDigT1;
@@ -128,7 +130,7 @@ typedef struct
 	u8_t byTempOverSample;
 	u8_t byPressOverSample;
 	u8_t byHumidOverSample;
-    float_t fTempCorrection; // correction of temperature - added to the result
+    u32_t fTempCorrection; // correction of temperature - added to the result
 }BME280SensorSetting_t;
 
 enum sensor_sampling {
@@ -200,14 +202,7 @@ enum sensor_sampling {
 /******************************************************************************/
 static u8_t getMode(void_t); //Get the current mode: sleep, forced, or normal
 static void_t setMode(u8_t byMode); //Set the current mode
-
-
-
 static void_t setI2CAddress(u8_t byI2CAddress); //Set the address the library should use to communicate. Use if address jumper is closed (0x76).
-
-static void_t setReferencePressure(float_t byRefPressure); //Allows user to set local sea level reference pressure
-static float_t getReferencePressure();
-
 static bool_t isMeasuring(void_t); //Returns true while the device is taking measurement
 //Temperature related methods
 static void_t setTemperatureCorrection(float_t fCorr);
@@ -241,7 +236,7 @@ static void readTempFFromBurst(u8_t byBuffer[], BME280SensorMeasurements_t *pmea
 float_t g_fReferencePressure = 101325.0;
 BME280SensorSetting_t g_SensorSettings;
 SensorCalibration_t g_Calibration;
-i32_t g_ibTempfine;
+float_t g_fTempfine;
 
 /******************************************************************************
 * @func					BMP280_Init
@@ -251,9 +246,6 @@ i32_t g_ibTempfine;
 * @Note					none
 */
 u8_t BMP280_Init(void_t){
-	g_SensorSettings.byComInterface = I2C_MODE; //Default to I2C
-	g_SensorSettings.byI2CAddress = 0x77; //Default, jumper open is 0x77
-
 //	g_SensorSettings.chipSelectPin = 10; //Select CS pin for SPI
 
 	//These are deprecated g_SensorSettings
@@ -264,10 +256,11 @@ u8_t BMP280_Init(void_t){
 	g_SensorSettings.byPressOverSample = 1;
 	g_SensorSettings.byHumidOverSample = 1;
 	g_SensorSettings.fTempCorrection = 0.f; // correction of temperature - added to the result
-
-	u8_t chipID = readRegister(BME280_CHIP_ID_REG); //Should return 0x60 or 0x58
-	if(chipID != 0x58 && chipID != 0x60) // Is this BMP or BME?
-	return(chipID); //This is not BMP nor BME!
+//
+//	u8_t chipID = readRegister(BME280_CHIP_ID_REG); //Should return 0x60 or 0x58
+//
+//	if(chipID != 0x58 && chipID != 0x60) // Is this BMP or BME?
+//	return(chipID); //This is not BMP nor BME!
 
 	//Reading all compensation data, range 0x88:A1, 0xE1:E7
 	g_Calibration.byDigT1 = ((u16_t)((readRegister(BME280_DIGT1_MSB_REG) << 8) + readRegister(BME280_DIGT1_LSB_REG)));
@@ -312,6 +305,8 @@ u8_t BMP280_Init(void_t){
 */
 bool_t beginWithI2C(){
 	I2C1Init();
+	g_SensorSettings.byComInterface = I2C_MODE; //Default to I2C
+	g_SensorSettings.byI2CAddress = SENSOR_I2C_ADDRESS; //Default, jumper open is 0x77
 	u8_t byChipID = BMP280_Init();
 	if(byChipID == 0x58) return(TRUE); //Begin normal init with these settings. Should return chip ID of 0x58 for BMP
 	if(byChipID == 0x60) return(TRUE); //Begin normal init with these settings. Should return chip ID of 0x60 for BME
@@ -326,6 +321,8 @@ bool_t beginWithI2C(){
 */
 bool_t beginWithSPI(){
 	SPI1Init();
+	g_SensorSettings.byComInterface = SPI_MODE; //Default to I2C
+	g_SensorSettings.byI2CAddress = SENSOR_SPI_ADDRESS; //Default, jumper open is 0x77
 	u8_t byChipID = BMP280_Init();
 	if(byChipID == 0x58) return(TRUE); //Begin normal init with these settings. Should return chip ID of 0x58 for BMP
 	if(byChipID == 0x60) return(TRUE); //Begin normal init with these settings. Should return chip ID of 0x60 for BME
@@ -570,17 +567,18 @@ void_t readAllMeasurements(BME280SensorMeasurements_t *pmeasurements, u8_t byTem
 * @return				none
 * @Note					none
 */
-float_t readFloatPressure(void_t )
+u32_t readFloatPressure(void_t )
 {
 
 	// Returns pressure in Pa as unsigned 32 bit ieger in Q24.8 format (24 ieger bits and 8 fractional bits).
 	// Output value of “24674867” represents 24674867/256 = 96386.2 Pa = 963.862 hPa
     u8_t byBuffer[3];
+    float_t fValuePress  = 0;
 	readRegisterRegion(byBuffer, BME280_PRESSURE_MSB_REG, 3);
     i32_t adc_P = ((u32_t)byBuffer[0] << 12) | ((u32_t)byBuffer[1] << 4) | ((byBuffer[2] >> 4) & 0x0F);
 
 	i64_t ibVar1, ibVar2, ibPressADC;
-	ibVar1 = ((i64_t)g_ibTempfine) - 128000;
+	ibVar1 = ((i64_t)g_fTempfine) - 128000;
 	ibVar2 = ibVar1 * ibVar1 * (i64_t)g_Calibration.ibDigP6;
 	ibVar2 = ibVar2 + ((ibVar1 * (i64_t)g_Calibration.ibDigP5)<<17);
 	ibVar2 = ibVar2 + (((i64_t)g_Calibration.ibDigP4)<<35);
@@ -595,9 +593,8 @@ float_t readFloatPressure(void_t )
 	ibVar1 = (((i64_t)g_Calibration.ibDigP9) * (ibPressADC>>13) * (ibPressADC>>13)) >> 25;
 	ibVar2 = (((i64_t)g_Calibration.ibDigP8) * ibPressADC) >> 19;
 	ibPressADC = ((ibPressADC + ibVar1 + ibVar2) >> 8) + (((i64_t)g_Calibration.ibDigP7)<<4);
-
-	return (float_t)ibPressADC / 256.0;
-
+	fValuePress = (float_t)ibPressADC / (256.0*100.0);
+	return (u32_t)fValuePress;
 }
 /******************************************************************************
 * @func					readFloatPressureFromBurst
@@ -616,7 +613,7 @@ void_t readFloatPressureFromBurst(u8_t byBuffer[], BME280SensorMeasurements_t *p
   i32_t adc_P = ((u32_t)byBuffer[0] << 12) | ((u32_t)byBuffer[1] << 4) | ((byBuffer[2] >> 4) & 0x0F);
 
 	i64_t byVar1, byVar2, byPressADC;
-	byVar1 = ((i64_t)g_ibTempfine) - 128000;
+	byVar1 = ((i64_t)g_fTempfine) - 128000;
 	byVar2 = byVar1 * byVar1 * (i64_t)g_Calibration.ibDigP6;
 	byVar2 = byVar2 + ((byVar1 * (i64_t)g_Calibration.ibDigP5)<<17);
 	byVar2 = byVar2 + (((i64_t)g_Calibration.ibDigP4)<<35);
@@ -644,7 +641,7 @@ void_t readFloatPressureFromBurst(u8_t byBuffer[], BME280SensorMeasurements_t *p
 * @return				none
 * @Note					none
 */
-static void_t setReferencePressure(float_t fRefPressure)
+void_t setReferencePressure(float_t fRefPressure)
 {
 	g_fReferencePressure = fRefPressure;
 }
@@ -655,7 +652,7 @@ static void_t setReferencePressure(float_t fRefPressure)
 * @return				none
 * @Note					none
 */
-static float_t getReferencePressure()
+float_t getReferencePressure()
 {
 	return g_fReferencePressure;
 }
@@ -666,10 +663,8 @@ static float_t getReferencePressure()
 * @return				none
 * @Note					none
 */
-float_t readFloatAltitudeMeters( void_t )
+u32_t readFloatAltitudeMeters(void_t)
 {
-	float_t fHeightOutput = 0;
-
   // Getting height from a pressure reading is called the "international barometric height formula".
   // The magic value of 44330.77 was adjusted in issue #30.
   // There's also some discussion of it here: https://www.sparkfun.com/tutorials/253
@@ -677,9 +672,9 @@ float_t readFloatAltitudeMeters( void_t )
   // see NRLMSISE-00. That's why it is the "international" formula, not "interplanetary".
   // Sparkfun is not liable for incorrect altitude calculations from this
   // code on those planets. Interplanetary selfies are welcome, however.
-	fHeightOutput = ((float)-44330.77)*(pow(((float_t)readFloatPressure()/(float_t)g_fReferencePressure), 0.190263) - (float_t)1); //Corrected, see issue 30
-	return fHeightOutput;
-
+	float_t fValueAlti;
+	fValueAlti = (float_t)((g_fReferencePressure - (float_t)readFloatPressure())/11.11);// For every 1m height, Pressure lose 11.11 Pa
+	return (u32_t)fValueAlti;
 }
 /******************************************************************************
 * @func					readFloatAltitudeFeet
@@ -688,12 +683,12 @@ float_t readFloatAltitudeMeters( void_t )
 * @return				none
 * @Note					none
 */
-float_t readFloatAltitudeFeet( void_t )
+u32_t readFloatAltitudeFeet( void_t )
 {
 	float_t fHeightOutput = 0;
 
 	fHeightOutput = readFloatAltitudeMeters() * 3.28084;
-	return fHeightOutput;
+	return (u32_t)fHeightOutput;
 }
 /******************************************************************************
 * @func					readFloatHumidity
@@ -712,7 +707,7 @@ float_t readFloatHumidity( void_t )
     i32_t ibHumADC = ((u32_t)byBuffer[0] << 8) | ((u32_t)byBuffer[1]);
 
 	i32_t byVar1;
-	byVar1 = (g_ibTempfine - ((i32_t)76800));
+	byVar1 = (g_fTempfine - ((i32_t)76800));
 	byVar1 = (((((ibHumADC << 14) - (((i32_t)g_Calibration.ibDigH4) << 20) - (((i32_t)g_Calibration.ibDigH5) * byVar1)) +
 	((i32_t)16384)) >> 15) * (((((((byVar1 * ((i32_t)g_Calibration.ibDigH6)) >> 10) * (((byVar1 * ((i32_t)g_Calibration.byDigH3)) >> 11) + ((i32_t)32768))) >> 10) + ((i32_t)2097152)) *
 	((i32_t)g_Calibration.ibDigH2) + 8192) >> 14));
@@ -738,7 +733,7 @@ void_t readFloatHumidityFromBurst(u8_t byBuffer[], BME280SensorMeasurements_t *p
 	i32_t ibHumADC = ((i32_t)byBuffer[6] << 8) | ((i32_t)byBuffer[7]);
 
 	i32_t byVar1;
-	byVar1 = (g_ibTempfine - ((i32_t)76800));
+	byVar1 = (g_fTempfine - ((i32_t)76800));
 	byVar1 = (((((ibHumADC << 14) - (((i32_t)g_Calibration.ibDigH4) << 20) - (((i32_t)g_Calibration.ibDigH5) * byVar1)) +
 	((i32_t)16384)) >> 15) * (((((((byVar1 * ((i32_t)g_Calibration.ibDigH6)) >> 10) * (((byVar1 * ((i32_t)g_Calibration.byDigH3)) >> 11) + ((i32_t)32768))) >> 10) + ((i32_t)2097152)) *
 	((i32_t)g_Calibration.ibDigH2) + 8192) >> 14));
@@ -766,28 +761,26 @@ static void_t setTemperatureCorrection(float_t fCorr)
 * @return				none
 * @Note					none
 */
-float_t readTempC( void_t )
+u8_t readTempC( void_t)
 {
 	// Returns temperature in DegC, resolution is 0.01 DegC. Output value of “5123” equals 51.23 DegC.
 	// t_fine carries fine temperature as global value
 
 	//get the reading (adc_T);
     u8_t byBuffer[3];
+    float_t fOutput;
 	readRegisterRegion(byBuffer, BME280_TEMPERATURE_MSB_REG, 3);
     i32_t adc_T = ((i32_t)byBuffer[0] << 12) | ((i32_t)byBuffer[1] << 4) | ((byBuffer[2] >> 4) & 0x0F);
-
-	//By datasheet, calibrate
-	i64_t ibVar1, ibVar2;
+//
+//	//By datasheet, calibrate
+	i32_t ibVar1, ibVar2;
 
 	ibVar1 = ((((adc_T>>3) - ((i32_t)g_Calibration.byDigT1<<1))) * ((i32_t)g_Calibration.ibDigT2)) >> 11;
-	ibVar2 = (((((adc_T>>4) - ((i32_t)g_Calibration.byDigT1)) * ((adc_T>>4) - ((i32_t)g_Calibration.byDigT1))) >> 12) *
-	((i32_t)g_Calibration.ibDigT3)) >> 14;
-	g_ibTempfine = ibVar1 + ibVar2;
-	float_t fOutput = (g_ibTempfine * 5 + 128) >> 8;
-
-	fOutput = fOutput / 100 + g_SensorSettings.fTempCorrection;
-
-	return fOutput;
+	ibVar2 = (((((adc_T>>4) - ((i32_t)g_Calibration.byDigT1)) * ((adc_T>>4) - ((i32_t)g_Calibration.byDigT1))) >> 12) * ((i32_t)g_Calibration.ibDigT3)) >> 14;
+	g_fTempfine =(float_t)ibVar1 + (float_t)ibVar2;
+	fOutput = (float_t)(g_fTempfine * 5 + 128) / 256;
+	fOutput =(float_t)( fOutput / 100 + g_SensorSettings.fTempCorrection);
+	return (u8_t)fOutput;
 }
 /******************************************************************************
 * @func					readTempFromBurst
@@ -801,13 +794,13 @@ static float_t readTempFromBurst(u8_t byBuffer[])
   i32_t ibTempADC = ((u32_t)byBuffer[3] << 12) | ((u32_t)byBuffer[4] << 4) | ((byBuffer[5] >> 4) & 0x0F);
 
 	//By datasheet, calibrate
-	i64_t ibVar1, ibVar2;
+	i16_t ibVar1, ibVar2;
 
-	ibVar1 = ((((ibTempADC>>3) - ((i32_t)g_Calibration.byDigT1<<1))) * ((i32_t)g_Calibration.byDigT1)) >> 11;
-	ibVar2 = (((((ibTempADC>>4) - ((i32_t)g_Calibration.byDigT1)) * ((ibTempADC>>4) - ((i32_t)g_Calibration.byDigT1))) >> 12) *
+	ibVar1 = ((((ibTempADC>>3) - ((i16_t)g_Calibration.byDigT1<<1))) * ((i16_t)g_Calibration.byDigT1)) >> 11;
+	ibVar2 = (((((ibTempADC>>4) - ((i16_t)g_Calibration.byDigT1)) * ((ibTempADC>>4) - ((i16_t)g_Calibration.byDigT1))) >> 12) *
 	((i32_t)g_Calibration.ibDigT3)) >> 14;
-	g_ibTempfine = ibVar1 + ibVar2;
-	float_t fOutput = (g_ibTempfine * 5 + 128) >> 8;
+	g_fTempfine = ibVar1 + ibVar2;
+	float_t fOutput = (g_fTempfine * 5 + 128) / 64 ;
 
 	fOutput = fOutput / 100 + g_SensorSettings.fTempCorrection;
 
@@ -831,12 +824,12 @@ static void_t readTempCFromBurst(u8_t byBuffer[], BME280SensorMeasurements_t *pm
 * @return				none
 * @Note					none
 */
-float_t readTempF( void_t )
+u32_t readTempF( void_t )
 {
 	float_t fOutput = readTempC();
 	fOutput = (fOutput * 9) / 5 + 32;
 
-	return fOutput;
+	return (u32_t)fOutput;
 }
 /******************************************************************************
 * @func					readTempFFromBurst
@@ -864,10 +857,11 @@ static void readRegisterRegion(u8_t *pOutputPointer , u8_t byOffset, u8_t byLeng
 	switch(g_SensorSettings.byComInterface){
 	case I2C_MODE:
 		I2C1Start();
-		I2C1AddressDirection(byOffset << 1,I2C_Direction_Transmitter);
+		I2C1AddressDirection(g_SensorSettings.byI2CAddress <<1,I2C_Direction_Transmitter);
+		I2C1Transmit(byOffset);
 		I2C1Stop();
 		I2C1Start();
-		I2C1AddressDirection(byOffset << 1, I2C_Direction_Receiver);
+		I2C1AddressDirection(g_SensorSettings.byI2CAddress<<1, I2C_Direction_Receiver);
 		for(i8_t  i = 0; i < byLength;i++){
 			if(i == byLength -1){
 				pOutputPointer[i] = I2C1ReceiveNack();
@@ -876,6 +870,7 @@ static void readRegisterRegion(u8_t *pOutputPointer , u8_t byOffset, u8_t byLeng
 			}
 		}
 		I2C1Stop();
+
 		break;
 	case SPI_MODE:
 		break;
@@ -883,9 +878,24 @@ static void readRegisterRegion(u8_t *pOutputPointer , u8_t byOffset, u8_t byLeng
 
 }
 
-static u8_t readRegister(u8_t offset)
+static u8_t readRegister(u8_t byOffset)
 {
-
+	u8_t byResult = 0;
+	switch(g_SensorSettings.byComInterface){
+		case I2C_MODE:
+			I2C1Start();
+			I2C1AddressDirection(g_SensorSettings.byI2CAddress << 1,I2C_Direction_Transmitter);
+			I2C1Transmit(byOffset);
+			I2C1Stop();
+			I2C1Start();
+			I2C1AddressDirection(g_SensorSettings.byI2CAddress << 1, I2C_Direction_Receiver);
+			byResult = I2C1ReceiveNack();
+			I2C1Stop();
+			break;
+		case SPI_MODE:
+			break;
+		}
+	return byResult;
 }
 static u16_t readRegisterInt16( u8_t byOffset )
 {
@@ -895,7 +905,18 @@ static u16_t readRegisterInt16( u8_t byOffset )
 	return byOutput;
 }
 
-static void_t writeRegister(u8_t offset, u8_t dataToWrite)
+static void_t writeRegister(u8_t byOffset, u8_t byDataToWrite)
 {
+	switch(g_SensorSettings.byComInterface){
+		case I2C_MODE:
+			I2C1Start();
+			I2C1AddressDirection(g_SensorSettings.byI2CAddress << 1,I2C_Direction_Transmitter);
+			I2C1Transmit(byOffset);
+			I2C1Transmit(byDataToWrite);
+			I2C1Stop();
+			break;
+		case SPI_MODE:
+			break;
+		}
 }
 

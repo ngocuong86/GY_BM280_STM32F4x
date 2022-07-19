@@ -12,7 +12,7 @@
  * Lumi, JSC.
  * All Rights Reserved
  *
- * File name: I2C-Interface.h
+ * File name: I2C-Interface.c
  *
  * Description:
  * file header for I2C1 Interface
@@ -123,3 +123,4 @@ void_t SPI1Init(void_t){
 	// Enable SPI1
 	SPI_Cmd(SPI1, ENABLE);
 }
+

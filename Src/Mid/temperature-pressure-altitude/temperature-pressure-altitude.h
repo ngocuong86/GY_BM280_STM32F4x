@@ -159,7 +159,7 @@ void_t readAllMeasurements(BME280SensorMeasurements_t *pmeasurements, u8_t byTem
 * @return				none
 * @Note					none
 */
-float_t readFloatPressure(void_t );
+u32_t readFloatPressure(void_t );
 /******************************************************************************
 * @func					readFloatAltitudeMeters
 * @brief				this func read value altitude with unit of meas is meters
@@ -167,7 +167,7 @@ float_t readFloatPressure(void_t );
 * @return				none
 * @Note					none
 */
-float_t readFloatAltitudeMeters(void_t );
+u32_t readFloatAltitudeMeters(void_t);
 /******************************************************************************
 * @func					readFloatAltitudeFeet
 * @brief				this func read value altitude with unit of meas is feet
@@ -175,7 +175,7 @@ float_t readFloatAltitudeMeters(void_t );
 * @return				none
 * @Note					none
 */
-float_t readFloatAltitudeFeet( void_t );
+u32_t readFloatAltitudeFeet( void_t );
 /******************************************************************************
 * @func					readFloatPressureFromBurst
 * @brief				this func read value pressure burst with data type float
@@ -209,7 +209,7 @@ void_t readFloatHumidityFromBurst(u8_t byBuffer[], BME280SensorMeasurements_t *p
 * @return				none
 * @Note					none
 */
-float_t readTempC( void_t );
+u8_t readTempC( void_t);
 /******************************************************************************
 * @func					readTempF
 * @brief				this func read temp with unit of meas F
@@ -217,6 +217,23 @@ float_t readTempC( void_t );
 * @return				none
 * @Note					none
 */
-float_t readTempF( void_t );
+u32_t readTempF( void_t );
+/******************************************************************************
+* @func					setReferencePressure
+* @brief				this func set reference Pressure Value
+* @param				float_t fRefPressure
+* @return				none
+* @Note					none
+*/
+void_t setReferencePressure(float_t fRefPressure);
+
+/******************************************************************************
+* @func					getReferencePressure
+* @brief				this func get reference pressure
+* @param				none
+* @return				none
+* @Note					none
+*/
+float_t getReferencePressure();
 
 #endif /* MID_TEMPERATURE_PRESSURE_ALTITUDE_H_ */
