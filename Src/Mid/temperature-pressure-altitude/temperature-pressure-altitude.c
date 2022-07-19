@@ -567,7 +567,7 @@ void_t readAllMeasurements(BME280SensorMeasurements_t *pmeasurements, u8_t byTem
 * @return				none
 * @Note					none
 */
-u32_t readFloatPressure(void_t )
+u64_t readFloatPressure(void_t )
 {
 
 	// Returns pressure in Pa as unsigned 32 bit ieger in Q24.8 format (24 ieger bits and 8 fractional bits).
@@ -593,8 +593,8 @@ u32_t readFloatPressure(void_t )
 	ibVar1 = (((i64_t)g_Calibration.ibDigP9) * (ibPressADC>>13) * (ibPressADC>>13)) >> 25;
 	ibVar2 = (((i64_t)g_Calibration.ibDigP8) * ibPressADC) >> 19;
 	ibPressADC = ((ibPressADC + ibVar1 + ibVar2) >> 8) + (((i64_t)g_Calibration.ibDigP7)<<4);
-	fValuePress = (float_t)ibPressADC / (256.0*100.0);
-	return (u32_t)fValuePress;
+	fValuePress = ((float_t)ibPressADC / (256.0*100.0))*10000;
+	return (u64_t)fValuePress;
 }
 /******************************************************************************
 * @func					readFloatPressureFromBurst
@@ -663,7 +663,7 @@ float_t getReferencePressure()
 * @return				none
 * @Note					none
 */
-u32_t readFloatAltitudeMeters(void_t)
+u64_t readFloatAltitudeMeters(void_t)
 {
   // Getting height from a pressure reading is called the "international barometric height formula".
   // The magic value of 44330.77 was adjusted in issue #30.
@@ -673,9 +673,10 @@ u32_t readFloatAltitudeMeters(void_t)
   // Sparkfun is not liable for incorrect altitude calculations from this
   // code on those planets. Interplanetary selfies are welcome, however.
 	float_t fValueAlti;
-	u32_t fValuePress =  (u32_t)readFloatPressure();
-	fValueAlti = (float_t)((g_fReferencePressure - fValuePress*100)/11.11);// For every 1m height, Pressure lose 11.11 Pa
-	return (u32_t)fValueAlti;
+	float_t fValuePress =(float_t)((u64_t)readFloatPressure()/100);
+	fValueAlti = (float_t)((g_fReferencePressure - fValuePress)/11.11)*100;// For every 1m height, Pressure lose 11.11 Pa
+//	fValueAlti =( ((float_t)-44330.77)*(pow((((float_t)fValuePress/100)/(float_t)g_fReferencePressure), 0.190263) - (float_t)1));
+	return (u64_t)fValueAlti;
 }
 /******************************************************************************
 * @func					readFloatAltitudeFeet
@@ -762,7 +763,7 @@ static void_t setTemperatureCorrection(float_t fCorr)
 * @return				none
 * @Note					none
 */
-u8_t readTempC( void_t)
+u64_t readTempC( void_t)
 {
 	// Returns temperature in DegC, resolution is 0.01 DegC. Output value of “5123” equals 51.23 DegC.
 	// t_fine carries fine temperature as global value
@@ -780,8 +781,8 @@ u8_t readTempC( void_t)
 	ibVar2 = (((((adc_T>>4) - ((i32_t)g_Calibration.byDigT1)) * ((adc_T>>4) - ((i32_t)g_Calibration.byDigT1))) >> 12) * ((i32_t)g_Calibration.ibDigT3)) >> 14;
 	g_fTempfine =(float_t)ibVar1 + (float_t)ibVar2;
 	fOutput = (float_t)(g_fTempfine * 5 + 128) / 256;
-	fOutput =(float_t)( fOutput / 100 + g_SensorSettings.fTempCorrection);
-	return (u8_t)fOutput;
+	fOutput =(float_t)( fOutput / 100 + g_SensorSettings.fTempCorrection)*100;
+	return (u64_t)fOutput;
 }
 /******************************************************************************
 * @func					readTempFromBurst

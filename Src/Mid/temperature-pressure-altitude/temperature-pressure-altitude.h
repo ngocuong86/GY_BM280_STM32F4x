@@ -159,7 +159,7 @@ void_t readAllMeasurements(BME280SensorMeasurements_t *pmeasurements, u8_t byTem
 * @return				none
 * @Note					none
 */
-u32_t readFloatPressure(void_t );
+u64_t readFloatPressure(void_t );
 /******************************************************************************
 * @func					readFloatAltitudeMeters
 * @brief				this func read value altitude with unit of meas is meters
@@ -167,7 +167,7 @@ u32_t readFloatPressure(void_t );
 * @return				none
 * @Note					none
 */
-u32_t readFloatAltitudeMeters(void_t);
+u64_t readFloatAltitudeMeters(void_t);
 /******************************************************************************
 * @func					readFloatAltitudeFeet
 * @brief				this func read value altitude with unit of meas is feet
@@ -209,7 +209,7 @@ void_t readFloatHumidityFromBurst(u8_t byBuffer[], BME280SensorMeasurements_t *p
 * @return				none
 * @Note					none
 */
-u8_t readTempC( void_t);
+u64_t readTempC( void_t);
 /******************************************************************************
 * @func					readTempF
 * @brief				this func read temp with unit of meas F

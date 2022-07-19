@@ -65,7 +65,7 @@ main-build: GY-BMP280.elf secondary-outputs
 
 # Tool invocations
 GY-BMP280.elf: $(OBJS) $(USER_OBJS) E:\TTS\GY-BMP280\STM32F401RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "GY-BMP280.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"E:\TTS\GY-BMP280\STM32F401RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="GY-BMP280.map" -Wl,--gc-sections -static -Wl,--start-group -lLibraries -Wl,--end-group -L"D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+	arm-none-eabi-gcc -o "GY-BMP280.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"E:\TTS\GY-BMP280\STM32F401RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="GY-BMP280.map" -Wl,--gc-sections -static -Wl,--start-group -lLibraries -Wl,--end-group -L"D:\IOT\SDK_1.0.3_NUCLEO-F401RE\lib_stm" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

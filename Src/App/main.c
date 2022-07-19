@@ -61,15 +61,21 @@ void Display_TemHum(void){
 	memset(strPres, 0, sizeof(strPres));
 	memset(strTemp, 0, sizeof(strTemp));
 	memset(strAlti, 0, sizeof(strAlti));
-	u8_t fTeamp = (u8_t)readTempC();
-	u32_t fPres = (u32_t)readFloatPressure();
-	u32_t fAlti = (u32_t)readFloatAltitudeMeters();
-	sprintf(strTemp, "Temp = %d oC", (u8_t)fTeamp);
-	sprintf(strPres, "Pres = %d Pa ",(u32_t)(fPres*100));
-	sprintf(strAlti, "Alti = %d m", (u32_t)(fAlti));
-	ucg_DrawString(&ucg, 0, 32, 0, strTemp);
+//	u8_t fTeamp = (u8_t)readTempC();
+//	u32_t fPres = (u32_t)readFloatPressure();
+//	u32_t fAlti = (u32_t)readFloatAltitudeMeters();
+	float_t fTeamp = (u64_t)readTempC();
+	fTeamp = (float_t)fTeamp/100;
+	float_t fPres = (u64_t)readFloatPressure();
+	fPres = (float_t)fPres/100;
+	float_t fAlti = (u64_t)readFloatAltitudeMeters();
+	fAlti = (float_t)fAlti/100;
+	sprintf(strTemp, "Temp = %.2f oC", (float_t)fTeamp);
+	sprintf(strPres, "Pres = %.2f Pa ",(float_t)(fPres));
+	sprintf(strAlti, "Alti = %.2f m", (float_t)(fAlti));
+	ucg_DrawString(&ucg, 0, 52, 0, strTemp);
 	ucg_DrawString(&ucg, 0, 72, 0, strPres);
-	ucg_DrawString(&ucg, 0, 102, 0, strAlti);
+	ucg_DrawString(&ucg, 0, 92, 0, strAlti);
 }
 void processGetValueSensor(void){
 	g_byTimerCurrent = GetMilSecTick();
@@ -90,7 +96,7 @@ int main(){
 	g_byTimerInit = GetMilSecTick();
 	if(beginWithI2C() == TRUE){ // use beginWithSPI to use SPI interface
 		while(1){
-			setReferencePressure(100460); // Set value Pressure in Ha Noi (Value Pressure in sea surface is 101330);
+			setReferencePressure(100070); // Set value Pressure in Ha Noi (Value Pressure in sea surface is 101330);
 			processTimerScheduler();
 			processGetValueSensor();
 		}
