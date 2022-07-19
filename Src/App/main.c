@@ -1,4 +1,4 @@
- /*******************************************************************************
+/*******************************************************************************
  *				 _ _                                             _ _
 				|   |                                           (_ _)
 				|   |        _ _     _ _   _ _ _ _ _ _ _ _ _ _   _ _
@@ -90,7 +90,7 @@ int main(){
 	g_byTimerInit = GetMilSecTick();
 	if(beginWithI2C() == TRUE){ // use beginWithSPI to use SPI interface
 		while(1){
-			setReferencePressure(100460.0); // Set value Pressure in Ha Noi (Value Pressure in sea surface is 101330);
+			setReferencePressure(100460); // Set value Pressure in Ha Noi (Value Pressure in sea surface is 101330);
 			processTimerScheduler();
 			processGetValueSensor();
 		}

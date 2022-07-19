@@ -225,7 +225,7 @@ u32_t readTempF( void_t );
 * @return				none
 * @Note					none
 */
-void_t setReferencePressure(float_t fRefPressure);
+void_t setReferencePressure(u32_t fRefPressure);
 
 /******************************************************************************
 * @func					getReferencePressure

@@ -233,7 +233,7 @@ static void readTempFFromBurst(u8_t byBuffer[], BME280SensorMeasurements_t *pmea
 /******************************************************************************/
 /*                              PRIVATE DATA                                  */
 /******************************************************************************/
-float_t g_fReferencePressure = 101325.0;
+u32_t g_fReferencePressure = 101325;
 BME280SensorSetting_t g_SensorSettings;
 SensorCalibration_t g_Calibration;
 float_t g_fTempfine;
@@ -641,7 +641,7 @@ void_t readFloatPressureFromBurst(u8_t byBuffer[], BME280SensorMeasurements_t *p
 * @return				none
 * @Note					none
 */
-void_t setReferencePressure(float_t fRefPressure)
+void_t setReferencePressure(u32_t fRefPressure)
 {
 	g_fReferencePressure = fRefPressure;
 }
@@ -673,7 +673,8 @@ u32_t readFloatAltitudeMeters(void_t)
   // Sparkfun is not liable for incorrect altitude calculations from this
   // code on those planets. Interplanetary selfies are welcome, however.
 	float_t fValueAlti;
-	fValueAlti = (float_t)((g_fReferencePressure - (float_t)readFloatPressure())/11.11);// For every 1m height, Pressure lose 11.11 Pa
+	u32_t fValuePress =  (u32_t)readFloatPressure();
+	fValueAlti = (float_t)((g_fReferencePressure - fValuePress*100)/11.11);// For every 1m height, Pressure lose 11.11 Pa
 	return (u32_t)fValueAlti;
 }
 /******************************************************************************
