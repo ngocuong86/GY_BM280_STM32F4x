@@ -74,7 +74,7 @@ Tính toán giá trị nhiệt độ, áp suất và độ cao
 
 Luồng tính toán giá trị
 
-    Với các bài toán khác nhau thì ta có thể chọn skiped chức năng đo nhiệt độ, áp suất hoặc có theher đo cả 2 giá trị này.
+    Với các bài toán khác nhau thì ta có thể chọn skiped chức năng đo nhiệt độ, áp suất hoặc có thể đo cả 2 giá trị này.
 
     Sau đó ta sẽ phải config chức năng IIR filter để có thể cho ra được giá trị chính xác nhất.
 
