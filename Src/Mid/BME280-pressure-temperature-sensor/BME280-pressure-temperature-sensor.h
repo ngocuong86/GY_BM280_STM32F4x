@@ -58,7 +58,7 @@ typedef struct
 * @func					beginWithI2C
 * @brief				This func begin with I2C interface
 * @param				none
-* @return				none
+* @return				TRUE or FALSE
 * @Note					none
 */
 bool_t beginWithI2C(void_t);
@@ -66,7 +66,7 @@ bool_t beginWithI2C(void_t);
 * @func					beginWithSPI
 * @brief				This func begin with SPI interface
 * @param				none
-* @return				none
+* @return				TRUE or FALSE
 * @Note					none
 */
 bool_t beginWithSPI(void_t);
@@ -74,13 +74,13 @@ bool_t beginWithSPI(void_t);
 * @func					BMP280_Init
 * @brief				This func Init BMP280_Init
 * @param				none
-* @return				none
+* @return				ChipID
 * @Note					none
 */
 u8_t  BMP280_Init(void_t);
 /******************************************************************************
 * @func					setTempOverSample
-* @brief				This func swt Oversamping for Meas Temperature
+* @brief				This func set Oversamping for Meas Temperature
 * @param				u8_t byOverSampleAmount
 * @return				none
 * @Note					none
@@ -88,7 +88,7 @@ u8_t  BMP280_Init(void_t);
 void_t setTempOverSample(u8_t byOverSampleAmount); //Set the temperature sample mode
 /******************************************************************************
 * @func					setPressureOverSample
-* @brief				This func swt Oversamping for Meas Pressure
+* @brief				This func set Oversamping for Meas Pressure
 * @param				u8_t byOverSampleAmount
 * @return				none
 * @Note					none
@@ -96,7 +96,7 @@ void_t setTempOverSample(u8_t byOverSampleAmount); //Set the temperature sample 
 void_t setPressureOverSample(u8_t byOverSampleAmount); //Set the pressure sample mode
 /******************************************************************************
 * @func					setPressureOverSample
-* @brief				This func swt Oversamping for Meas Humi
+* @brief				This func set Oversamping for Meas Humi
 * @param				u8_t byOverSampleAmount
 * @return				none
 * @Note					none
@@ -132,10 +132,9 @@ void_t setStandbyTime(u8_t byTimeSetting); //Set the standby time between measur
 */
 void_t setFilter(u8_t byFilterSetting); //Set the filter
 
-//Software reset routine
 /******************************************************************************
 * @func					reset
-* @brief				this func reset
+* @brief				this func reset Software reset routine
 * @param				none
 * @return				none
 * @Note					none
@@ -151,31 +150,31 @@ void_t reset(void_t );
 */
 void_t readAllMeasurements(BME280SensorMeasurements_t *pmeasurements, u8_t byTempScale );
 
-//Returns the values as floats.
+//Returns the values as Int.
 /******************************************************************************
-* @func					readFloatPressure
+* @func					readIntPressure
 * @brief				this func read value pressure with data type float
 * @param				none
-* @return				none
+* @return				Value Pressure mPa
 * @Note					none
 */
-u64_t readFloatPressure(void_t );
+u64_t readIntPressure(void_t );
 /******************************************************************************
 * @func					readFloatAltitudeMeters
 * @brief				this func read value altitude with unit of meas is meters
 * @param				none
-* @return				none
+* @return				Value Altitude (cm)
 * @Note					none
 */
-u64_t readFloatAltitudeMeters(void_t);
+u64_t readIntAltitudeMeters(void_t);
 /******************************************************************************
-* @func					readFloatAltitudeFeet
+* @func					readIntAltitudeFeet
 * @brief				this func read value altitude with unit of meas is feet
 * @param				none
-* @return				none
+* @return				Value Altitude (mF)
 * @Note					none
 */
-u32_t readFloatAltitudeFeet( void_t );
+u64_t readIntAltitudeFeet( void_t );
 /******************************************************************************
 * @func					readFloatPressureFromBurst
 * @brief				this func read value pressure burst with data type float
@@ -184,15 +183,16 @@ u32_t readFloatAltitudeFeet( void_t );
 * @return				none
 * @Note					none
 */
+//Returns the values as Floats
 void_t readFloatPressureFromBurst(u8_t byBuffer[], BME280SensorMeasurements_t *pmeasurements);
 /******************************************************************************
-* @func					readFloatHumidity
+* @func					readIntHumidity
 * @brief				this func read value humidity
 * @param				none
-* @return				none
+* @return				Value Humdity (%%)
 * @Note					none
 */
-float_t readFloatHumidity(void_t );
+u64_t readIntHumidity(void_t );
 /******************************************************************************
 * @func					readFloatHumidityFromBurst
 * @brief				this func read value humidity from burst
@@ -206,7 +206,7 @@ void_t readFloatHumidityFromBurst(u8_t byBuffer[], BME280SensorMeasurements_t *p
 * @func					readTempC
 * @brief				this func read temp with unit of meas is C
 * @param				none
-* @return				none
+* @return				Value Temperature (oC)
 * @Note					none
 */
 u64_t readTempC( void_t);
@@ -214,10 +214,10 @@ u64_t readTempC( void_t);
 * @func					readTempF
 * @brief				this func read temp with unit of meas F
 * @param				u8_t byBuffer[]
-* @return				none
+* @return				Value Temperature (mF)
 * @Note					none
 */
-u32_t readTempF( void_t );
+u64_t readTempF( void_t );
 /******************************************************************************
 * @func					setReferencePressure
 * @brief				this func set reference Pressure Value
@@ -225,13 +225,13 @@ u32_t readTempF( void_t );
 * @return				none
 * @Note					none
 */
-void_t setReferencePressure(u32_t fRefPressure);
+void_t setReferencePressure(float_t fRefPressure);
 
 /******************************************************************************
 * @func					getReferencePressure
 * @brief				this func get reference pressure
 * @param				none
-* @return				none
+* @return				Reference Pressure
 * @Note					none
 */
 float_t getReferencePressure();
@@ -248,7 +248,7 @@ void_t setI2CAddress(u8_t byI2CAddress); //Set the address the library should us
 * @func					isMeasuring
 * @brief				this func determine state meas
 * @param				none
-* @return				none
+* @return				TRUE or FALSE
 * @Note					none
 */
 bool_t isMeasuring(void_t); //Returns true while the device is taking measurement
@@ -265,7 +265,7 @@ void_t setTemperatureCorrection(float_t fCorr);
 * @func					readTempFromBurst
 * @brief				this func read temp F from Burst
 * @param				u8_t byBuffer[]
-* @return				none
+* @return				Value Temperature (oC)
 * @Note					none
 */
 float_t readTempFromBurst(u8_t byBuffer[]);
@@ -286,4 +286,12 @@ void_t readTempCFromBurst(u8_t byBuffer[], BME280SensorMeasurements_t *pmeasurem
 * @Note					none
 */
 void_t readTempFFromBurst(u8_t byBuffer[], BME280SensorMeasurements_t *pmeasurements);
+/******************************************************************************
+* @func					dewPointC
+* @brief				this func meas dew point C
+* @param				none
+* @return				Dew Point C
+* @Note					none
+*/
+u64_t dewPointC(void_t);
 #endif /* MID_TEMPERATURE_PRESSURE_ALTITUDE_H_ */

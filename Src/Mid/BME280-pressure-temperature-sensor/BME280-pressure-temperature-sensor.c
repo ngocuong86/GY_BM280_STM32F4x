@@ -26,8 +26,6 @@
 /******************************************************************************/
 /*                              INCLUDE FILES                                 */
 /******************************************************************************/
-
-
 #include <math.h>
 #include <stdio.h>
 #include "stm32f401re_gpio.h"
@@ -36,7 +34,7 @@
 #include "stm32f401re_spi.h"
 #include "../../Driver/I2C1-Interface/I2C1-Interface.h"
 #include "../../Driver/SPI1-Interface/SPI1-Interface.h"
-#include "../BME280-pressure-temperature-sensor/BME280-Sensor.h"
+#include "BME280-pressure-temperature-sensor.h"
 /******************************************************************************/
 /*                     PRIVATE TYPES and DEFINITIONS                         */
 /******************************************************************************/
@@ -91,8 +89,12 @@
 #define BME280_TEMPERATURE_XLSB_REG		0xFC //Temperature XLSB
 #define BME280_HUMIDITY_MSB_REG			0xFD //Humidity MSB
 #define BME280_HUMIDITY_LSB_REG			0xFE //Humidity LSB
+
+
 #define SENSOR_I2C_ADDRESS 				0x77
 #define SENSOR_SPI_ADDRESS				0x7F
+
+
 typedef struct
 {
 	u16_t byDigT1;
@@ -236,7 +238,7 @@ float_t g_fTempfine;
 * @func					BMP280_Init
 * @brief				This func Init BMP280_Init
 * @param				none
-* @return				none
+* @return				ChipID
 * @Note					none
 */
 u8_t BMP280_Init(void_t){
@@ -250,11 +252,6 @@ u8_t BMP280_Init(void_t){
 	g_SensorSettings.byPressOverSample = 1;
 	g_SensorSettings.byHumidOverSample = 1;
 	g_SensorSettings.fTempCorrection = 0.f; // correction of temperature - added to the result
-//
-//	u8_t chipID = readRegister(BME280_CHIP_ID_REG); //Should return 0x60 or 0x58
-//
-//	if(chipID != 0x58 && chipID != 0x60) // Is this BMP or BME?
-//	return(chipID); //This is not BMP nor BME!
 
 	//Reading all compensation data, range 0x88:A1, 0xE1:E7
 	g_Calibration.byDigT1 = ((u16_t)((readRegister(BME280_DIGT1_MSB_REG) << 8) + readRegister(BME280_DIGT1_LSB_REG)));
@@ -294,7 +291,7 @@ u8_t BMP280_Init(void_t){
 * @func					beginWithI2C
 * @brief				This func begin with I2C interface
 * @param				none
-* @return				none
+* @return				TRUE or FALSE
 * @Note					none
 */
 bool_t beginWithI2C(){
@@ -310,7 +307,7 @@ bool_t beginWithI2C(){
 * @func					beginWithSPI
 * @brief				This func begin with SPI interface
 * @param				none
-* @return				none
+* @return				TRUE or FALSE
 * @Note					none
 */
 bool_t beginWithSPI(){
@@ -338,10 +335,10 @@ static void_t setMode(u8_t byMode){
 	writeRegister(BME280_CTRL_MEAS_REG, byControlData);
 }
 /******************************************************************************
-* @func					beginWithSPI
+* @func					getMode
 * @brief				This func get Mode (slepp, force, normal)
 * @param				none
-* @return				none
+* @return				Mode sleep or force or normal
 * @Note					none
 */
 static u8_t getMode(void_t){
@@ -393,7 +390,7 @@ void_t setFilter(u8_t byFilterSetting){
 }
 /******************************************************************************
 * @func					setTempOverSample
-* @brief				This func swt Oversamping for Meas Temperature
+* @brief				This func set Oversamping for Meas Temperature
 * @param				u8_t byOverSampleAmount
 * @return				none
 * @Note					none
@@ -415,7 +412,7 @@ void_t setTempOverSample(u8_t byOverSampleAmount){
 }
 /******************************************************************************
 * @func					setPressureOverSample
-* @brief				This func swt Oversamping for Meas Pressure
+* @brief				This func set Oversamping for Meas Pressure
 * @param				u8_t byOverSampleAmount
 * @return				none
 * @Note					none
@@ -438,7 +435,7 @@ void_t setPressureOverSample(u8_t byOverSampleAmount)
 }
 /******************************************************************************
 * @func					setPressureOverSample
-* @brief				This func swt Oversamping for Meas Humi
+* @brief				This func set Oversamping for Meas Humi
 * @param				u8_t byOverSampleAmount
 * @return				none
 * @Note					none
@@ -465,7 +462,7 @@ void_t setHumidityOverSample(u8_t byOverSampleAmount)
 * @brief				This func check Validates an over sample value
 * 						These are used in the humidty, pressure, and temp oversample functions
 * @param				u8_t byUserValue (Allowed values are 0 to 16)
-* @return				none
+* @return				Value Sample
 * @Note					none
 */
 
@@ -513,7 +510,7 @@ void_t setI2CAddress(u8_t byI2CAddress)
 * @func					isMeasuring
 * @brief				this func determine state meas
 * @param				none
-* @return				none
+* @return				TRUE or FALSE
 * @Note					none
 */
 bool_t isMeasuring(void_t)
@@ -555,13 +552,13 @@ void_t readAllMeasurements(BME280SensorMeasurements_t *pmeasurements, u8_t byTem
 	readFloatHumidityFromBurst(byDataBurst, pmeasurements);
 }
 /******************************************************************************
-* @func					readFloatPressure
+* @func					readIntPressure
 * @brief				this func read value pressure with data type float
 * @param				none
-* @return				none
+* @return				Value Pressure mPa
 * @Note					none
 */
-u64_t readFloatPressure(void_t )
+u64_t readIntPressure(void_t )
 {
 
 	// Returns pressure in Pa as unsigned 32 bit ieger in Q24.8 format (24 ieger bits and 8 fractional bits).
@@ -570,7 +567,7 @@ u64_t readFloatPressure(void_t )
     float_t fValuePress  = 0;
 	readRegisterRegion(byBuffer, BME280_PRESSURE_MSB_REG, 3);
     i32_t adc_P = ((u32_t)byBuffer[0] << 12) | ((u32_t)byBuffer[1] << 4) | ((byBuffer[2] >> 4) & 0x0F);
-
+//
 	i64_t ibVar1, ibVar2, ibPressADC;
 	ibVar1 = ((i64_t)g_fTempfine) - 128000;
 	ibVar2 = ibVar1 * ibVar1 * (i64_t)g_Calibration.ibDigP6;
@@ -589,6 +586,7 @@ u64_t readFloatPressure(void_t )
 	ibPressADC = ((ibPressADC + ibVar1 + ibVar2) >> 8) + (((i64_t)g_Calibration.ibDigP7)<<4);
 	fValuePress = ((float_t)ibPressADC / (256.0*100.0))*10000;
 	return (u64_t)fValuePress;
+
 }
 /******************************************************************************
 * @func					readFloatPressureFromBurst
@@ -604,7 +602,7 @@ void_t readFloatPressureFromBurst(u8_t byBuffer[], BME280SensorMeasurements_t *p
 	// Set pressure in Pa as unsigned 32 bit integer in Q24.8 format (24 integer bits and 8 fractional bits).
 	// Output value of “24674867” represents 24674867/256 = 96386.2 Pa = 963.862 hPa
 
-  i32_t adc_P = ((u32_t)byBuffer[0] << 12) | ((u32_t)byBuffer[1] << 4) | ((byBuffer[2] >> 4) & 0x0F);
+	i32_t adc_P = ((u32_t)byBuffer[0] << 12) | ((u32_t)byBuffer[1] << 4) | ((byBuffer[2] >> 4) & 0x0F);
 
 	i64_t byVar1, byVar2, byPressADC;
 	byVar1 = ((i64_t)g_fTempfine) - 128000;
@@ -635,7 +633,7 @@ void_t readFloatPressureFromBurst(u8_t byBuffer[], BME280SensorMeasurements_t *p
 * @return				none
 * @Note					none
 */
-void_t setReferencePressure(u32_t fRefPressure)
+void_t setReferencePressure(float_t fRefPressure)
 {
 	g_fReferencePressure = fRefPressure;
 }
@@ -643,7 +641,7 @@ void_t setReferencePressure(u32_t fRefPressure)
 * @func					getReferencePressure
 * @brief				this func get reference pressure
 * @param				none
-* @return				none
+* @return				Reference Pressure
 * @Note					none
 */
 float_t getReferencePressure()
@@ -654,10 +652,10 @@ float_t getReferencePressure()
 * @func					readFloatAltitudeMeters
 * @brief				this func read value altitude with unit of meas is meters
 * @param				none
-* @return				none
+* @return				Value Altitude (cm)
 * @Note					none
 */
-u64_t readFloatAltitudeMeters(void_t)
+u64_t readIntAltitudeMeters(void_t)
 {
   // Getting height from a pressure reading is called the "international barometric height formula".
   // The magic value of 44330.77 was adjusted in issue #30.
@@ -667,38 +665,39 @@ u64_t readFloatAltitudeMeters(void_t)
   // Sparkfun is not liable for incorrect altitude calculations from this
   // code on those planets. Interplanetary selfies are welcome, however.
 	float_t fValueAlti;
-	float_t fValuePress =(float_t)((u64_t)readFloatPressure()/100);
-	fValueAlti = (float_t)((g_fReferencePressure - fValuePress)/11.11)*100;// For every 1m height, Pressure lose 11.11 Pa
-//	fValueAlti =( ((float_t)-44330.77)*(pow((((float_t)fValuePress/100)/(float_t)g_fReferencePressure), 0.190263) - (float_t)1));
+	float_t fValuePress =(float_t)((u64_t)readIntPressure()/100);
+	//fValueAlti = (float_t)((g_fReferencePressure - fValuePress)/11.11)*100;// For every 1m height, Pressure lose 11.11 Pa
+	fValueAlti = ((float_t)44330.77* (float_t)((float_t)1-pow((float_t)(fValuePress/g_fReferencePressure), (float_t)(1/5.255))))*100;
 	return (u64_t)fValueAlti;
 }
 /******************************************************************************
-* @func					readFloatAltitudeFeet
+* @func					readIntAltitudeFeet
 * @brief				this func read value altitude with unit of meas is feet
 * @param				none
-* @return				none
+* @return				Value Altitude (mF)
 * @Note					none
 */
-u32_t readFloatAltitudeFeet( void_t )
+u64_t readIntAltitudeFeet( void_t )
 {
 	float_t fHeightOutput = 0;
 
-	fHeightOutput = readFloatAltitudeMeters() * 3.28084;
-	return (u32_t)fHeightOutput;
+	fHeightOutput = (readIntAltitudeMeters() * 3.28084)*100;
+	return (u64_t)fHeightOutput;
 }
 /******************************************************************************
-* @func					readFloatHumidity
+* @func					readIntHumidity
 * @brief				this func read value humidity
 * @param				none
-* @return				none
+* @return				Value Humdity (%%)
 * @Note					none
 */
-float_t readFloatHumidity( void_t )
+u64_t readIntHumidity( void_t )
 {
 
 	// Returns humidity in %RH as unsigned 32 bit integer in Q22. 10 format (22 integer and 10 fractional bits).
 	// Output value of “47445” represents 47445/1024 = 46. 333 %RH
     u8_t byBuffer[2];
+    float_t fValueHum = 0;
 	readRegisterRegion(byBuffer, BME280_HUMIDITY_MSB_REG, 2);
     i32_t ibHumADC = ((u32_t)byBuffer[0] << 8) | ((u32_t)byBuffer[1]);
 
@@ -710,8 +709,8 @@ float_t readFloatHumidity( void_t )
 	byVar1 = (byVar1 - (((((byVar1 >> 15) * (byVar1 >> 15)) >> 7) * ((i32_t)g_Calibration.byDigH1)) >> 4));
 	byVar1 = (byVar1 < 0 ? 0 : byVar1);
 	byVar1 = (byVar1 > 419430400 ? 419430400 : byVar1);
-
-	return (float_t)(byVar1>>12) / 1024.0;
+	fValueHum =( (float_t)(byVar1>>12) / 1024.0)*100;
+	return (u64_t)fValueHum;
 }
 /******************************************************************************
 * @func					readFloatHumidityFromBurst
@@ -754,7 +753,7 @@ void_t setTemperatureCorrection(float_t fCorr)
 * @func					readTempC
 * @brief				this func read temp with unit of meas is C
 * @param				none
-* @return				none
+* @return				Value Temperature (oC*100)
 * @Note					none
 */
 u64_t readTempC( void_t)
@@ -782,7 +781,7 @@ u64_t readTempC( void_t)
 * @func					readTempFromBurst
 * @brief				this func read temp F from Burst
 * @param				u8_t byBuffer[]
-* @return				none
+* @return				Value Temperature (oC)
 * @Note					none
 */
 float_t readTempFromBurst(u8_t byBuffer[])
@@ -817,15 +816,15 @@ void_t readTempCFromBurst(u8_t byBuffer[], BME280SensorMeasurements_t *pmeasurem
 * @func					readTempF
 * @brief				this func read temp with unit of meas F
 * @param				u8_t byBuffer[]
-* @return				none
+* @return				Value Temperature (F*100)
 * @Note					none
 */
-u32_t readTempF( void_t )
+u64_t readTempF( void_t )
 {
 	float_t fOutput = readTempC();
 	fOutput = (fOutput * 9) / 5 + 32;
 
-	return (u32_t)fOutput;
+	return (u64_t)fOutput;
 }
 /******************************************************************************
 * @func					readTempFFromBurst
@@ -857,7 +856,7 @@ void_t readTempFFromBurst(u8_t byBuffer[], BME280SensorMeasurements_t *pmeasurem
 * @return				none
 * @Note					none
 */
-static void readRegisterRegion(u8_t *pOutputPointer , u8_t byOffset, u8_t byLength)
+static void_t readRegisterRegion(u8_t *pOutputPointer , u8_t byOffset, u8_t byLength)
 {
 	switch(g_SensorSettings.byComInterface){
 	case I2C_MODE:
@@ -944,4 +943,29 @@ static void_t writeRegister(u8_t byOffset, u8_t byDataToWrite)
 			break;
 		}
 }
-
+/******************************************************************************
+* @func					dewPointC
+* @brief				this func meas dew point C
+* @param				none
+* @return				Dew Point C
+* @Note					none
+*/
+u64_t dewPointC(void_t)
+{
+  float_t fValueDewC = 0;
+  float_t celsius = (u64_t)readTempC()/100;
+  float_t humidity = (u64_t)readFloatHumidity()/100;
+  // (1) Saturation Vapor Pressure = ESGG(T)
+  float_t RATIO = 373.15 / (273.15 + celsius);
+  float_t RHS = -7.90298 * (RATIO - 1);
+  RHS += 5.02808 * log10(RATIO);
+  RHS += -1.3816e-7 * (pow(10, (11.344 * (1 - 1/RATIO ))) - 1) ;
+  RHS += 8.1328e-3 * (pow(10, (-3.49149 * (RATIO - 1))) - 1) ;
+  RHS += log10(1013.246);
+         // factor -3 is to adjust units - Vapor Pressure SVP * humidity
+  float_t VP = pow(10, RHS - 3) * humidity;
+         // (2) DEWPOINT = F(Vapor Pressure)
+  float_t T = log(VP/0.61078);   // temp var
+  fValueDewC = ((241.88 * T) / (17.558 - T))*100;
+  return (u64_t)fValueDewC;
+}
