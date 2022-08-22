@@ -1,6 +1,6 @@
 <h1>GIỚI THIỆU</h1>
 
-Cảm biên sGY-BM 280 là cảm biến đo được áp suất không khí, nhiệt độ, và từ sự thay đổi của áp 
+Cảm biến GY-BM 280 là cảm biến đo được áp suất không khí, nhiệt độ, và từ sự thay đổi của áp 
 
 suất không khí theo độ cao thì nó có thể tính thêm được 1 giá trị nữa đó là độ cao.
 
